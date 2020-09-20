@@ -1,7 +1,6 @@
 module.exports = {
     env: {
         browser: true,
-        es2021: true,
     },
     extends: [
         'eslint:recommended',
@@ -14,7 +13,7 @@ module.exports = {
         ecmaFeatures: {
             jsx: true,
         },
-        ecmaVersion: 12,
+        ecmaVersion: 2020,
         sourceType: 'module',
     },
     settings: {
