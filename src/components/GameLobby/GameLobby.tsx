@@ -5,6 +5,7 @@ import useGames from '../GameLobbyGameCards/useGames';
 
 const GameLobby = () => {
     const { games } = useGames();
+    console.log(games);
 
     return (
         <div>

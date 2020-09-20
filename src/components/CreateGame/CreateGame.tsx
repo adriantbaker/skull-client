@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/root/rootReducer';
 import useGames from '../GameLobbyGameCards/useGames';
 
 const CreateGame = () => {
     const [gameName, setGameName] = useState('');
-
+    const username = useSelector((state: RootState) => state.user.user.username);
     const { createGame } = useGames();
 
     return (
@@ -19,7 +21,7 @@ const CreateGame = () => {
             />
             <button
                 type="button"
-                onClick={() => createGame(gameName, 'Bob')}
+                onClick={() => createGame(gameName, username)}
             >
                 Create Game
             </button>
