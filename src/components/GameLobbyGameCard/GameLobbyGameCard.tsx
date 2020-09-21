@@ -4,9 +4,9 @@ const GameLobbyGameCard = (props: any) => {
     const { game } = props;
 
     return (
-        <div style={{ border: '2px solid black', width: 200 }}>
-            <div>Game Card</div>
-            <div>{game.name}</div>
+        <div className="max-w-md m-6 p-6 bg-teal-100 rounded-lg shadow-md">
+            <div className="text-lg">{game.name}</div>
+            <div>1 / 5 people</div>
         </div>
     );
 };

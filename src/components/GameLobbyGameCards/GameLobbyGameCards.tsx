@@ -5,12 +5,14 @@ const GameLobbyGameCards = (props: any) => {
     const { games } = props;
 
     return (
-        games.map((game: any) => (
-            <GameLobbyGameCard
-                key={game.ownerSocketID}
-                game={game}
-            />
-        ))
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3">
+            {games.map((game: any) => (
+                <GameLobbyGameCard
+                    key={game.ownerSocketID}
+                    game={game}
+                />
+            ))}
+        </div>
     );
 };
 
