@@ -5,12 +5,14 @@ const useGames = () => {
     const [games, setGames] = useState([]);
 
     useEffect(() => {
-        socket.on('games', (value: any) => {
+        socket.on('games', (value) => {
             setGames(value);
         });
     }, []);
 
-    const createGame = (name: any, owner: any) => {
+    const createGame = (name, owner) => {
+        console.log(name);
+        console.log(owner);
         socket.emit('createGame', { name, owner });
     };
 

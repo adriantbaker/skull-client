@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/root/rootReducer';
 import useGames from '../GameLobbyGameCards/useGames';
 
 const CreateGame = () => {
     const [gameName, setGameName] = useState('');
-    const username = useSelector((state: RootState) => state.user.user.username);
+    const username = useSelector((state) => state.user.username);
     const { createGame } = useGames();
 
     return (

@@ -1,19 +1,15 @@
-import { UserState, UserActionTypes, SET_USER } from './userTypes';
+import { SET_USER } from './userTypes';
 
-const initialState: UserState = {
-    user: {
-        username: '',
-    },
+const initialState = {
+    username: '',
 };
 
-export default function userReducer(
-    state = initialState,
-    action: UserActionTypes,
-): UserState {
+export default function userReducer(state = initialState, action) {
     switch (action.type) {
         case SET_USER:
             return {
-                user: action.payload,
+                ...state,
+                username: action.payload,
             };
         default:
             return state;

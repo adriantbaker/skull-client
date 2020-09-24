@@ -6,8 +6,8 @@ import GameView from '../GameView/GameView';
 
 const App = () => (
     <div className="App">
-        {/* <SignIn /> */}
-        {/* <GameLobby /> */}
+        <SignIn />
+        <GameLobby />
         <GameView />
     </div>
 );

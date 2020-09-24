@@ -17,7 +17,7 @@ const SignIn = () => {
             />
             <button
                 type="button"
-                onClick={() => { dispatch(setUser({ username })); }}
+                onClick={() => { dispatch(setUser(username)); }}
             >
                 Set Username
             </button>

@@ -5,10 +5,9 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'plugin:react/recommended',
-        'plugin:@typescript-eslint/recommended',
         'airbnb',
     ],
-    parser: '@typescript-eslint/parser',
+    parser: 'babel-eslint',
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
@@ -23,13 +22,12 @@ module.exports = {
     },
     plugins: [
         'react',
-        '@typescript-eslint',
     ],
     rules: {
         indent: ['error', 4, { SwitchCase: 1 }],
         'react/jsx-indent': ['error', 4],
         'react/jsx-indent-props': ['error', 4],
-        'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.ts'] }],
+        'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.js'] }],
         'max-len': ['warn'],
     },
 };
