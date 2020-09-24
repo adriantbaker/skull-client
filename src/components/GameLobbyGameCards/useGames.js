@@ -10,10 +10,8 @@ const useGames = () => {
         });
     }, []);
 
-    const createGame = (name, owner) => {
-        console.log(name);
-        console.log(owner);
-        socket.emit('createGame', { name, owner });
+    const createGame = (gameName, ownerName) => {
+        socket.emit('createGame', { gameName, ownerName });
     };
 
     return { games, createGame };

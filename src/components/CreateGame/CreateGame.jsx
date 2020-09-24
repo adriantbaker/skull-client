@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import useGames from '../GameLobbyGameCards/useGames';
+import { useSelector, useDispatch } from 'react-redux';
+import { createGame } from '../../store/game/gameActions';
 
 const CreateGame = () => {
     const [gameName, setGameName] = useState('');
     const username = useSelector((state) => state.user.username);
-    const { createGame } = useGames();
+    const dispatch = useDispatch();
 
     return (
         <div>
@@ -20,7 +20,7 @@ const CreateGame = () => {
             />
             <button
                 type="button"
-                onClick={() => createGame(gameName, username)}
+                onClick={() => dispatch(createGame(gameName, username))}
             >
                 Create Game
             </button>
