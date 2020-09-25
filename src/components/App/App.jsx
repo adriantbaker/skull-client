@@ -6,18 +6,23 @@ import SignIn from '../SignIn/SignIn';
 import GameView from '../GameView/GameView';
 
 const App = () => {
+    const { signedIn } = useSelector((state) => state.user);
     const { inGame } = useSelector((state) => state.game);
 
     const getAppView = () => {
+        if (!signedIn) {
+            return <SignIn />;
+        }
+
         if (!inGame) {
             return <GameLobby />;
         }
+
         return <GameView />;
     };
 
     return (
         <div className="App">
-            <SignIn />
             {getAppView()}
         </div>
     );

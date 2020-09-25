@@ -1,6 +1,7 @@
 import { SET_USER } from './userTypes';
 
 const initialState = {
+    signedIn: false,
     username: '',
 };
 
@@ -9,6 +10,7 @@ export default function userReducer(state = initialState, action) {
         case SET_USER:
             return {
                 // ...state,
+                signedIn: true,
                 username: action.payload,
             };
         default:
