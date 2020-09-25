@@ -8,18 +8,18 @@ const SignIn = () => {
     const dispatch = useDispatch();
 
     return (
-        <div className="bg-gradient-to-br from-orange-400 to-orange-200 h-screen center-hv-parent">
+        <div className="bg-gradient-to-br from-orange-400 to-orange-200 h-screen">
             <div
-                className="text-white text-4xl font-bold center-hv-child-top"
+                className="text-white text-4xl font-bold py-12"
             >
                 Skullduggery
             </div>
-            <div className="bg-white rounded-lg w-1/2 center-hv-child h-64 shadow-lg">
+            <div className="bg-white rounded-lg w-1/2 h-64 shadow-lg center-horiz">
                 <div className="center-hv-parent h-full">
                     <div className="center-hv-child">
 
                         <div>
-                            <label className="font-bold mb-2 text-sm">
+                            <label className="block font-bold mb-2 text-sm">
                                 Username
                             </label>
                             <input
@@ -32,11 +32,11 @@ const SignIn = () => {
                         <div>
                             <button
                                 className="bg-orange-600 rounded-full px-4 py-2 text-white
-                        hover:bg-orange-500 transition duration-100"
+                        hover:bg-orange-500 transition duration-100 outline-none"
                                 type="button"
                                 onClick={() => { dispatch(setUser(username)); }}
                             >
-                                Sign In
+                                SIGN IN
                             </button>
                         </div>
                     </div>
