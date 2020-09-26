@@ -3,24 +3,31 @@ import { useSelector } from 'react-redux';
 import { startGame } from '../../store/game/gameActions';
 import GameViewBoard from '../GameViewBoard/GameViewBoard';
 import GameViewHUD from '../GameViewHUD/GameViewHUD';
+import GameViewWaitingRoom from '../GameViewWaitingRoom/GameViewWaitingRoom';
 
 const GameView = () => {
-    const { ownGame, gameId } = useSelector((state) => state.game);
+    const { started } = useSelector((state) => state.game);
 
-    return (
-        <div>
-            {ownGame ? 'You own this game!' : 'You have joined this game!'}
-            {ownGame ? (
-                <div
-                    onClick={() => startGame(gameId)}
-                >
-                    Start Game
-                </div>
-            ) : null}
-            <GameViewBoard />
-            <GameViewHUD />
-        </div>
-    );
+    if (!started) {
+        return <GameViewWaitingRoom />;
+    }
+
+    return <GameViewBoard />;
+
+    // return (
+    //     <div>
+    //         {ownGame ? 'You own this game!' : 'You have joined this game!'}
+    //         {ownGame ? (
+    //             <div
+    //                 onClick={() => startGame(gameId)}
+    //             >
+    //                 Start Game
+    //             </div>
+    //         ) : null}
+    //         <GameViewBoard />
+    //         <GameViewHUD />
+    //     </div>
+    // );
 };
 
 export default GameView;

@@ -6,15 +6,13 @@ const useGames = () => {
 
     useEffect(() => {
         socket.on('games', (value) => {
+            console.log('Got Games:');
+            console.log(value);
             setGames(value);
         });
     }, []);
 
-    const createGame = (gameName, ownerName) => {
-        socket.emit('createGame', { gameName, ownerName });
-    };
-
-    return { games, createGame };
+    return { games };
 };
 
 export default useGames;

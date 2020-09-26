@@ -15,11 +15,12 @@ const GameLobbyGameCard = (props) => {
                 {' '}
                 / 5 people
             </div>
-            <div
-                onClick={() => dispatch(joinGame(game.id, username))}
+            <button
+                type="button"
+                onClick={() => dispatch(joinGame(game, username))}
             >
                 Join Game
-            </div>
+            </button>
         </div>
     );
 };
