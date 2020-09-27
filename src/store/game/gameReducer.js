@@ -43,12 +43,15 @@ export default function gameReducer(state = initialState, action) {
                 id: '',
             };
         case UPDATE_GAME: {
-            const { id, name, players } = action.payload;
+            const {
+                id, name, players, started,
+            } = action.payload;
             return {
                 ...state,
                 id: id || state.id,
                 name: name || state.name,
                 players: players || state.players,
+                started: started || state.started,
             };
         }
         default:

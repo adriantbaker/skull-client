@@ -7,6 +7,8 @@ const GameLobbyGameCard = (props) => {
     const username = useSelector((state) => state.user.username);
     const dispatch = useDispatch();
 
+    console.log(game);
+
     return (
         <div className="max-w-md m-6 p-6 bg-teal-100 rounded-lg shadow-md">
             <div className="text-lg">{game.name}</div>
@@ -17,7 +19,7 @@ const GameLobbyGameCard = (props) => {
             </div>
             <button
                 type="button"
-                onClick={() => dispatch(joinGame(game, username))}
+                onClick={() => dispatch(joinGame(game.id, username))}
             >
                 Join Game
             </button>

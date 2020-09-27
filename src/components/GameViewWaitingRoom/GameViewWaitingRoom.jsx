@@ -1,12 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { startGame } from '../../store/game/gameActions';
 import useGame from './useGame';
 
 const GameViewWaitingRoom = () => {
-    const { username } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
     const { game } = useGame();
-    const { name, players, ownGame } = game;
+    const {
+        name, players, ownGame, id,
+    } = game;
 
     console.log(game);
     console.log(players);
@@ -15,7 +18,14 @@ const GameViewWaitingRoom = () => {
         if (!ownGame) {
             return null;
         }
-        return <button type="button">START GAME</button>;
+        return (
+            <button
+                type="button"
+                onClick={() => dispatch(startGame(id))}
+            >
+                START GAME
+            </button>
+        );
     };
 
     return (
@@ -31,7 +41,7 @@ const GameViewWaitingRoom = () => {
                 Players:
             </div>
             {players.map((player) => (
-                <div>{player}</div>
+                <div>{player.name}</div>
             ))}
             {getStartGameButton()}
         </div>
