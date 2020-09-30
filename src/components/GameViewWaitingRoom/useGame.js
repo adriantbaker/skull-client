@@ -9,7 +9,7 @@ const useGame = () => {
 
     // Listen for updates to the game
     useEffect(() => {
-        socket.on('updateGame', (value) => {
+        socket.on('updateRoom', (value) => {
             console.log('Got Game update:');
             console.log(value);
             dispatch(updateGame(value));

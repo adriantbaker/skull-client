@@ -4,20 +4,20 @@ import {
 import socket from '../../utils/api/socket';
 import { setPlayerId } from '../player/playerActions';
 
-export function startGame(gameId) {
+export function startGame(roomId) {
     return (dispatch) => {
-        socket.emit('startGame', { gameId });
+        socket.emit('startGame', { roomId });
     };
 }
 
-export function createGame(gameName, ownerName) {
+export function createGameRoom(roomName, ownerName) {
     return (dispatch) => {
-        console.log('Emitting createGame...');
-        socket.emit('createGame', { gameName, ownerName });
-        socket.on('createGameResponse', (response) => {
-            const { game, player } = response;
-            const { id, name, players } = game;
-            console.log(game);
+        console.log('Emitting createGameRoom...');
+        socket.emit('createGameRoom', { roomName, ownerName });
+        socket.on('createGameRoomResponse', (response) => {
+            const { room, player } = response;
+            const { id, name, players } = room;
+            console.log(room);
             dispatch({
                 type: CREATE_GAME,
                 payload: {
@@ -39,12 +39,12 @@ export function createGame(gameName, ownerName) {
  * @param {Array<string>} game.players Game Players list
  * @param {string} username Username
  */
-export function joinGame(gameId, username) {
+export function joinGameRoom(roomId, username) {
     return (dispatch) => {
-        socket.emit('joinGame', { gameId, playerName: username });
-        socket.on('joinGameResponse', (response) => {
-            const { game, player } = response;
-            const { id, name, players } = game;
+        socket.emit('joinGameRoom', { roomId, playerName: username });
+        socket.on('joinGameRoomResponse', (response) => {
+            const { room, player } = response;
+            const { id, name, players } = room;
             dispatch({
                 type: JOIN_GAME,
                 payload: {

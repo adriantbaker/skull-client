@@ -5,7 +5,7 @@ const useGames = () => {
     const [games, setGames] = useState([]);
 
     useEffect(() => {
-        socket.on('games', (value) => {
+        socket.on('rooms', (value) => {
             console.log('Got Games:');
             console.log(value);
             setGames(value);

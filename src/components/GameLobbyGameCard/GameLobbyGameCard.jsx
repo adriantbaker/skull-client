@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { joinGame } from '../../store/game/gameActions';
+import { joinGameRoom } from '../../store/game/gameActions';
 
 const GameLobbyGameCard = (props) => {
     const { game } = props;
@@ -19,7 +19,7 @@ const GameLobbyGameCard = (props) => {
             </div>
             <button
                 type="button"
-                onClick={() => dispatch(joinGame(game.id, username))}
+                onClick={() => dispatch(joinGameRoom(game.id, username))}
             >
                 Join Game
             </button>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createGame } from '../../store/game/gameActions';
+import { createGameRoom } from '../../store/game/gameActions';
 
 const CreateGame = () => {
     const [gameName, setGameName] = useState('');
@@ -20,7 +20,7 @@ const CreateGame = () => {
             />
             <button
                 type="button"
-                onClick={() => dispatch(createGame(gameName, username))}
+                onClick={() => dispatch(createGameRoom(gameName, username))}
             >
                 Create Game
             </button>
