@@ -39,8 +39,9 @@ const App = () => {
 
     return (
         <div className="App">
-            {getHeader()}
-            <div className={getAppViewClassName()}>
+            {/* {getHeader()} */}
+            {/* className={getAppViewClassName()} */}
+            <div>
                 {getAppView()}
             </div>
         </div>

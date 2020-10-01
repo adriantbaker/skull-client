@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import socket from '../../utils/api/socket';
+import GameViewOpponentsHUD from '../GameViewOpponentsHUD/GameViewOpponentsHUD';
+import GameViewPlayerHUD from '../GameViewPlayerHUD/GameViewPlayerHUD';
+import './GameViewBoard.css';
 
 const GameViewBoard = () => {
     const { id: gameId, players } = useSelector((state) => state.game);
     const { id: playerId } = useSelector((state) => state.player);
+
+    const [currentTurn, setCurrentTurn] = useState(-1);
 
     const [playerHand, setPlayerHand] = useState({
         cards: [],
@@ -24,30 +29,28 @@ const GameViewBoard = () => {
         // On component mount, request initial game setup
         socket.emit('getFirstHands', { gameId, playerId });
         socket.on('getFirstHandsResponse', (value) => {
-            console.log(value);
             setPlayerHand(value.playerHand);
             setOpponentHands(value.opponentHands);
+            setCurrentTurn(value.currentTurn);
         });
     }, []);
 
+    const playerTurn = playerHand.turnNumber;
+    console.log(playerHand);
+    console.log(opponentHands);
+
     return (
-        <div>
-            <div>Game is in progress!</div>
-            <div>Your Cards:</div>
-            {playerHand.cards.map((card) => (
-                card.type
-            ))}
-            <div>Your Opponents:</div>
-            {opponentHands.map((opponent) => (
-                <div>
-                    <div>{opponent.name}</div>
-                    <div>
-                        {opponent.numCards}
-                        {' '}
-                        Cards
-                    </div>
-                </div>
-            ))}
+        <div className="GameViewBoard h-screen">
+            <GameViewOpponentsHUD
+                playerTurn={playerTurn}
+                currentTurn={currentTurn}
+                opponentHands={opponentHands}
+            />
+            <div>Center</div>
+            <GameViewPlayerHUD
+                currentTurn={currentTurn}
+                playerHand={playerHand}
+            />
         </div>
     );
 };
