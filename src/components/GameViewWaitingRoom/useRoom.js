@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateGame } from '../../store/game/gameActions';
 import socket from '../../utils/api/socket';
 
-const useGame = () => {
+const useRoom = () => {
     const game = useSelector((state) => state.game);
     const dispatch = useDispatch();
 
@@ -19,4 +19,4 @@ const useGame = () => {
     return { game };
 };
 
-export default useGame;
+export default useRoom;

@@ -1,43 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import socket from '../../utils/api/socket';
+import GameViewAction from '../GameViewAction/GameViewAction';
 import GameViewOpponentsHUD from '../GameViewOpponentsHUD/GameViewOpponentsHUD';
 import GameViewPlayerHUD from '../GameViewPlayerHUD/GameViewPlayerHUD';
 import './GameViewBoard.css';
+import useGame from './useGame';
+import usePlayer from './usePlayer';
 
 const GameViewBoard = () => {
-    const { id: gameId, players } = useSelector((state) => state.game);
+    const { id: gameId } = useSelector((state) => state.game);
     const { id: playerId } = useSelector((state) => state.player);
 
-    const [currentTurn, setCurrentTurn] = useState(-1);
+    const { currentTurn, currentAction, currentBlock } = useGame();
+    const { playerHand, opponentHands } = usePlayer();
 
-    const [playerHand, setPlayerHand] = useState({
-        cards: [],
-        numCoins: 0,
-    });
-
-    const [opponentHands, setOpponentHands] = useState(
-        players.map((player) => ({
-            id: player.id,
-            name: player.name,
-            numCards: 0,
-            numCoins: 0,
-        })),
-    );
-
-    useEffect(() => {
-        // On component mount, request initial game setup
-        socket.emit('getFirstHands', { gameId, playerId });
-        socket.on('getFirstHandsResponse', (value) => {
-            setPlayerHand(value.playerHand);
-            setOpponentHands(value.opponentHands);
-            setCurrentTurn(value.currentTurn);
-        });
-    }, []);
-
-    const playerTurn = playerHand.turnNumber;
     console.log(playerHand);
     console.log(opponentHands);
+    console.log(currentTurn);
+    console.log(currentAction);
+    console.log(currentBlock);
+
+    const playerTurn = playerHand.turnNumber;
+    const isYourTurn = playerTurn === currentTurn;
+
+    console.log(isYourTurn);
+
+    useEffect(() => {
+        // On component mount, signal that we need the initial game setup
+        socket.emit('getGameSetup', { gameId, playerId });
+        // The responses will be intercepted by useGame and usePlayer
+    }, []);
 
     return (
         <div className="GameViewBoard h-screen">
@@ -46,7 +39,11 @@ const GameViewBoard = () => {
                 currentTurn={currentTurn}
                 opponentHands={opponentHands}
             />
-            <div>Center</div>
+            <GameViewAction
+                isYourTurn={isYourTurn}
+                currentAction={currentAction}
+                currentBlock={currentBlock}
+            />
             <GameViewPlayerHUD
                 currentTurn={currentTurn}
                 playerHand={playerHand}

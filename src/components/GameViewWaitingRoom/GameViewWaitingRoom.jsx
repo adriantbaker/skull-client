@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { startGame } from '../../store/game/gameActions';
-import useGame from './useGame';
+import useRoom from './useRoom';
 
 const GameViewWaitingRoom = () => {
     const dispatch = useDispatch();
 
-    const { game } = useGame();
+    const { game } = useRoom();
     const {
         name, players, ownGame, id,
     } = game;
