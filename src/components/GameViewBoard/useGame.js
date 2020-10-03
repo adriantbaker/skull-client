@@ -34,11 +34,32 @@ const useGame = () => {
         });
     };
 
+    const challengeAction = (actionId, isBlock) => {
+        socket.emit('challengeAction', {
+            actionId,
+            isBlock,
+            gameId,
+            playerId,
+        });
+    };
+
+    const tryBlock = (actionId, actionType, claimedCard) => {
+        socket.emit('tryBlock', {
+            actionId,
+            actionType,
+            claimedCard,
+            gameId,
+            playerId,
+        });
+    };
+
     return {
         currentTurn,
         currentAction,
         currentBlock,
         tryAction,
+        challengeAction,
+        tryBlock,
     };
 };
 

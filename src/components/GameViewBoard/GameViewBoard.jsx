@@ -40,6 +40,7 @@ const GameViewBoard = () => {
                 opponentHands={opponentHands}
             />
             <GameViewAction
+                playerId={playerId}
                 isYourTurn={isYourTurn}
                 currentAction={currentAction}
                 currentBlock={currentBlock}
