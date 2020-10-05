@@ -4,7 +4,6 @@ import socket from '../../utils/api/socket';
 import GameViewAction from '../GameViewAction/GameViewAction';
 import GameViewOpponentsHUD from '../GameViewOpponentsHUD/GameViewOpponentsHUD';
 import GameViewPlayerHUD from '../GameViewPlayerHUD/GameViewPlayerHUD';
-import './GameViewBoard.css';
 import useGame from './useGame';
 import usePlayer from './usePlayer';
 
@@ -27,7 +26,7 @@ const GameViewBoard = () => {
     }, []);
 
     return (
-        <div className="GameViewBoard h-screen">
+        <div className="flex flex-col justify-between h-screen">
             <GameViewOpponentsHUD
                 playerTurn={playerTurn}
                 currentTurn={currentTurn.number}

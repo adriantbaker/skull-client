@@ -92,7 +92,7 @@ const GameViewAction = (props) => {
     };
 
     return (
-        <div>
+        <div className="flex-grow">
             <GameViewActionStatus
                 action={currentAction}
                 block={currentBlock}
