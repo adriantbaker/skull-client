@@ -7,6 +7,7 @@ const actionChoicePropTypes = {
     claimedCard: cardTypePropTypes,
     cost: PropTypes.number,
     chooseTarget: PropTypes.bool,
+    isBlock: PropTypes.bool,
     after: PropTypes.oneOf(actionTypesArray),
 };
 

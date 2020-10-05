@@ -32,9 +32,6 @@ const useGame = () => {
     }, []);
 
     const tryAction = (actionType, claimedCard = undefined, targetId = undefined) => {
-        console.log('tryAction');
-        console.log(actionType);
-        console.log(claimedCard);
         socket.emit('tryAction', {
             actionType,
             claimedCard,
@@ -45,6 +42,8 @@ const useGame = () => {
     };
 
     const challengeAction = (actionId, isBlock) => {
+        console.log(actionId);
+        console.log(isBlock);
         socket.emit('challengeAction', {
             actionId,
             isBlock,
@@ -63,6 +62,9 @@ const useGame = () => {
     };
 
     const tryBlock = (actionId, actionType, claimedCard) => {
+        console.log(actionId);
+        console.log(actionType);
+        console.log(claimedCard);
         socket.emit('tryBlock', {
             actionId,
             actionType,

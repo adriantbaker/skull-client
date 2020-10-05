@@ -5,11 +5,7 @@ const GameViewActionStatus = ({ action, block }) => {
     if (!action) {
         return (
             <div>
-                Waiting for
-                {' '}
-                Player
-                {' '}
-                to make the first move of the turn...
+                No move made yet
             </div>
         );
     }

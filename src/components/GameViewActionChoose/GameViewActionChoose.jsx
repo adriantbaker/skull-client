@@ -13,6 +13,7 @@ const starterChoices = [
     },
     {
         type: actionTypes.COUP,
+        cost: 7,
     },
     {
         type: actionTypes.TAX,
@@ -37,57 +38,69 @@ const starterChoices = [
 const blockChoices = [
     {
         type: blockActionTypes.BLOCK_FOREIGN_AID,
+        isBlock: true,
         after: actionTypes.FOREIGN_AID,
         claimedCard: cardTypes.DUKE,
     },
     {
         type: blockActionTypes.BLOCK_ASSASSINATE,
+        isBlock: true,
         after: actionTypes.ASSASSINATE,
         claimedCard: cardTypes.CONTESSA,
     },
     {
         type: blockActionTypes.BLOCK_STEAL,
+        isBlock: true,
         after: actionTypes.STEAL,
         claimedCard: cardTypes.CAPTAIN,
     },
     {
         type: blockActionTypes.BLOCK_STEAL,
+        isBlock: true,
         after: actionTypes.STEAL,
         claimedCard: cardTypes.AMBASSADOR,
     },
 ];
 
-const challengeChoices = [
-    {
-        type: 'challenge',
-    },
-    {
-        type: 'allow',
-    },
-];
+const challengeChoice = {
+    type: 'challenge',
+};
+
+const acceptChoice = {
+    type: 'allow',
+};
 
 const determineChoices = (action) => {
+    console.log(action);
     if (!action) {
         return starterChoices;
     }
     const choices = [];
     const { canChallenge, canBlock } = action;
+    if (canChallenge || canBlock) {
+        choices.push(acceptChoice);
+    }
     if (canChallenge) {
-        choices.push(...challengeChoices);
+        choices.push(challengeChoice);
     }
     if (canBlock) {
-        choices.push(...blockChoices);
+        choices.push(...blockChoices
+            .filter((blockChoice) => blockChoice.after === action.actionType));
     }
     return choices;
 };
 
 const GameViewActionChoose = ({ mostRecentAction }) => {
-    // const { tryAction } = useGame();
+    const { id: actionId, isBlock } = mostRecentAction || {};
 
     const choices = determineChoices(mostRecentAction);
 
     return choices.map((choice) => (
-        <GameViewActionChooseButton choice={choice} />
+        <GameViewActionChooseButton
+            choice={choice}
+            actionId={actionId}
+            actionIsBlock={isBlock}
+        />
     ));
 };
 
