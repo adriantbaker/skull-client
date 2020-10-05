@@ -2,12 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import useGame from '../GameViewBoard/useGame';
 import actionChoicePropTypes from '../../utils/propTypes/actionChoicePropTypes';
+import Button from '../../basicComponents/Button/Button';
+import formatActionType from '../../utils/formatting/formatActionType';
 
-const GameViewActionChooseButton = ({ choice, actionId, actionIsBlock }) => {
-    const { type, isBlock: choiceIsBlock, claimedCard } = choice;
+const GameViewActionChooseButton = (props) => {
+    const {
+        choice, actionId, actionIsBlock, numCoins,
+    } = props;
+    const {
+        type, isBlock: choiceIsBlock, claimedCard, cost = 0,
+    } = choice;
+
     const {
         tryAction, tryBlock, acceptAction, challengeAction,
     } = useGame();
+
+    const canAfford = numCoins >= cost;
 
     const handleClick = () => {
         if (type === 'accept') {
@@ -22,12 +32,13 @@ const GameViewActionChooseButton = ({ choice, actionId, actionIsBlock }) => {
     };
 
     return (
-        <button
-            type="button"
-            onClick={handleClick}
-        >
-            {type}
-        </button>
+        <div>
+            <Button
+                label={formatActionType(type)}
+                onClick={handleClick}
+                disabled={!canAfford}
+            />
+        </div>
     );
 };
 
@@ -35,6 +46,7 @@ GameViewActionChooseButton.propTypes = {
     choice: PropTypes.shape(actionChoicePropTypes).isRequired,
     actionId: PropTypes.string,
     actionIsBlock: PropTypes.bool,
+    numCoins: PropTypes.number.isRequired,
 };
 
 GameViewActionChooseButton.defaultProps = {

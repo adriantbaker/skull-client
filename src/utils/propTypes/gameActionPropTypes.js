@@ -38,12 +38,12 @@ export const actionTypePropTypes = PropTypes.oneOf([
     ...blockActionTypesArray,
 ]);
 
-const gameActionPropTypes = {
+const gameActionShape = {
     id: PropTypes.string.isRequired,
     isBlock: PropTypes.bool.isRequired,
     isComplete: PropTypes.bool.isRequired,
     actionType: actionTypePropTypes.isRequired,
-    claimedCard: cardTypePropTypes.isRequired,
+    claimedCard: cardTypePropTypes,
     actingPlayerId: PropTypes.string.isRequired,
     actingPlayerName: PropTypes.string.isRequired,
     targetPlayerId: PropTypes.string, // can be undefined
@@ -56,5 +56,7 @@ const gameActionPropTypes = {
     challengeLoserMustDiscard: PropTypes.bool.isRequired,
     challengingPlayerId: PropTypes.string, // can be undefined
 };
+
+const gameActionPropTypes = PropTypes.shape(gameActionShape);
 
 export default gameActionPropTypes;

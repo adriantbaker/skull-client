@@ -3,6 +3,9 @@ import GameViewActionChoose from '../GameViewActionChoose/GameViewActionChoose';
 import GameViewActionStatus from '../GameViewActionStatus/GameViewActionStatus';
 import GameViewActionOutcome from '../GameViewActionOutcome/GameViewActionOutcome';
 import GameViewActionWait from '../GameViewActionWait/GameViewActionWait';
+import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
+import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
+import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
 
 const views = {
     CHOOSE: 'choose',
@@ -20,11 +23,9 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
     if (!mostRecentAction) {
         // The player has not made an initial move yet
         if (isPlayerTurn) {
-            console.log(1);
             return views.CHOOSE;
         }
         // wait for some opponent to make initial move
-        console.log(2);
         return views.WAIT;
     }
 
@@ -36,33 +37,32 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
 
     if (canChallenge || canBlock) {
         if (isPlayerAction) {
-            console.log(3);
             // we are waiting for all opponents toaccept / challenge / block our move
             return views.WAIT;
         }
         if (acceptedBy[playerId]) {
-            console.log(4);
             // we already accepted the action, waiting for others
             return views.WAIT;
         }
-        console.log(5);
         return views.CHOOSE;
     }
-    console.log('@@@@@@@');
-    console.log(6);
     return views.DONE;
 };
 
 const GameViewAction = (props) => {
     const {
-        playerId, isPlayerTurn, currentAction, currentBlock,
+        playerHand, currentTurn, currentAction, currentBlock,
     } = props;
+
+    console.log(playerHand);
+
+    const { id: playerId, numCoins } = playerHand;
+    const { playerId: currentPlayerId } = currentTurn;
+
+    const isPlayerTurn = playerId === currentPlayerId;
 
     // Determine the most recent action in this turn
     const mostRecentAction = getMostRecentAction(currentAction, currentBlock);
-
-    console.log(currentAction);
-    console.log(currentBlock);
 
     const getViewComponent = () => {
         const view = getView(mostRecentAction, playerId, isPlayerTurn);
@@ -71,6 +71,7 @@ const GameViewAction = (props) => {
                 return (
                     <GameViewActionChoose
                         mostRecentAction={mostRecentAction}
+                        numCoins={numCoins}
                     />
                 );
             case views.WAIT:
@@ -100,6 +101,18 @@ const GameViewAction = (props) => {
             {getViewComponent()}
         </div>
     );
+};
+
+GameViewAction.propTypes = {
+    playerHand: playerHandPropTypes.isRequired,
+    currentTurn: gameTurnPropTypes.isRequired,
+    currentAction: gameActionPropTypes,
+    currentBlock: gameActionPropTypes,
+};
+
+GameViewAction.defaultProps = {
+    currentAction: undefined,
+    currentBlock: undefined,
 };
 
 export default GameViewAction;

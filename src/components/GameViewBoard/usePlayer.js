@@ -4,6 +4,9 @@ import socket from '../../utils/api/socket';
 
 const initialPlayerHand = {
     cards: [],
+    id: '',
+    isOwner: false,
+    name: '',
     numCoins: 0,
     turnNumber: -99,
 };

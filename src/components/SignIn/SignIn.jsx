@@ -30,6 +30,7 @@ const SignIn = () => {
                         <Button
                             label="SIGN IN"
                             onClick={handleSubmit}
+                            disabled={username === ''}
                         />
                     </div>
                 </div>

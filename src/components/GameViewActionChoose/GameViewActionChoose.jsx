@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import gameActionPropTypes, { actionTypes, blockActionTypes } from '../../utils/propTypes/gameActionPropTypes';
 import { cardTypes } from '../../utils/propTypes/cardPropTypes';
 import GameViewActionChooseButton from '../GameViewActionChooseButton/GameViewActionChooseButton';
@@ -71,7 +72,6 @@ const acceptChoice = {
 };
 
 const determineChoices = (action) => {
-    console.log(action);
     if (!action) {
         return starterChoices;
     }
@@ -90,22 +90,28 @@ const determineChoices = (action) => {
     return choices;
 };
 
-const GameViewActionChoose = ({ mostRecentAction }) => {
+const GameViewActionChoose = ({ mostRecentAction, numCoins }) => {
     const { id: actionId, isBlock } = mostRecentAction || {};
 
     const choices = determineChoices(mostRecentAction);
 
-    return choices.map((choice) => (
-        <GameViewActionChooseButton
-            choice={choice}
-            actionId={actionId}
-            actionIsBlock={isBlock}
-        />
-    ));
+    return (
+        <div>
+            {choices.map((choice) => (
+                <GameViewActionChooseButton
+                    choice={choice}
+                    actionId={actionId}
+                    actionIsBlock={isBlock}
+                    numCoins={numCoins}
+                />
+            ))}
+        </div>
+    );
 };
 
 GameViewActionChoose.propTypes = {
     mostRecentAction: gameActionPropTypes,
+    numCoins: PropTypes.number.isRequired,
 };
 
 GameViewActionChoose.defaultProps = {

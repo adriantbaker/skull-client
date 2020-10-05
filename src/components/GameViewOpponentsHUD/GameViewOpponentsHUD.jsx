@@ -1,10 +1,13 @@
 import React from 'react';
 import PlayerCard from '../PlayerCard/PlayerCard';
+import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
+import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
+import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
 
-const getHUDClassName = (turnNumber, currentTurn) => {
+const getHUDClassName = (turnNumber, currentTurnNumber) => {
     let className = 'w-1/2 sm:w-1/3 md:w-1/4';
 
-    if (turnNumber === currentTurn) {
+    if (turnNumber === currentTurnNumber) {
         className += ' border border-black';
     }
 
@@ -20,41 +23,57 @@ const sortByTurnOrder = (playerTurn, numPlayers) => (p1, p2) => {
 };
 
 const GameViewOpponentsHUD = (props) => {
-    const { playerTurn, currentTurn, opponentHands } = props;
+    const { playerHand, currentTurn, opponentHands } = props;
+
+    const { turnNumber: playerTurnNumber } = playerHand;
+    const { number: currentTurnNumber } = currentTurn;
 
     opponentHands.sort(
         sortByTurnOrder(
-            playerTurn,
+            playerTurnNumber,
             opponentHands.length + 1,
         ),
     );
 
     return (
         <div className="flex flex-wrap">
-            {opponentHands.map((oh, i) => (
-                <div className={getHUDClassName(oh.turnNumber, currentTurn)}>
-                    <div>
-                        {oh.name}
-                        {' '}
-                        -
-                        {' '}
-                        {oh.turnNumber}
-                    </div>
-                    <div className="flex justify-between">
-                        <div className="flex-grow">
-                            <div>CARDS</div>
-                            <PlayerCard type="?" />
-                            <PlayerCard type="?" />
+            {opponentHands.map((opponentHand) => {
+                const { id, turnNumber, numCoins } = opponentHand;
+
+                return (
+                    <div
+                        key={id}
+                        className={getHUDClassName(turnNumber, currentTurnNumber)}
+                    >
+                        <div>
+                            {opponentHand.name}
+                            {' '}
+                            -
+                            {' '}
+                            {opponentHand.turnNumber}
                         </div>
-                        <div className="flex-grow">
-                            <div>COINS</div>
-                            <div>{oh.numCoins}</div>
+                        <div className="flex justify-between">
+                            <div className="flex-grow">
+                                <div>CARDS</div>
+                                <PlayerCard type="?" />
+                                <PlayerCard type="?" />
+                            </div>
+                            <div className="flex-grow">
+                                <div>COINS</div>
+                                <div>{numCoins}</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
         </div>
     );
+};
+
+GameViewOpponentsHUD.propTypes = {
+    currentTurn: gameTurnPropTypes.isRequired,
+    playerHand: playerHandPropTypes.isRequired,
+    opponentHands: opponentHandsPropTypes.isRequired,
 };
 
 export default GameViewOpponentsHUD;

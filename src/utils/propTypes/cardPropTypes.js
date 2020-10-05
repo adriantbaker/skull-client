@@ -16,9 +16,11 @@ export const cardTypePropTypes = PropTypes.oneOf([
     cardTypes.DUKE,
 ]);
 
-const cardPropTypes = {
+const cardShape = {
     id: PropTypes.string.isRequired,
     type: cardTypePropTypes.isRequired,
 };
+
+const cardPropTypes = PropTypes.shape(cardShape);
 
 export default cardPropTypes;

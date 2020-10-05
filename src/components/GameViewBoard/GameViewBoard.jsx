@@ -16,9 +16,6 @@ const GameViewBoard = () => {
     } = useGame();
     const { playerHand, opponentHands } = usePlayer();
 
-    const playerTurn = playerHand.turnNumber;
-    const isPlayerTurn = playerTurn === currentTurn.number;
-
     useEffect(() => {
         // On component mount, signal that we need the initial game setup
         socket.emit('getGameSetup', { gameId, playerId });
@@ -28,18 +25,18 @@ const GameViewBoard = () => {
     return (
         <div className="flex flex-col justify-between h-screen">
             <GameViewOpponentsHUD
-                playerTurn={playerTurn}
-                currentTurn={currentTurn.number}
+                currentTurn={currentTurn}
+                playerHand={playerHand}
                 opponentHands={opponentHands}
             />
             <GameViewAction
-                playerId={playerId}
-                isPlayerTurn={isPlayerTurn}
+                currentTurn={currentTurn}
+                playerHand={playerHand}
                 currentAction={currentAction}
                 currentBlock={currentBlock}
             />
             <GameViewPlayerHUD
-                currentTurn={currentTurn.number}
+                currentTurn={currentTurn}
                 playerHand={playerHand}
             />
         </div>

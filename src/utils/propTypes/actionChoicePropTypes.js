@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { cardTypePropTypes } from './cardPropTypes';
 import { actionTypesArray, actionTypePropTypes } from './gameActionPropTypes';
 
-const actionChoicePropTypes = {
+const actionChoiceShape = {
     type: actionTypePropTypes.isRequired,
     claimedCard: cardTypePropTypes,
     cost: PropTypes.number,
@@ -10,5 +10,7 @@ const actionChoicePropTypes = {
     isBlock: PropTypes.bool,
     after: PropTypes.oneOf(actionTypesArray),
 };
+
+const actionChoicePropTypes = PropTypes.shape(actionChoiceShape);
 
 export default actionChoicePropTypes;

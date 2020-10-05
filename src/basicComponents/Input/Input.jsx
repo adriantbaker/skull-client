@@ -27,7 +27,7 @@ const Input = (props) => {
         if (name) return name;
         if (label) return label;
         return '';
-    });
+    })();
 
     return (
         <label
