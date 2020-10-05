@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const cardTypes = {
+export const cardTypes = {
     AMBASSADOR: 'ambassador',
     ASSASSIN: 'assassin',
     CAPTAIN: 'captain',
@@ -8,17 +8,17 @@ const cardTypes = {
     DUKE: 'duke',
 };
 
-const cardTypePropTypes = PropTypes.oneOf([
+export const cardTypePropTypes = PropTypes.oneOf([
     cardTypes.AMBASSADOR,
     cardTypes.ASSASSIN,
     cardTypes.CAPTAIN,
     cardTypes.CONTESSA,
     cardTypes.DUKE,
-]).isRequired;
+]);
 
 const cardPropTypes = {
     id: PropTypes.string.isRequired,
-    type: cardTypePropTypes,
+    type: cardTypePropTypes.isRequired,
 };
 
 export default cardPropTypes;

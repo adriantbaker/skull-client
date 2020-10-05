@@ -2,17 +2,24 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import socket from '../../utils/api/socket';
 
+const initialTurn = {
+    number: -1,
+    playerId: '',
+    playerName: '',
+};
+
 const useGame = () => {
     const { id: gameId } = useSelector((state) => state.game);
     const { id: playerId } = useSelector((state) => state.player);
 
-    const [currentTurn, setCurrentTurn] = useState(-1);
+    const [currentTurn, setCurrentTurn] = useState(initialTurn);
     const [currentAction, setCurrentAction] = useState();
     const [currentBlock, setCurrentBlock] = useState();
 
     useEffect(() => {
         // Listen for all game updates
         socket.on('gameUpdate', (update) => {
+            console.log('GOT GAME UPDATE');
             const {
                 currentTurn: updatedTurn,
                 currentAction: updatedAction,
@@ -25,6 +32,9 @@ const useGame = () => {
     }, []);
 
     const tryAction = (actionType, claimedCard = undefined, targetId = undefined) => {
+        console.log('tryAction');
+        console.log(actionType);
+        console.log(claimedCard);
         socket.emit('tryAction', {
             actionType,
             claimedCard,
@@ -36,6 +46,15 @@ const useGame = () => {
 
     const challengeAction = (actionId, isBlock) => {
         socket.emit('challengeAction', {
+            actionId,
+            isBlock,
+            gameId,
+            playerId,
+        });
+    };
+
+    const acceptAction = (actionId, isBlock) => {
+        socket.emit('acceptAction', {
             actionId,
             isBlock,
             gameId,
@@ -59,6 +78,7 @@ const useGame = () => {
         currentBlock,
         tryAction,
         challengeAction,
+        acceptAction,
         tryBlock,
     };
 };

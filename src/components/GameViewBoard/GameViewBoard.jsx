@@ -12,19 +12,13 @@ const GameViewBoard = () => {
     const { id: gameId } = useSelector((state) => state.game);
     const { id: playerId } = useSelector((state) => state.player);
 
-    const { currentTurn, currentAction, currentBlock } = useGame();
+    const {
+        currentTurn, currentAction, currentBlock,
+    } = useGame();
     const { playerHand, opponentHands } = usePlayer();
 
-    console.log(playerHand);
-    console.log(opponentHands);
-    console.log(currentTurn);
-    console.log(currentAction);
-    console.log(currentBlock);
-
     const playerTurn = playerHand.turnNumber;
-    const isYourTurn = playerTurn === currentTurn;
-
-    console.log(isYourTurn);
+    const isPlayerTurn = playerTurn === currentTurn.number;
 
     useEffect(() => {
         // On component mount, signal that we need the initial game setup
@@ -36,17 +30,17 @@ const GameViewBoard = () => {
         <div className="GameViewBoard h-screen">
             <GameViewOpponentsHUD
                 playerTurn={playerTurn}
-                currentTurn={currentTurn}
+                currentTurn={currentTurn.number}
                 opponentHands={opponentHands}
             />
             <GameViewAction
                 playerId={playerId}
-                isYourTurn={isYourTurn}
+                isPlayerTurn={isPlayerTurn}
                 currentAction={currentAction}
                 currentBlock={currentBlock}
             />
             <GameViewPlayerHUD
-                currentTurn={currentTurn}
+                currentTurn={currentTurn.number}
                 playerHand={playerHand}
             />
         </div>
