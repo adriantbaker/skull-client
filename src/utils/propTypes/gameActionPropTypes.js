@@ -53,7 +53,7 @@ const gameActionShape = {
     canBlock: PropTypes.bool.isRequired,
     challenged: PropTypes.bool.isRequired,
     challengeSucceeded: PropTypes.bool.isRequired,
-    challengeLoserMustDiscard: PropTypes.bool.isRequired,
+    // challengeLoserMustDiscard: PropTypes.bool.isRequired,
     challengingPlayerId: PropTypes.string, // can be undefined
 };
 

@@ -10,6 +10,8 @@ import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
 const views = {
     CHOOSE: 'choose',
     WAIT: 'wait',
+    EXCHANGE: 'exchange',
+    DISCARD: 'discard',
     OUTCOME: 'outcome',
 };
 
@@ -30,7 +32,16 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
     }
 
     const {
-        actingPlayerId, canChallenge, canBlock, acceptedBy,
+        actingPlayerId,
+        targetPlayerId,
+        challengingPlayerId,
+        canChallenge,
+        challengeSucceeded,
+        canBlock,
+        acceptedBy,
+        pendingChallengeLoserDiscard,
+        pendingActorExchange,
+        pendingTargetDiscard,
     } = mostRecentAction;
 
     const isPlayerAction = actingPlayerId === playerId;
@@ -46,6 +57,41 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
         }
         return views.CHOOSE;
     }
+
+    if (pendingChallengeLoserDiscard) {
+        const loserId = challengeSucceeded ? actingPlayerId : challengingPlayerId;
+        const playerLost = playerId === loserId;
+
+        if (playerLost) {
+            // Player must discard due to losing a challenge
+            return views.DISCARD;
+        }
+        // Someone else must discard due to losing a challenge
+        return views.WAIT;
+    }
+
+    if (pendingTargetDiscard) {
+        const playerWasTargeted = playerId === targetPlayerId;
+
+        if (playerWasTargeted) {
+            // Player must discard due to being effectively targeted
+            return views.DISCARD;
+        }
+        // Someone else must discard due to being effectively targeted
+        return views.WAIT;
+    }
+
+    if (pendingActorExchange) {
+        const playerMustExchange = playerId === actingPlayerId;
+
+        if (playerMustExchange) {
+            // Player needs to choose cards to exchange
+            return views.EXCHANGE;
+        }
+        // Someone else needs to choose cards to exchange
+        return views.WAIT;
+    }
+
     return views.DONE;
 };
 
@@ -82,13 +128,18 @@ const GameViewAction = (props) => {
                     />
                 );
             case views.OUTCOME:
-            default:
                 return (
                     <GameViewActionOutcome
                         action={currentAction}
                         block={currentBlock}
                     />
                 );
+            case views.DISCARD:
+                return <div>You must discard!</div>;
+            case views.EXCHANGE:
+                return <div>You must exchange!</div>;
+            default:
+                return <div>?????</div>;
         }
     };
 

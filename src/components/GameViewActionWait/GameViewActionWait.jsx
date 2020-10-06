@@ -1,6 +1,36 @@
 import React from 'react';
 import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 
+const getWaitReason = (action) => {
+    const {
+        canChallenge,
+        canBlock,
+        pendingChallengeLoserDiscard,
+        pendingActorExchange,
+        pendingTargetDiscard,
+    } = action;
+
+    if (canChallenge && canBlock) {
+        return 'Waiting for everyone to allow, challenge, or block...';
+    }
+    if (canChallenge) {
+        return 'Waiting for everyone to allow or challenge...';
+    }
+    if (canBlock) {
+        return 'Waiting for everyone to allow or block...';
+    }
+    if (pendingChallengeLoserDiscard) {
+        return 'Waiting for the challenge loser to discard...';
+    }
+    if (pendingTargetDiscard) {
+        return 'Waiting for the targeted player to discard...';
+    }
+    if (pendingActorExchange) {
+        return 'Waiting for the player to exchange cards...';
+    }
+    return 'Not sure why we are waiting...';
+};
+
 const GameViewActionWait = ({ action, block }) => {
     if (!action) {
         return (
@@ -15,16 +45,18 @@ const GameViewActionWait = ({ action, block }) => {
     }
 
     if (!block) {
+        const waitReason = getWaitReason(action);
         return (
             <div>
-                Waiting for action to be blocked / challenged / accepted...
+                {waitReason}
             </div>
         );
     }
 
+    const waitReason = getWaitReason(block);
     return (
         <div>
-            Waiting for block to be challenged / accepted...
+            {waitReason}
         </div>
     );
 };

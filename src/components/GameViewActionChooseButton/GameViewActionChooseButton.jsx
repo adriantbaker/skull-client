@@ -20,7 +20,7 @@ const GameViewActionChooseButton = (props) => {
     const canAfford = numCoins >= cost;
 
     const handleClick = () => {
-        if (type === 'accept') {
+        if (type === 'allow') {
             acceptAction(actionId, actionIsBlock);
         } else if (type === 'challenge') {
             challengeAction(actionId, actionIsBlock);

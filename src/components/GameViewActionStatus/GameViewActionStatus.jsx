@@ -1,48 +1,43 @@
 import React from 'react';
 import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 
-const GameViewActionStatus = ({ action, block }) => {
+const getOneActionStatus = (action) => {
+    const { actingPlayerName, actionType, challenged } = action;
+    let str = `${actingPlayerName} did ${actionType}.`;
+    if (challenged) {
+        const { challengeSucceeded, challengingPlayerId } = action;
+        str += ` ${challengingPlayerId} challenged the action`;
+        if (challengeSucceeded) {
+            str += ' and won!';
+        } else {
+            str += ' and lost.';
+        }
+    }
+    return str;
+};
+
+const getAllActionStatuses = (action, block) => {
     if (!action) {
-        return (
-            <div>
-                No move made yet
-            </div>
-        );
+        return 'No move made yet.';
     }
 
-    const { actingPlayerName, actionType } = action;
+    const actionStr = getOneActionStatus(action);
 
     if (!block) {
-        return (
-            <div>
-                {actingPlayerName}
-                {' '}
-                did
-                {' '}
-                {actionType}
-            </div>
-        );
+        return actionStr;
     }
 
-    const {
-        actingPlayerName: blockingPlayerName,
-        actionType: blockActionType,
-    } = block;
+    const blockStr = getOneActionStatus(block);
+
+    return `${actionStr} ${blockStr}`;
+};
+
+const GameViewActionStatus = ({ action, block }) => {
+    const str = getAllActionStatuses(action, block);
 
     return (
         <div>
-            {actingPlayerName}
-            {' '}
-            did
-            {' '}
-            {actionType}
-            , but
-            {' '}
-            {blockingPlayerName}
-            {' '}
-            did
-            {' '}
-            {blockActionType}
+            {str}
         </div>
     );
 };

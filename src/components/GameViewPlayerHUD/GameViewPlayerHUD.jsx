@@ -1,14 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
+import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
 import PlayerCard from '../PlayerCard/PlayerCard';
 
 const GameViewPlayerHUD = (props) => {
     const { currentTurn, playerHand } = props;
-    const { cards, turnNumber } = playerHand;
+    const { cards, numCoins, turnNumber } = playerHand;
 
     const { username } = useSelector((state) => state.user);
 
-    const isMyTurn = currentTurn === turnNumber;
+    const isMyTurn = currentTurn.number === turnNumber;
 
     return (
         <div>
@@ -28,11 +30,16 @@ const GameViewPlayerHUD = (props) => {
                 </div>
                 <div className="flex-grow">
                     <div>COINS</div>
-                    <div>2</div>
+                    <div>{numCoins}</div>
                 </div>
             </div>
         </div>
     );
+};
+
+GameViewPlayerHUD.propTypes = {
+    currentTurn: gameTurnPropTypes.isRequired,
+    playerHand: playerHandPropTypes.isRequired,
 };
 
 export default GameViewPlayerHUD;

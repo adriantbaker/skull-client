@@ -20,14 +20,15 @@ const useGame = () => {
         // Listen for all game updates
         socket.on('gameUpdate', (update) => {
             console.log('GOT GAME UPDATE');
+            console.log(update);
             const {
                 currentTurn: updatedTurn,
                 currentAction: updatedAction,
                 currentBlock: updatedBlock,
             } = update;
-            if (updatedTurn !== null) setCurrentTurn(updatedTurn);
-            if (updatedAction !== null) setCurrentAction(updatedAction);
-            if (updatedBlock !== null) setCurrentBlock(updatedBlock);
+            setCurrentTurn(updatedTurn);
+            setCurrentAction(updatedAction);
+            setCurrentBlock(updatedBlock);
         });
     }, []);
 
@@ -42,8 +43,6 @@ const useGame = () => {
     };
 
     const challengeAction = (actionId, isBlock) => {
-        console.log(actionId);
-        console.log(isBlock);
         socket.emit('challengeAction', {
             actionId,
             isBlock,
@@ -53,6 +52,7 @@ const useGame = () => {
     };
 
     const acceptAction = (actionId, isBlock) => {
+        console.log('Accepting action...');
         socket.emit('acceptAction', {
             actionId,
             isBlock,
@@ -62,9 +62,6 @@ const useGame = () => {
     };
 
     const tryBlock = (actionId, actionType, claimedCard) => {
-        console.log(actionId);
-        console.log(actionType);
-        console.log(claimedCard);
         socket.emit('tryBlock', {
             actionId,
             actionType,
