@@ -55,8 +55,8 @@ const GameViewOpponentsHUD = (props) => {
                         <div className="flex justify-between">
                             <div className="flex-grow">
                                 <div>CARDS</div>
-                                <PlayerCard type="?" />
-                                <PlayerCard type="?" />
+                                <PlayerCard card={{ id: '', type: '?' }} />
+                                <PlayerCard card={{ id: '', type: '?' }} />
                             </div>
                             <div className="flex-grow">
                                 <div>COINS</div>

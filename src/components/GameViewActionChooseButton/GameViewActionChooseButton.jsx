@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import useGame from '../GameViewBoard/useGame';
 import actionChoicePropTypes from '../../utils/propTypes/actionChoicePropTypes';
 import Button from '../../basicComponents/Button/Button';
 import formatActionType from '../../utils/formatting/formatActionType';
+import useActions from '../GameViewBoard/useActions';
 
 const GameViewActionChooseButton = (props) => {
     const {
@@ -15,7 +15,7 @@ const GameViewActionChooseButton = (props) => {
 
     const {
         tryAction, tryBlock, acceptAction, challengeAction,
-    } = useGame();
+    } = useActions();
 
     const canAfford = numCoins >= cost;
 

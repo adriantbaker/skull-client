@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import socket from '../../utils/api/socket';
+import getMostRecentAction from '../../utils/logic/getMostRecentAction';
+import playerMustDiscard from '../../utils/logic/playerMustDiscard';
 import GameViewAction from '../GameViewAction/GameViewAction';
 import GameViewOpponentsHUD from '../GameViewOpponentsHUD/GameViewOpponentsHUD';
 import GameViewPlayerHUD from '../GameViewPlayerHUD/GameViewPlayerHUD';
@@ -15,6 +17,9 @@ const GameViewBoard = () => {
         currentTurn, currentAction, currentBlock,
     } = useGame();
     const { playerHand, opponentHands } = usePlayer();
+
+    const mostRecentAction = getMostRecentAction(currentAction, currentBlock);
+    const mustDiscard = playerMustDiscard(playerId, mostRecentAction);
 
     useEffect(() => {
         // On component mount, signal that we need the initial game setup
@@ -38,6 +43,7 @@ const GameViewBoard = () => {
             <GameViewPlayerHUD
                 currentTurn={currentTurn}
                 playerHand={playerHand}
+                mustDiscard={mustDiscard}
             />
         </div>
     );

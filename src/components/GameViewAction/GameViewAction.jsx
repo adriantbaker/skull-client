@@ -6,6 +6,7 @@ import GameViewActionWait from '../GameViewActionWait/GameViewActionWait';
 import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
 import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
+import getMostRecentAction from '../../utils/logic/getMostRecentAction';
 
 const views = {
     CHOOSE: 'choose',
@@ -13,12 +14,6 @@ const views = {
     EXCHANGE: 'exchange',
     DISCARD: 'discard',
     OUTCOME: 'outcome',
-};
-
-const getMostRecentAction = (currentAction, currentBlock) => {
-    if (currentBlock) return currentBlock;
-    if (currentAction) return currentAction;
-    return undefined;
 };
 
 const getView = (mostRecentAction, playerId, isPlayerTurn) => {
