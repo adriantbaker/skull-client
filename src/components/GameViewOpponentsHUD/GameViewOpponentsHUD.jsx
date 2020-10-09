@@ -38,7 +38,17 @@ const GameViewOpponentsHUD = (props) => {
     return (
         <div className="flex flex-wrap">
             {opponentHands.map((opponentHand) => {
-                const { id, turnNumber, numCoins } = opponentHand;
+                const {
+                    id, turnNumber, numCoins, numCards, deadCards,
+                } = opponentHand;
+
+                const hiddenCards = [];
+                for (let i = 0; i < numCards; i++) {
+                    hiddenCards.push({
+                        id: '',
+                        type: '?',
+                    });
+                }
 
                 return (
                     <div
@@ -55,8 +65,8 @@ const GameViewOpponentsHUD = (props) => {
                         <div className="flex justify-between">
                             <div className="flex-grow">
                                 <div>CARDS</div>
-                                <PlayerCard card={{ id: '', type: '?' }} />
-                                <PlayerCard card={{ id: '', type: '?' }} />
+                                {hiddenCards.map((card) => <PlayerCard card={card} />)}
+                                {deadCards.map((card) => <PlayerCard card={card} />)}
                             </div>
                             <div className="flex-grow">
                                 <div>COINS</div>

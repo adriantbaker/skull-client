@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import gameActionPropTypes, { actionTypes, blockActionTypes } from '../../utils/propTypes/gameActionPropTypes';
 import { cardTypes } from '../../utils/propTypes/cardPropTypes';
 import GameViewActionChooseButton from '../GameViewActionChooseButton/GameViewActionChooseButton';
+import GameViewActionChooseTarget from '../GameViewActionChooseTarget/GameViewActionChooseTarget';
+import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
+
 // import useGame from '../GameViewBoard/useGame';
 
 const starterChoices = [
@@ -15,6 +18,7 @@ const starterChoices = [
     {
         type: actionTypes.COUP,
         cost: 7,
+        chooseTarget: true,
     },
     {
         type: actionTypes.TAX,
@@ -23,6 +27,7 @@ const starterChoices = [
     {
         type: actionTypes.ASSASSINATE,
         claimedCard: cardTypes.ASSASSIN,
+        chooseTarget: true,
         cost: 3,
     },
     {
@@ -90,10 +95,26 @@ const determineChoices = (action) => {
     return choices;
 };
 
-const GameViewActionChoose = ({ mostRecentAction, numCoins }) => {
+const GameViewActionChoose = (props) => {
+    const { mostRecentAction, numCoins, opponentHands } = props;
+
     const { id: actionId, isBlock } = mostRecentAction || {};
 
     const choices = determineChoices(mostRecentAction);
+
+    const [mustChooseTarget, setMustChooseTarget] = useState(false);
+    const [pendingChoice, setPendingChoice] = useState();
+
+    if (mustChooseTarget) {
+        return (
+            <div>
+                <GameViewActionChooseTarget
+                    pendingChoice={pendingChoice}
+                    opponentHands={opponentHands}
+                />
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -103,6 +124,8 @@ const GameViewActionChoose = ({ mostRecentAction, numCoins }) => {
                     actionId={actionId}
                     actionIsBlock={isBlock}
                     numCoins={numCoins}
+                    setMustChooseTarget={setMustChooseTarget}
+                    setPendingChoice={setPendingChoice}
                 />
             ))}
         </div>
@@ -112,6 +135,7 @@ const GameViewActionChoose = ({ mostRecentAction, numCoins }) => {
 GameViewActionChoose.propTypes = {
     mostRecentAction: gameActionPropTypes,
     numCoins: PropTypes.number.isRequired,
+    opponentHands: opponentHandsPropTypes.isRequired,
 };
 
 GameViewActionChoose.defaultProps = {

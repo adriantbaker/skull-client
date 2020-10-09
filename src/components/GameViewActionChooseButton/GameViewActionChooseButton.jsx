@@ -7,10 +7,10 @@ import useActions from '../GameViewBoard/useActions';
 
 const GameViewActionChooseButton = (props) => {
     const {
-        choice, actionId, actionIsBlock, numCoins,
+        choice, actionId, actionIsBlock, numCoins, setMustChooseTarget, setPendingChoice,
     } = props;
     const {
-        type, isBlock: choiceIsBlock, claimedCard, cost = 0,
+        type, isBlock: choiceIsBlock, claimedCard, cost = 0, chooseTarget = false,
     } = choice;
 
     const {
@@ -20,7 +20,10 @@ const GameViewActionChooseButton = (props) => {
     const canAfford = numCoins >= cost;
 
     const handleClick = () => {
-        if (type === 'allow') {
+        if (chooseTarget) {
+            setMustChooseTarget(true);
+            setPendingChoice(choice);
+        } else if (type === 'allow') {
             acceptAction(actionId, actionIsBlock);
         } else if (type === 'challenge') {
             challengeAction(actionId, actionIsBlock);
@@ -47,6 +50,8 @@ GameViewActionChooseButton.propTypes = {
     actionId: PropTypes.string,
     actionIsBlock: PropTypes.bool,
     numCoins: PropTypes.number.isRequired,
+    setMustChooseTarget: PropTypes.func.isRequired,
+    setPendingChoice: PropTypes.func.isRequired,
 };
 
 GameViewActionChooseButton.defaultProps = {

@@ -16,6 +16,7 @@ const getInitialOpponentHand = (player) => ({
     name: player.name,
     numCards: 0,
     numCoins: 0,
+    deadCards: [],
 });
 
 const usePlayer = () => {

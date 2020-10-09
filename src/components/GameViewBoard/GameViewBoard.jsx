@@ -35,6 +35,7 @@ const GameViewBoard = () => {
                 opponentHands={opponentHands}
             />
             <GameViewAction
+                opponentHands={opponentHands}
                 currentTurn={currentTurn}
                 playerHand={playerHand}
                 currentAction={currentAction}

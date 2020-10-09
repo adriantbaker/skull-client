@@ -7,6 +7,7 @@ import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
 import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
 import getMostRecentAction from '../../utils/logic/getMostRecentAction';
+import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
 
 const views = {
     CHOOSE: 'choose',
@@ -92,7 +93,7 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
 
 const GameViewAction = (props) => {
     const {
-        playerHand, currentTurn, currentAction, currentBlock,
+        playerHand, opponentHands, currentTurn, currentAction, currentBlock,
     } = props;
 
     console.log(playerHand);
@@ -111,6 +112,7 @@ const GameViewAction = (props) => {
             case views.CHOOSE:
                 return (
                     <GameViewActionChoose
+                        opponentHands={opponentHands}
                         mostRecentAction={mostRecentAction}
                         numCoins={numCoins}
                     />
@@ -154,6 +156,7 @@ GameViewAction.propTypes = {
     currentTurn: gameTurnPropTypes.isRequired,
     currentAction: gameActionPropTypes,
     currentBlock: gameActionPropTypes,
+    opponentHands: opponentHandsPropTypes.isRequired,
 };
 
 GameViewAction.defaultProps = {
