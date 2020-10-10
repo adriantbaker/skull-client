@@ -4,10 +4,17 @@ import actionChoicePropTypes from '../../utils/propTypes/actionChoicePropTypes';
 import Button from '../../basicComponents/Button/Button';
 import formatActionType from '../../utils/formatting/formatActionType';
 import useActions from '../GameViewBoard/useActions';
+import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
 
 const GameViewActionChooseButton = (props) => {
     const {
-        choice, actionId, actionIsBlock, numCoins, setMustChooseTarget, setPendingChoice,
+        choice,
+        actionId,
+        actionIsBlock,
+        numCoins,
+        setMustChooseTarget,
+        setPendingChoice,
+        opponentsInGame,
     } = props;
     const {
         type, isBlock: choiceIsBlock, claimedCard, cost = 0, chooseTarget = false,
@@ -20,17 +27,27 @@ const GameViewActionChooseButton = (props) => {
     const canAfford = numCoins >= cost;
 
     const handleClick = () => {
+        let targetId;
+
         if (chooseTarget) {
-            setMustChooseTarget(true);
-            setPendingChoice(choice);
-        } else if (type === 'allow') {
+            if (opponentsInGame.length > 1) {
+                // Display opponent choice view
+                setMustChooseTarget(true);
+                setPendingChoice(choice);
+                return;
+            }
+            // Only 1 opponent, so choose automatically
+            targetId = opponentsInGame[0].id;
+        }
+
+        if (type === 'allow') {
             acceptAction(actionId, actionIsBlock);
         } else if (type === 'challenge') {
             challengeAction(actionId, actionIsBlock);
         } else if (choiceIsBlock) {
             tryBlock(actionId, type, claimedCard);
         } else {
-            tryAction(type, claimedCard);
+            tryAction(type, claimedCard, targetId);
         }
     };
 
@@ -52,6 +69,7 @@ GameViewActionChooseButton.propTypes = {
     numCoins: PropTypes.number.isRequired,
     setMustChooseTarget: PropTypes.func.isRequired,
     setPendingChoice: PropTypes.func.isRequired,
+    opponentsInGame: opponentHandsPropTypes.isRequired,
 };
 
 GameViewActionChooseButton.defaultProps = {

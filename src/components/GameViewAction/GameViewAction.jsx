@@ -8,6 +8,7 @@ import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
 import getMostRecentAction from '../../utils/logic/getMostRecentAction';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
+import GameViewActionExchange from '../GameViewActionExchange/GameViewActionExchange';
 
 const views = {
     CHOOSE: 'choose',
@@ -134,7 +135,11 @@ const GameViewAction = (props) => {
             case views.DISCARD:
                 return <div>You must discard!</div>;
             case views.EXCHANGE:
-                return <div>You must exchange!</div>;
+                return (
+                    <GameViewActionExchange
+                        playerHand={playerHand}
+                    />
+                );
             default:
                 return <div>?????</div>;
         }

@@ -51,12 +51,21 @@ const useActions = () => {
         });
     };
 
+    const exchange = (cardIds) => {
+        socket.emit('exchange', {
+            cardIds,
+            gameId,
+            playerId,
+        });
+    };
+
     return {
         tryAction,
         challengeAction,
         acceptAction,
         tryBlock,
         discard,
+        exchange,
     };
 };
 

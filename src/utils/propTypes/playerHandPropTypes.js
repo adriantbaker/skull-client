@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
 import { cardTypePropTypes } from './cardPropTypes';
 
+export const cardsPropTypes = PropTypes.arrayOf(
+    PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        type: cardTypePropTypes,
+    }),
+);
+
 const playerHandShape = {
-    cards: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            type: cardTypePropTypes,
-        }),
-    ).isRequired,
+    cards: cardsPropTypes.isRequired,
+    exchangeCards: cardsPropTypes.isRequired,
+    deadCards: cardsPropTypes.isRequired,
     id: PropTypes.string.isRequired,
     isOwner: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,

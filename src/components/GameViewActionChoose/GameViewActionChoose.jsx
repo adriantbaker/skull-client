@@ -6,8 +6,6 @@ import GameViewActionChooseButton from '../GameViewActionChooseButton/GameViewAc
 import GameViewActionChooseTarget from '../GameViewActionChooseTarget/GameViewActionChooseTarget';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
 
-// import useGame from '../GameViewBoard/useGame';
-
 const starterChoices = [
     {
         type: actionTypes.INCOME,
@@ -95,6 +93,8 @@ const determineChoices = (action) => {
     return choices;
 };
 
+const opponentIsInGame = (opponent) => opponent.numCards > 0;
+
 const GameViewActionChoose = (props) => {
     const { mostRecentAction, numCoins, opponentHands } = props;
 
@@ -105,12 +105,14 @@ const GameViewActionChoose = (props) => {
     const [mustChooseTarget, setMustChooseTarget] = useState(false);
     const [pendingChoice, setPendingChoice] = useState();
 
+    const opponentsInGame = opponentHands.filter((opponent) => opponentIsInGame(opponent));
+
     if (mustChooseTarget) {
         return (
             <div>
                 <GameViewActionChooseTarget
                     pendingChoice={pendingChoice}
-                    opponentHands={opponentHands}
+                    opponentsInGame={opponentsInGame}
                 />
             </div>
         );
@@ -125,6 +127,7 @@ const GameViewActionChoose = (props) => {
                     actionIsBlock={isBlock}
                     numCoins={numCoins}
                     setMustChooseTarget={setMustChooseTarget}
+                    opponentsInGame={opponentsInGame}
                     setPendingChoice={setPendingChoice}
                 />
             ))}

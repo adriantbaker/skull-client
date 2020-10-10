@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { cardTypePropTypes } from './cardPropTypes';
+import { cardsPropTypes } from './playerHandPropTypes';
 
 const opponentHandShape = {
     id: PropTypes.string.isRequired,
@@ -7,12 +7,7 @@ const opponentHandShape = {
     isOwner: PropTypes.bool.isRequired,
     numCards: PropTypes.number.isRequired,
     numCoins: PropTypes.number.isRequired,
-    deadCards: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            type: cardTypePropTypes,
-        }),
-    ).isRequired,
+    deadCards: cardsPropTypes.isRequired,
     turnNumber: PropTypes.number.isRequired,
 };
 
