@@ -6,8 +6,6 @@ const useGames = () => {
 
     useEffect(() => {
         socket.on('rooms', (value) => {
-            console.log('Got Games:');
-            console.log(value);
             setGames(value);
         });
     }, []);

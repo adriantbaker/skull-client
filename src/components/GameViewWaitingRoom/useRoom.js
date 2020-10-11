@@ -10,8 +10,6 @@ const useRoom = () => {
     // Listen for updates to the game
     useEffect(() => {
         socket.on('updateRoom', (value) => {
-            console.log('Got Game update:');
-            console.log(value);
             dispatch(updateGame(value));
         });
     }, []);

@@ -11,7 +11,6 @@ const GameView = () => {
 
     useEffect(() => {
         socket.on('startGame', () => {
-            console.log('Got startGame message');
             dispatch(updateGame({
                 started: true,
             }));

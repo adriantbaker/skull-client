@@ -11,9 +11,6 @@ const GameViewWaitingRoom = () => {
         name, players, ownGame, id,
     } = game;
 
-    console.log(game);
-    console.log(players);
-
     const getStartGameButton = () => {
         if (!ownGame) {
             return null;

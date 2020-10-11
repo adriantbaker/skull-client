@@ -12,12 +12,10 @@ export function startGame(roomId) {
 
 export function createGameRoom(roomName, ownerName) {
     return (dispatch) => {
-        console.log('Emitting createGameRoom...');
         socket.emit('createGameRoom', { roomName, ownerName });
         socket.on('createGameRoomResponse', (response) => {
             const { room, player } = response;
             const { id, name, players } = room;
-            console.log(room);
             dispatch({
                 type: CREATE_GAME,
                 payload: {
@@ -28,7 +26,6 @@ export function createGameRoom(roomName, ownerName) {
             });
             dispatch(setPlayerId(player.id));
         });
-        console.log('End of fn');
     };
 }
 /**

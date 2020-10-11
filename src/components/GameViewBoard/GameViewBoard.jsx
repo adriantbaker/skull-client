@@ -21,6 +21,12 @@ const GameViewBoard = () => {
     const mostRecentAction = getMostRecentAction(currentAction, currentBlock);
     const mustDiscard = playerMustDiscard(playerId, mostRecentAction);
 
+    console.log({
+        currentTurn,
+        currentAction,
+        currentBlock,
+    });
+
     useEffect(() => {
         // On component mount, signal that we need the initial game setup
         socket.emit('getGameSetup', { gameId, playerId });

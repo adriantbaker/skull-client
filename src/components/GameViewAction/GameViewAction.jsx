@@ -22,9 +22,11 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
     if (!mostRecentAction) {
         // The player has not made an initial move yet
         if (isPlayerTurn) {
+            console.log(1);
             return views.CHOOSE;
         }
         // wait for some opponent to make initial move
+        console.log(2);
         return views.WAIT;
     }
 
@@ -43,28 +45,33 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
 
     const isPlayerAction = actingPlayerId === playerId;
 
-    if (canChallenge || canBlock) {
-        if (isPlayerAction) {
-            // we are waiting for all opponents toaccept / challenge / block our move
-            return views.WAIT;
-        }
-        if (acceptedBy[playerId]) {
-            // we already accepted the action, waiting for others
-            return views.WAIT;
-        }
-        return views.CHOOSE;
-    }
-
     if (pendingChallengeLoserDiscard) {
         const loserId = challengeSucceeded ? actingPlayerId : challengingPlayerId;
         const playerLost = playerId === loserId;
 
         if (playerLost) {
             // Player must discard due to losing a challenge
+            console.log(6);
             return views.DISCARD;
         }
         // Someone else must discard due to losing a challenge
+        console.log(7);
         return views.WAIT;
+    }
+
+    if (canChallenge || canBlock) {
+        if (isPlayerAction) {
+            // we are waiting for all opponents toaccept / challenge / block our move
+            console.log(3);
+            return views.WAIT;
+        }
+        if (acceptedBy[playerId]) {
+            // we already accepted the action, waiting for others
+            console.log(4);
+            return views.WAIT;
+        }
+        console.log(5);
+        return views.CHOOSE;
     }
 
     if (pendingTargetDiscard) {
@@ -72,9 +79,11 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
 
         if (playerWasTargeted) {
             // Player must discard due to being effectively targeted
+            console.log(8);
             return views.DISCARD;
         }
         // Someone else must discard due to being effectively targeted
+        console.log(9);
         return views.WAIT;
     }
 
@@ -83,12 +92,15 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
 
         if (playerMustExchange) {
             // Player needs to choose cards to exchange
+            console.log(10);
             return views.EXCHANGE;
         }
         // Someone else needs to choose cards to exchange
+        console.log(11);
         return views.WAIT;
     }
 
+    console.log(12);
     return views.DONE;
 };
 
@@ -96,8 +108,6 @@ const GameViewAction = (props) => {
     const {
         playerHand, opponentHands, currentTurn, currentAction, currentBlock,
     } = props;
-
-    console.log(playerHand);
 
     const { id: playerId, numCoins } = playerHand;
     const { playerId: currentPlayerId } = currentTurn;
