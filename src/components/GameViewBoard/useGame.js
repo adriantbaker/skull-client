@@ -7,29 +7,44 @@ const initialTurn = {
     playerName: '',
 };
 
+const initialGame = {
+    currentTurn: initialTurn,
+    currentAction: undefined,
+    currentBlock: undefined,
+    won: false,
+    winnerId: '',
+};
+
 const useGame = () => {
-    const [currentTurn, setCurrentTurn] = useState(initialTurn);
-    const [currentAction, setCurrentAction] = useState();
-    const [currentBlock, setCurrentBlock] = useState();
+    const [game, setGame] = useState(initialGame);
 
     useEffect(() => {
         // Listen for all game updates
         socket.on('gameUpdate', (update) => {
             const {
-                currentTurn: updatedTurn,
-                currentAction: updatedAction,
-                currentBlock: updatedBlock,
+                currentTurn,
+                currentAction,
+                currentBlock,
+                won,
+                winnerId,
             } = update;
-            setCurrentTurn(updatedTurn);
-            setCurrentAction(updatedAction);
-            setCurrentBlock(updatedBlock);
+
+            setGame({
+                currentTurn,
+                currentAction,
+                currentBlock,
+                won,
+                winnerId,
+            });
         });
     }, []);
 
     return {
-        currentTurn,
-        currentAction,
-        currentBlock,
+        currentTurn: game.currentTurn,
+        currentAction: game.currentAction,
+        currentBlock: game.currentBlock,
+        won: game.won,
+        winnerId: game.winnerId,
     };
 };
 

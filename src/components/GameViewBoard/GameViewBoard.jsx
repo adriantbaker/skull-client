@@ -14,18 +14,12 @@ const GameViewBoard = () => {
     const { id: playerId } = useSelector((state) => state.player);
 
     const {
-        currentTurn, currentAction, currentBlock,
+        currentTurn, currentAction, currentBlock, won, winnerId,
     } = useGame();
     const { playerHand, opponentHands } = usePlayer();
 
     const mostRecentAction = getMostRecentAction(currentAction, currentBlock);
     const mustDiscard = playerMustDiscard(playerId, mostRecentAction);
-
-    console.log({
-        currentTurn,
-        currentAction,
-        currentBlock,
-    });
 
     useEffect(() => {
         // On component mount, signal that we need the initial game setup
@@ -46,6 +40,8 @@ const GameViewBoard = () => {
                 playerHand={playerHand}
                 currentAction={currentAction}
                 currentBlock={currentBlock}
+                won={won}
+                winnerId={winnerId}
             />
             <GameViewPlayerHUD
                 currentTurn={currentTurn}

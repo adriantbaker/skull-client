@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 
 const getOneActionStatus = (action) => {
@@ -32,11 +33,17 @@ const getAllActionStatuses = (action, block) => {
     return `${actionStr} ${blockStr}`;
 };
 
-const GameViewActionStatus = ({ action, block }) => {
+const GameViewActionStatus = (props) => {
+    const {
+        action, block, won, winnerId, playerIsEliminated,
+    } = props;
+
     const str = getAllActionStatuses(action, block);
 
     return (
         <div>
+            {won ? `WON by ${winnerId}!` : null}
+            {playerIsEliminated ? 'You have been eliminated.' : null}
             {str}
         </div>
     );
@@ -45,6 +52,9 @@ const GameViewActionStatus = ({ action, block }) => {
 GameViewActionStatus.propTypes = {
     action: gameActionPropTypes,
     block: gameActionPropTypes,
+    won: PropTypes.bool.isRequired,
+    winnerId: PropTypes.bool.isRequired,
+    playerIsEliminated: PropTypes.bool.isRequired,
 };
 
 GameViewActionStatus.defaultProps = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import GameViewActionChoose from '../GameViewActionChoose/GameViewActionChoose';
 import GameViewActionStatus from '../GameViewActionStatus/GameViewActionStatus';
 import GameViewActionOutcome from '../GameViewActionOutcome/GameViewActionOutcome';
@@ -18,15 +19,13 @@ const views = {
     OUTCOME: 'outcome',
 };
 
-const getView = (mostRecentAction, playerId, isPlayerTurn) => {
+const getView = (mostRecentAction, playerId, isPlayerTurn, playerIsEliminated) => {
     if (!mostRecentAction) {
         // The player has not made an initial move yet
         if (isPlayerTurn) {
-            console.log(1);
             return views.CHOOSE;
         }
         // wait for some opponent to make initial move
-        console.log(2);
         return views.WAIT;
     }
 
@@ -51,26 +50,21 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
 
         if (playerLost) {
             // Player must discard due to losing a challenge
-            console.log(6);
             return views.DISCARD;
         }
         // Someone else must discard due to losing a challenge
-        console.log(7);
         return views.WAIT;
     }
 
     if (canChallenge || canBlock) {
         if (isPlayerAction) {
             // we are waiting for all opponents toaccept / challenge / block our move
-            console.log(3);
             return views.WAIT;
         }
-        if (acceptedBy[playerId]) {
+        if (acceptedBy[playerId] || playerIsEliminated) {
             // we already accepted the action, waiting for others
-            console.log(4);
             return views.WAIT;
         }
-        console.log(5);
         return views.CHOOSE;
     }
 
@@ -79,11 +73,9 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
 
         if (playerWasTargeted) {
             // Player must discard due to being effectively targeted
-            console.log(8);
             return views.DISCARD;
         }
         // Someone else must discard due to being effectively targeted
-        console.log(9);
         return views.WAIT;
     }
 
@@ -92,42 +84,38 @@ const getView = (mostRecentAction, playerId, isPlayerTurn) => {
 
         if (playerMustExchange) {
             // Player needs to choose cards to exchange
-            console.log(10);
             return views.EXCHANGE;
         }
         // Someone else needs to choose cards to exchange
-        console.log(11);
         return views.WAIT;
     }
 
-    console.log(12);
     return views.DONE;
 };
 
 const GameViewAction = (props) => {
     const {
-        playerHand, opponentHands, currentTurn, currentAction, currentBlock,
+        playerHand,
+        opponentHands,
+        currentTurn,
+        currentAction,
+        currentBlock,
+        won,
+        winnerId,
     } = props;
 
-    const { id: playerId, numCoins } = playerHand;
+    const { id: playerId, numCoins, cards } = playerHand;
     const { playerId: currentPlayerId } = currentTurn;
 
     const isPlayerTurn = playerId === currentPlayerId;
+    const playerIsEliminated = cards.length === 0;
 
     // Determine the most recent action in this turn
     const mostRecentAction = getMostRecentAction(currentAction, currentBlock);
 
     const getViewComponent = () => {
-        const view = getView(mostRecentAction, playerId, isPlayerTurn);
+        const view = getView(mostRecentAction, playerId, isPlayerTurn, playerIsEliminated);
         switch (view) {
-            case views.CHOOSE:
-                return (
-                    <GameViewActionChoose
-                        opponentHands={opponentHands}
-                        mostRecentAction={mostRecentAction}
-                        numCoins={numCoins}
-                    />
-                );
             case views.WAIT:
                 return (
                     <GameViewActionWait
@@ -140,6 +128,14 @@ const GameViewAction = (props) => {
                     <GameViewActionOutcome
                         action={currentAction}
                         block={currentBlock}
+                    />
+                );
+            case views.CHOOSE:
+                return (
+                    <GameViewActionChoose
+                        opponentHands={opponentHands}
+                        mostRecentAction={mostRecentAction}
+                        numCoins={numCoins}
                     />
                 );
             case views.DISCARD:
@@ -160,6 +156,9 @@ const GameViewAction = (props) => {
             <GameViewActionStatus
                 action={currentAction}
                 block={currentBlock}
+                won={won}
+                winnerId={winnerId}
+                playerIsEliminated={playerIsEliminated}
             />
             {getViewComponent()}
         </div>
@@ -172,6 +171,8 @@ GameViewAction.propTypes = {
     currentAction: gameActionPropTypes,
     currentBlock: gameActionPropTypes,
     opponentHands: opponentHandsPropTypes.isRequired,
+    won: PropTypes.bool.isRequired,
+    winnerId: PropTypes.string.isRequired,
 };
 
 GameViewAction.defaultProps = {
