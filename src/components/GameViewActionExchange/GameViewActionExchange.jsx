@@ -25,8 +25,9 @@ const GameViewActionExchange = (props) => {
         exchange(chosenCardIds);
     };
 
+    const numCardsInHand = cards.length;
     const numChosenCards = chosenCardIds.length;
-    const canChooseMore = numChosenCards < 2;
+    const canChooseMore = numChosenCards < numCardsInHand;
 
     return (
         <div>
