@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const getClassName = (buttonType, isDisabled, isInline) => {
+const getClassName = (buttonType, isDisabled, isInline, inputClassName) => {
     let baseClass = '';
     switch (buttonType) {
         case 'primary':
@@ -20,29 +20,33 @@ const getClassName = (buttonType, isDisabled, isInline) => {
     if (!isInline) {
         baseClass += 'inline-block ';
     }
-    baseClass += 'rounded-full px-4 py-2 transition duration-200 outline-none focus:outline-none';
+    baseClass += 'rounded-full px-4 py-2 transition duration-200 outline-none focus:outline-none ';
+    if (inputClassName) {
+        baseClass += inputClassName;
+    }
     return baseClass;
 };
 
 const Button = (props) => {
     const {
-        label, onClick, disabled, inline,
+        label, onClick, disabled, inline, children, className,
     } = props;
 
-    const className = getClassName(
+    const fullClassName = getClassName(
         'primary',
         disabled === true,
         inline,
+        className,
     );
 
     return (
         <button
-            className={className}
+            className={fullClassName}
             type="button"
             onClick={onClick}
             disabled={disabled}
         >
-            {label}
+            {children || label}
         </button>
     );
 };
@@ -52,12 +56,16 @@ Button.propTypes = {
     onClick: PropTypes.func,
     disabled: PropTypes.bool,
     inline: PropTypes.bool,
+    children: PropTypes.node,
+    className: PropTypes.string,
 };
 
 Button.defaultProps = {
     onClick: undefined,
     disabled: undefined,
     inline: false,
+    children: undefined,
+    className: undefined,
 };
 
 export default Button;

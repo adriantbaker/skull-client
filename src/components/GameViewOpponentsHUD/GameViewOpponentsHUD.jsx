@@ -5,7 +5,8 @@ import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
 
 const getHUDClassName = (turnNumber, currentTurnNumber) => {
-    let className = 'w-1/2 sm:w-1/3 md:w-1/4';
+    let className = 'w-1/2 sm:w-1/3 md:w-1/4 ';
+    className += 'bg-opacity-75 bg-green-200'
 
     if (turnNumber === currentTurnNumber) {
         className += ' border border-black';
@@ -57,10 +58,6 @@ const GameViewOpponentsHUD = (props) => {
                     >
                         <div>
                             {opponentHand.name}
-                            {' '}
-                            -
-                            {' '}
-                            {opponentHand.turnNumber}
                         </div>
                         <div className="flex justify-between">
                             <div className="flex-grow">

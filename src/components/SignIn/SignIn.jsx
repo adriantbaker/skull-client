@@ -23,8 +23,8 @@ const SignIn = () => {
                 <div className="center-hv-parent h-full">
                     <div className="center-hv-child">
                         <Input
-                            label="Username"
                             value={username}
+                            placeholder="Username"
                             onChange={handleChange}
                         />
                         <Button

@@ -28,7 +28,7 @@ const GameViewBoard = () => {
     }, []);
 
     return (
-        <div className="flex flex-col justify-between h-screen">
+        <div className="flex flex-col justify-between h-screen bg-gradient-to-br from-orange-400 to-orange-200">
             <GameViewOpponentsHUD
                 currentTurn={currentTurn}
                 playerHand={playerHand}

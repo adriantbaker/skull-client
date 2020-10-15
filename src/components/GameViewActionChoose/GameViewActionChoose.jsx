@@ -1,106 +1,25 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import gameActionPropTypes, { actionTypes, blockActionTypes } from '../../utils/propTypes/gameActionPropTypes';
-import { cardTypes } from '../../utils/propTypes/cardPropTypes';
+import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 import GameViewActionChooseButton from '../GameViewActionChooseButton/GameViewActionChooseButton';
 import GameViewActionChooseTarget from '../GameViewActionChooseTarget/GameViewActionChooseTarget';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
-
-const starterChoices = [
-    {
-        type: actionTypes.INCOME,
-    },
-    {
-        type: actionTypes.FOREIGN_AID,
-    },
-    {
-        type: actionTypes.COUP,
-        cost: 7,
-        chooseTarget: true,
-    },
-    {
-        type: actionTypes.TAX,
-        claimedCard: cardTypes.DUKE,
-    },
-    {
-        type: actionTypes.ASSASSINATE,
-        claimedCard: cardTypes.ASSASSIN,
-        chooseTarget: true,
-        cost: 3,
-    },
-    {
-        type: actionTypes.STEAL,
-        claimedCard: cardTypes.CAPTAIN,
-        chooseTarget: true,
-    },
-    {
-        type: actionTypes.EXCHANGE,
-        claimedCard: cardTypes.AMBASSADOR,
-    },
-];
-
-const blockChoices = [
-    {
-        type: blockActionTypes.BLOCK_FOREIGN_AID,
-        isBlock: true,
-        after: actionTypes.FOREIGN_AID,
-        claimedCard: cardTypes.DUKE,
-    },
-    {
-        type: blockActionTypes.BLOCK_ASSASSINATE,
-        isBlock: true,
-        after: actionTypes.ASSASSINATE,
-        claimedCard: cardTypes.CONTESSA,
-    },
-    {
-        type: blockActionTypes.BLOCK_STEAL,
-        isBlock: true,
-        after: actionTypes.STEAL,
-        claimedCard: cardTypes.CAPTAIN,
-    },
-    {
-        type: blockActionTypes.BLOCK_STEAL,
-        isBlock: true,
-        after: actionTypes.STEAL,
-        claimedCard: cardTypes.AMBASSADOR,
-    },
-];
-
-const challengeChoice = {
-    type: 'challenge',
-};
-
-const acceptChoice = {
-    type: 'allow',
-};
-
-const determineChoices = (action) => {
-    if (!action) {
-        return starterChoices;
-    }
-    const choices = [];
-    const { canChallenge, canBlock } = action;
-    if (canChallenge || canBlock) {
-        choices.push(acceptChoice);
-    }
-    if (canChallenge) {
-        choices.push(challengeChoice);
-    }
-    if (canBlock) {
-        choices.push(...blockChoices
-            .filter((blockChoice) => blockChoice.after === action.actionType));
-    }
-    return choices;
-};
+import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
+import determineChoiceLists from '../../utils/logic/determineChoiceLists';
+import RuledHeader from '../../basicComponents/RuledHeader/RuledHeader';
+import formatChoiceType from '../../utils/formatting/formatChoiceType';
 
 const opponentIsInGame = (opponent) => opponent.numCards > 0;
 
 const GameViewActionChoose = (props) => {
-    const { mostRecentAction, numCoins, opponentHands } = props;
+    const {
+        mostRecentAction, numCoins, playerHand, opponentHands,
+    } = props;
+    const { cards } = playerHand;
 
     const { id: actionId, isBlock } = mostRecentAction || {};
 
-    const choices = determineChoices(mostRecentAction);
+    const choiceLists = determineChoiceLists(mostRecentAction, cards);
 
     const [mustChooseTarget, setMustChooseTarget] = useState(false);
     const [pendingChoice, setPendingChoice] = useState();
@@ -119,18 +38,33 @@ const GameViewActionChoose = (props) => {
     }
 
     return (
-        <div>
-            {choices.map((choice) => (
-                <GameViewActionChooseButton
-                    choice={choice}
-                    actionId={actionId}
-                    actionIsBlock={isBlock}
-                    numCoins={numCoins}
-                    setMustChooseTarget={setMustChooseTarget}
-                    opponentsInGame={opponentsInGame}
-                    setPendingChoice={setPendingChoice}
-                />
-            ))}
+        <div className="md:max-w-sm">
+            {choiceLists.map((choiceList) => {
+                const { type, choices } = choiceList;
+                return (
+                    <div>
+                        <RuledHeader label={formatChoiceType(type)} />
+                        <div className="grid grid-cols-2 md:grid-cols-1">
+                            {choices.map((choice) => (
+                                <div
+                                    key={choice.type}
+                                    className="p-1"
+                                >
+                                    <GameViewActionChooseButton
+                                        choice={choice}
+                                        actionId={actionId}
+                                        actionIsBlock={isBlock}
+                                        numCoins={numCoins}
+                                        setMustChooseTarget={setMustChooseTarget}
+                                        opponentsInGame={opponentsInGame}
+                                        setPendingChoice={setPendingChoice}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            })}
         </div>
     );
 };
@@ -138,6 +72,7 @@ const GameViewActionChoose = (props) => {
 GameViewActionChoose.propTypes = {
     mostRecentAction: gameActionPropTypes,
     numCoins: PropTypes.number.isRequired,
+    playerHand: playerHandPropTypes.isRequired,
     opponentHands: opponentHandsPropTypes.isRequired,
 };
 

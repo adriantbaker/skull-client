@@ -1,0 +1,22 @@
+.ruled-header{
+    overflow: hidden;
+    text-align: center;
+}
+.ruled-header > span{
+   position: relative;
+   display: inline-block;
+}
+.ruled-header > span:before, .ruled-header > span:after{
+   content: '';
+   position: absolute;
+   top: 50%;
+   border-bottom: 2px solid;
+   width: 100vw;
+   margin: 0 20px;
+}
+.ruled-header > span:before{
+   right: 100%;
+}
+.ruled-header > span:after{
+   left: 100%;
+}

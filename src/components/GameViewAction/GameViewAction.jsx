@@ -133,6 +133,7 @@ const GameViewAction = (props) => {
             case views.CHOOSE:
                 return (
                     <GameViewActionChoose
+                        playerHand={playerHand}
                         opponentHands={opponentHands}
                         mostRecentAction={mostRecentAction}
                         numCoins={numCoins}
@@ -152,7 +153,7 @@ const GameViewAction = (props) => {
     };
 
     return (
-        <div className="flex-grow">
+        <div className="flex flex-col justify-center flex-grow">
             <GameViewActionStatus
                 action={currentAction}
                 block={currentBlock}
