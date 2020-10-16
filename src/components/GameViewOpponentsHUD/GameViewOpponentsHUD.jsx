@@ -6,8 +6,7 @@ import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes
 
 const getHUDClassName = (turnNumber, currentTurnNumber) => {
     let className = 'w-1/2 sm:w-1/3 md:w-1/4 ';
-    className += 'bg-opacity-75 bg-green-200'
-
+    className += "bg-yellow-200 rounded-sm m-2 p-2 shadow-lg"; // TODO: make this reusable
     if (turnNumber === currentTurnNumber) {
         className += ' border border-black';
     }
@@ -37,6 +36,7 @@ const GameViewOpponentsHUD = (props) => {
     );
 
     return (
+        // <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg">
         <div className="flex flex-wrap">
             {opponentHands.map((opponentHand) => {
                 const {
@@ -74,6 +74,7 @@ const GameViewOpponentsHUD = (props) => {
                 );
             })}
         </div>
+        // </div>
     );
 };
 

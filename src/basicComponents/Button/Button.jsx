@@ -10,7 +10,10 @@ const getClassName = (buttonType, isDisabled, isInline, inputClassName) => {
                 baseClass += 'text-gray-600 ';
                 baseClass += 'cursor-not-allowed ';
             } else {
-                baseClass += 'bg-orange-600 hover:bg-orange-500 focus:bg-orange-400 active:bg-orange-200 ';
+                baseClass += 'bg-gradient-to-b from-orange-700 to-orange-600 ';
+                baseClass += 'hover:from-orange-600 hover:to-orange-500 ';
+                baseClass += 'focus:from-orange-500 focus:to-orange-400 ';
+                // baseClass += 'active:from-orange-300 active:to-orange-200 ';
                 baseClass += 'text-white ';
             }
             break;
@@ -20,7 +23,7 @@ const getClassName = (buttonType, isDisabled, isInline, inputClassName) => {
     if (!isInline) {
         baseClass += 'inline-block ';
     }
-    baseClass += 'rounded-full px-4 py-2 transition duration-200 outline-none focus:outline-none ';
+    baseClass += 'rounded-full px-4 py-2 transition duration-200 outline-none focus:outline-none shadow-md ';
     if (inputClassName) {
         baseClass += inputClassName;
     }

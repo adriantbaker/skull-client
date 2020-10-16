@@ -14,7 +14,7 @@ const GameViewPlayerHUD = (props) => {
     const isMyTurn = currentTurn.number === turnNumber;
 
     return (
-        <div>
+        <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg md:max-w-sm">
             <div>
                 {username}
                 {' '}
