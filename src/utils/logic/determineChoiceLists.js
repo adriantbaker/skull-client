@@ -1,7 +1,5 @@
-import allowChoice from '../consts/allowChoice';
-import blockChoices from '../consts/blockChoices';
-import challengeChoice from '../consts/challengeChoice';
 import { noRoleStarterChoices } from '../consts/starterChoices';
+import getSortedRespondChoices from './getSortedRespondChoices';
 import getSortedStartingChoices from './getSortedStartingChoices';
 
 const determineChoiceLists = (action, playerCards) => {
@@ -18,22 +16,23 @@ const determineChoiceLists = (action, playerCards) => {
             },
         ];
     }
-    const choices = [];
-    const { canChallenge, canBlock } = action;
-    if (canChallenge || canBlock) {
-        choices.push(allowChoice);
-    }
-    if (canChallenge) {
-        choices.push(challengeChoice);
-    }
-    if (canBlock) {
-        choices.push(...blockChoices
-            .filter((blockChoice) => blockChoice.after === action.actionType));
+    const { honestChoices, bluffChoices } = getSortedRespondChoices(action, playerCards);
+    if (bluffChoices.length === 0) {
+        return [
+            {
+                type: 'respond',
+                choices: honestChoices,
+            },
+        ];
     }
     return [
         {
-            type: 'respond',
-            choices,
+            type: 'honestRespond',
+            choices: honestChoices,
+        },
+        {
+            type: 'bluffRespond',
+            choices: bluffChoices,
         },
     ];
 };

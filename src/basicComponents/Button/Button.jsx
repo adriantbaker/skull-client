@@ -5,16 +5,14 @@ const getClassName = (buttonType, isDisabled, isInline, inputClassName) => {
     let baseClass = '';
     switch (buttonType) {
         case 'primary':
+            baseClass += 'bg-gradient-to-b from-orange-700 to-orange-600 ';
+            baseClass += 'text-white ';
             if (isDisabled) {
-                baseClass += 'bg-gray-400 ';
-                baseClass += 'text-gray-600 ';
+                baseClass += 'opacity-50 ';
                 baseClass += 'cursor-not-allowed ';
             } else {
-                baseClass += 'bg-gradient-to-b from-orange-700 to-orange-600 ';
                 baseClass += 'hover:from-orange-600 hover:to-orange-500 ';
                 baseClass += 'focus:from-orange-500 focus:to-orange-400 ';
-                // baseClass += 'active:from-orange-300 active:to-orange-200 ';
-                baseClass += 'text-white ';
             }
             break;
         default:

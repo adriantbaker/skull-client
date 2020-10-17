@@ -14,11 +14,11 @@ const SignIn = () => {
 
     return (
         <div className="bg-gradient-to-br from-orange-400 to-orange-200 h-screen">
-            <div
+            <h1
                 className="text-white text-4xl font-bold py-12"
             >
                 Skullduggery
-            </div>
+            </h1>
             <div className="bg-white rounded-lg w-1/2 h-64 shadow-lg center-horiz">
                 <div className="center-hv-parent h-full">
                     <div className="center-hv-child">

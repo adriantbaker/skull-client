@@ -1,9 +1,13 @@
 const formatChoiceType = (choiceType) => {
     switch (choiceType) {
         case 'honest':
-            return 'ACT IN GOOD FAITH';
+            return 'ACT TRUTHFULLY';
         case 'bluff':
-            return 'DECEIVE YOUR RIVALS';
+            return 'ACT DECEPTIVELY';
+        case 'honestRespond':
+            return 'RESPOND TRUTHFULLY';
+        case 'bluffRespond':
+            return 'RESPOND DECEPTIVELY';
         case 'respond':
             return 'RESPOND';
         default:

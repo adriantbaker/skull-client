@@ -5,7 +5,7 @@ import Button from '../../basicComponents/Button/Button';
 import formatActionType from '../../utils/formatting/formatActionType';
 import useActions from '../GameViewBoard/useActions';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
-// import formatCardType from '../../utils/formatting/formatCardType';
+import formatCardType from '../../utils/formatting/formatCardType';
 
 const GameViewActionChooseButton = (props) => {
     const {
@@ -54,35 +54,34 @@ const GameViewActionChooseButton = (props) => {
 
     const formattedType = formatActionType(type);
 
-    // if (!claimedCard) {
-    return (
-        <Button
-            className="w-full"
-            onClick={handleClick}
-            disabled={!canAfford}
-        >
-            <div className="text-sm">{formattedType}</div>
-        </Button>
-    );
-    // }
+    if (!choiceIsBlock || !claimedCard) {
+        return (
+            <Button
+                className="w-full"
+                onClick={handleClick}
+                disabled={!canAfford}
+            >
+                <div className="text-sm">{formattedType}</div>
+            </Button>
+        );
+    }
 
-    /**
     const formattedRole = `as ${formatCardType(claimedCard)}`;
 
     return (
         <div>
             <Button
+                className="w-full"
                 onClick={handleClick}
                 disabled={!canAfford}
             >
                 <div>
-                    <div className="text-sm">{formattedType}</div>
-                    <div className="text-xs">{formattedRole}</div>
+                    <span className="text-sm">{formattedType}</span>
+                    <span className="text-xs">{` (${formattedRole})`}</span>
                 </div>
             </Button>
         </div>
     );
-    */
 };
 
 GameViewActionChooseButton.propTypes = {
