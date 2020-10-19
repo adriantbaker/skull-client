@@ -1,4 +1,5 @@
 import React from 'react';
+import getChallengeLoserName from '../../utils/logic/getChallengeLoserName';
 import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 
 const getWaitReason = (action) => {
@@ -20,13 +21,16 @@ const getWaitReason = (action) => {
         return 'Waiting for everyone to allow or block...';
     }
     if (pendingChallengeLoserDiscard) {
-        return 'Waiting for the challenge loser to discard...';
+        const challengeLoserName = getChallengeLoserName(action);
+        return `Waiting for ${challengeLoserName} to discard...`;
     }
     if (pendingTargetDiscard) {
-        return 'Waiting for the targeted player to discard...';
+        const { targetPlayerName } = action;
+        return `Waiting for ${targetPlayerName} to discard...`;
     }
     if (pendingActorExchange) {
-        return 'Waiting for the player to exchange cards...';
+        const { actingPlayerName } = action;
+        return `Waiting for ${actingPlayerName} to exchange cards...`;
     }
     return 'Not sure why we are waiting...';
 };

@@ -6,6 +6,7 @@ import formatActionType from '../../utils/formatting/formatActionType';
 import useActions from '../GameViewBoard/useActions';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
 import formatCardType from '../../utils/formatting/formatCardType';
+import formatCardTypeCompact from '../../utils/formatting/formatCardTypeCompact';
 
 const GameViewActionChooseButton = (props) => {
     const {
@@ -66,7 +67,8 @@ const GameViewActionChooseButton = (props) => {
         );
     }
 
-    const formattedRole = `as ${formatCardType(claimedCard)}`;
+    const formattedRole = ` (as ${formatCardType(claimedCard)})`;
+    const formattedRoleCompact = ` (${formatCardTypeCompact(claimedCard)})`;
 
     return (
         <div>
@@ -76,8 +78,9 @@ const GameViewActionChooseButton = (props) => {
                 disabled={!canAfford}
             >
                 <div>
-                    <span className="text-sm">{formattedType}</span>
-                    <span className="text-xs">{` (${formattedRole})`}</span>
+                    <span className="text-xs sm:text-sm">{formattedType}</span>
+                    <span className="hidden sm:inline text-xs">{formattedRole}</span>
+                    <span className="sm:hidden text-xs">{formattedRoleCompact}</span>
                 </div>
             </Button>
         </div>
