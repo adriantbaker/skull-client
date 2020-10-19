@@ -4,26 +4,30 @@ import './App.css';
 import GameLobby from '../GameLobby/GameLobby';
 import SignIn from '../SignIn/SignIn';
 import GameView from '../GameView/GameView';
-import Header from '../Header/Header';
+import useWindowWidth from './useWindowWidth';
+
+// import Header from '../Header/Header';
 
 const App = () => {
     const { signedIn } = useSelector((state) => state.user);
     const { inGame } = useSelector((state) => state.game);
 
-    const getHeader = () => {
-        if (!signedIn) {
-            return null;
-        }
-        return <Header />;
-    };
+    useWindowWidth(50); // Hook that updates screenSize in Redux
 
-    const getAppViewClassName = () => {
-        if (!signedIn) {
-            return null;
-        }
-        // Need a top margin to offset the fixed header
-        return 'header-offset';
-    };
+    // const getHeader = () => {
+    //     if (!signedIn) {
+    //         return null;
+    //     }
+    //     return <Header />;
+    // };
+
+    // const getAppViewClassName = () => {
+    //     if (!signedIn) {
+    //         return null;
+    //     }
+    //     // Need a top margin to offset the fixed header
+    //     return 'header-offset';
+    // };
 
     const getAppView = () => {
         if (!signedIn) {

@@ -1,12 +1,21 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { GiTwoCoins as TwoCoins } from 'react-icons/gi';
+import { FaSkullCrossbones as Skull } from 'react-icons/fa';
 import PlayerCard from '../PlayerCard/PlayerCard';
 import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
 import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
+import { screenIsMobile } from '../../store/size/sizeActions';
 
-const getHUDClassName = (turnNumber, currentTurnNumber) => {
-    let className = 'w-1/2 sm:w-1/3 md:w-1/4 ';
-    className += "bg-yellow-200 rounded-sm m-2 p-2 shadow-lg"; // TODO: make this reusable
+const getHUDClassName = (turnNumber, currentTurnNumber, isCompact = false) => {
+    let className;
+    if (isCompact) {
+        className = 'w-1/4 ';
+    } else {
+        className = 'w-1/2 sm:w-1/3 md:w-1/4 ';
+    }
+    className += 'bg-yellow-200 rounded-sm m-2 p-2 shadow-lg'; // TODO: make this reusable
     if (turnNumber === currentTurnNumber) {
         className += ' border border-black';
     }
@@ -28,6 +37,9 @@ const GameViewOpponentsHUD = (props) => {
     const { turnNumber: playerTurnNumber } = playerHand;
     const { number: currentTurnNumber } = currentTurn;
 
+    const { screenSize } = useSelector((state) => state.size);
+    const isMobile = screenIsMobile(screenSize);
+
     opponentHands.sort(
         sortByTurnOrder(
             playerTurnNumber,
@@ -35,8 +47,49 @@ const GameViewOpponentsHUD = (props) => {
         ),
     );
 
+    if (isMobile) {
+        return (
+            <div className="flex">
+                {opponentHands.map((opponentHand) => {
+                    const {
+                        turnNumber, name, numCoins, deadCards,
+                    } = opponentHand;
+
+                    const numDeadCards = deadCards.length;
+                    const firstSkullActive = numDeadCards >= 1;
+                    const secondSkullActive = numDeadCards === 2;
+
+                    const getSkullOpacity = (isSkullActive) => (isSkullActive ? '' : 'opacity-25');
+
+                    return (
+                        <div
+                            className={getHUDClassName(turnNumber, currentTurnNumber, true)}
+                        >
+                            <div>{name}</div>
+                            <div>
+                                <span>
+                                    <Skull
+                                        className={`inline ${getSkullOpacity(firstSkullActive)}`}
+                                    />
+                                </span>
+                                <span>
+                                    <Skull
+                                        className={`inline ml-1 mr-6 ${getSkullOpacity(secondSkullActive)}`}
+                                    />
+                                </span>
+                                <span>{numCoins}</span>
+                                <span>
+                                    <TwoCoins className="inline ml-1" />
+                                </span>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    }
+
     return (
-        // <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg">
         <div className="flex flex-wrap">
             {opponentHands.map((opponentHand) => {
                 const {
@@ -74,7 +127,6 @@ const GameViewOpponentsHUD = (props) => {
                 );
             })}
         </div>
-        // </div>
     );
 };
 

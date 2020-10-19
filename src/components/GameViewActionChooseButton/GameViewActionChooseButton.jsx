@@ -7,6 +7,7 @@ import useActions from '../GameViewBoard/useActions';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
 import formatCardType from '../../utils/formatting/formatCardType';
 import formatCardTypeCompact from '../../utils/formatting/formatCardTypeCompact';
+import formatActionIcon from '../../utils/formatting/formatActionIcon';
 
 const GameViewActionChooseButton = (props) => {
     const {
@@ -54,6 +55,7 @@ const GameViewActionChooseButton = (props) => {
     };
 
     const formattedType = formatActionType(type);
+    const typeIcon = formatActionIcon(type, 'inline ml-2');
 
     if (!choiceIsBlock || !claimedCard) {
         return (
@@ -62,7 +64,8 @@ const GameViewActionChooseButton = (props) => {
                 onClick={handleClick}
                 disabled={!canAfford}
             >
-                <div className="text-sm">{formattedType}</div>
+                <span className="text-sm">{formattedType}</span>
+                {typeIcon}
             </Button>
         );
     }
