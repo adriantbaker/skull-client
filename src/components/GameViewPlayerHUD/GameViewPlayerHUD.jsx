@@ -7,7 +7,9 @@ import PlayerCard from '../PlayerCard/PlayerCard';
 
 const GameViewPlayerHUD = (props) => {
     const { currentTurn, playerHand, mustDiscard } = props;
-    const { cards, numCoins, turnNumber } = playerHand;
+    const {
+        cards, deadCards, numCoins, turnNumber,
+    } = playerHand;
 
     const { username } = useSelector((state) => state.user);
 
@@ -17,10 +19,6 @@ const GameViewPlayerHUD = (props) => {
         <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg md:max-w-sm">
             <div>
                 {username}
-                {' '}
-                -
-                {' '}
-                {isMyTurn ? 'YOUR TURN' : null}
             </div>
             <div className="flex justify-between">
                 <div className="flex-grow">
@@ -29,6 +27,12 @@ const GameViewPlayerHUD = (props) => {
                         <PlayerCard
                             card={card}
                             canDiscard={mustDiscard}
+                        />
+                    ))}
+                    {deadCards.map((card) => (
+                        <PlayerCard
+                            card={card}
+                            isDead
                         />
                     ))}
                 </div>

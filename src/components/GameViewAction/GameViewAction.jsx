@@ -105,7 +105,7 @@ const GameViewAction = (props) => {
     } = props;
 
     const { id: playerId, numCoins, cards } = playerHand;
-    const { playerId: currentPlayerId } = currentTurn;
+    const { playerId: currentPlayerId, playerName: currentPlayerName } = currentTurn;
 
     const isPlayerTurn = playerId === currentPlayerId;
     const playerIsEliminated = cards.length === 0;
@@ -121,6 +121,7 @@ const GameViewAction = (props) => {
                     <GameViewActionWait
                         action={currentAction}
                         block={currentBlock}
+                        currentPlayerName={currentPlayerName}
                     />
                 );
             case views.OUTCOME:
@@ -153,7 +154,7 @@ const GameViewAction = (props) => {
     };
 
     return (
-        <div className="flex flex-col justify-center flex-grow">
+        <div className="flex flex-col justify-center flex-grow items-center">
             <GameViewActionStatus
                 action={currentAction}
                 block={currentBlock}

@@ -31,7 +31,7 @@ const getOneActionStatus = (action, playerId) => {
 
 const getAllActionStatuses = (action, block, playerId) => {
     if (!action) {
-        return 'No move made yet.';
+        return null;
     }
 
     const actionStr = getOneActionStatus(action, playerId);

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import actionChoicePropTypes from '../../utils/propTypes/actionChoicePropTypes';
 import Button from '../../basicComponents/Button/Button';
 import formatActionType from '../../utils/formatting/formatActionType';
@@ -8,6 +9,7 @@ import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes
 import formatCardType from '../../utils/formatting/formatCardType';
 import formatCardTypeCompact from '../../utils/formatting/formatCardTypeCompact';
 import formatActionIcon from '../../utils/formatting/formatActionIcon';
+import { screenIsMobile } from '../../store/size/sizeActions';
 
 const GameViewActionChooseButton = (props) => {
     const {
@@ -26,6 +28,8 @@ const GameViewActionChooseButton = (props) => {
     const {
         tryAction, tryBlock, acceptAction, challengeAction,
     } = useActions();
+    const { screenSize } = useSelector((state) => state.size);
+    const isMobile = screenIsMobile(screenSize);
 
     const canAfford = numCoins >= cost;
 
@@ -55,7 +59,7 @@ const GameViewActionChooseButton = (props) => {
     };
 
     const formattedType = formatActionType(type);
-    const typeIcon = formatActionIcon(type, 'inline ml-2');
+    const typeIcon = isMobile ? null : formatActionIcon(type, 'inline ml-2');
 
     if (!choiceIsBlock || !claimedCard) {
         return (

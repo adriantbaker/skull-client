@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import getChallengeLoserName from '../../utils/logic/getChallengeLoserName';
 import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 
@@ -35,15 +36,13 @@ const getWaitReason = (action) => {
     return 'Not sure why we are waiting...';
 };
 
-const GameViewActionWait = ({ action, block }) => {
+const GameViewActionWait = (props) => {
+    const { action, block, currentPlayerName } = props;
+
     if (!action) {
         return (
             <div>
-                Waiting for
-                {' '}
-                Player
-                {' '}
-                to make the first move of the turn...
+                {`Waiting for ${currentPlayerName} to make the first move...`}
             </div>
         );
     }
@@ -68,6 +67,7 @@ const GameViewActionWait = ({ action, block }) => {
 GameViewActionWait.propTypes = {
     action: gameActionPropTypes,
     block: gameActionPropTypes,
+    currentPlayerName: PropTypes.string.isRequired,
 };
 
 GameViewActionWait.defaultProps = {

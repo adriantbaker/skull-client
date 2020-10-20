@@ -38,7 +38,7 @@ const GameViewActionChoose = (props) => {
     }
 
     return (
-        <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg md:max-w-sm">
+        <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg md:w-1/3 md:self-center">
             {choiceLists.map((choiceList) => {
                 const { type, choices } = choiceList;
                 return (

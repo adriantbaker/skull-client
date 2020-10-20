@@ -6,16 +6,28 @@ import PlayerCard from '../PlayerCard/PlayerCard';
 import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
 import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
-import { screenIsMobile } from '../../store/size/sizeActions';
+import { screenIsAtMost, screenIsMobile } from '../../store/size/sizeActions';
+import getSkullColorClassName from '../../utils/styling/getSkullColorClassName';
 
-const getHUDClassName = (turnNumber, currentTurnNumber, isCompact = false) => {
-    let className;
-    if (isCompact) {
-        className = 'w-1/4 ';
-    } else {
-        className = 'w-1/2 sm:w-1/3 md:w-1/4 ';
+const getHUDWrapperClassName = (isFirst = false, isCompact = false) => {
+    let className = 'py-2 pr-2 ';
+
+    if (isFirst) {
+        className += 'pl-2 ';
     }
-    className += 'bg-yellow-200 rounded-sm m-2 p-2 shadow-lg'; // TODO: make this reusable
+
+    if (isCompact) {
+        className += 'w-1/4';
+    } else {
+        className += 'w-1/2 sm:w-1/3 md:w-1/4';
+    }
+
+    return className;
+};
+
+const getHUDClassName = (turnNumber, currentTurnNumber) => {
+    let className = 'bg-yellow-200 rounded-sm p-2 shadow-lg'; // TODO: make this reusable
+
     if (turnNumber === currentTurnNumber) {
         className += ' border border-black';
     }
@@ -31,6 +43,13 @@ const sortByTurnOrder = (playerTurn, numPlayers) => (p1, p2) => {
     return comp1 - comp2;
 };
 
+const getSkullClassName = (isDead, cardType) => {
+    if (isDead) {
+        return getSkullColorClassName(cardType);
+    }
+    return 'opacity-25';
+};
+
 const GameViewOpponentsHUD = (props) => {
     const { playerHand, currentTurn, opponentHands } = props;
 
@@ -39,6 +58,10 @@ const GameViewOpponentsHUD = (props) => {
 
     const { screenSize } = useSelector((state) => state.size);
     const isMobile = screenIsMobile(screenSize);
+    const isSmall = screenIsAtMost(screenSize, 'sm');
+    const numOpponents = opponentHands.length;
+
+    const isCompact = isMobile || (isSmall && numOpponents > 3);
 
     opponentHands.sort(
         sortByTurnOrder(
@@ -47,40 +70,43 @@ const GameViewOpponentsHUD = (props) => {
         ),
     );
 
-    if (isMobile) {
+    if (isCompact) {
         return (
             <div className="flex">
-                {opponentHands.map((opponentHand) => {
+                {opponentHands.map((opponentHand, i) => {
                     const {
-                        turnNumber, name, numCoins, deadCards,
+                        id, turnNumber, name, numCoins, deadCards,
                     } = opponentHand;
 
                     const numDeadCards = deadCards.length;
-                    const firstSkullActive = numDeadCards >= 1;
-                    const secondSkullActive = numDeadCards === 2;
-
-                    const getSkullOpacity = (isSkullActive) => (isSkullActive ? '' : 'opacity-25');
+                    const firstSkullDead = numDeadCards >= 1;
+                    const firstSkullType = firstSkullDead ? deadCards[0].type : null;
+                    const secondSkullDead = numDeadCards === 2;
+                    const secondSkullType = secondSkullDead ? deadCards[1].type : null;
 
                     return (
-                        <div
-                            className={getHUDClassName(turnNumber, currentTurnNumber, true)}
-                        >
-                            <div>{name}</div>
-                            <div>
-                                <span>
-                                    <Skull
-                                        className={`inline ${getSkullOpacity(firstSkullActive)}`}
-                                    />
-                                </span>
-                                <span>
-                                    <Skull
-                                        className={`inline ml-1 mr-6 ${getSkullOpacity(secondSkullActive)}`}
-                                    />
-                                </span>
-                                <span>{numCoins}</span>
-                                <span>
-                                    <TwoCoins className="inline ml-1" />
-                                </span>
+                        <div className={getHUDWrapperClassName(i === 0, true)}>
+                            <div
+                                key={id}
+                                className={getHUDClassName(turnNumber, currentTurnNumber)}
+                            >
+                                <div>{name}</div>
+                                <div>
+                                    <span>
+                                        <Skull
+                                            className={`inline ${getSkullClassName(firstSkullDead, firstSkullType)}`}
+                                        />
+                                    </span>
+                                    <span>
+                                        <Skull
+                                            className={`inline ml-1 mr-6 ${getSkullClassName(secondSkullDead, secondSkullType)}`}
+                                        />
+                                    </span>
+                                    <span>{numCoins}</span>
+                                    <span>
+                                        <TwoCoins className="inline ml-1" />
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     );
@@ -91,13 +117,13 @@ const GameViewOpponentsHUD = (props) => {
 
     return (
         <div className="flex flex-wrap">
-            {opponentHands.map((opponentHand) => {
+            {opponentHands.map((opponentHand, i) => {
                 const {
                     id, turnNumber, numCoins, numCards, deadCards,
                 } = opponentHand;
 
                 const hiddenCards = [];
-                for (let i = 0; i < numCards; i++) {
+                for (let j = 0; j < numCards; j++) {
                     hiddenCards.push({
                         id: '',
                         type: '?',
@@ -105,22 +131,34 @@ const GameViewOpponentsHUD = (props) => {
                 }
 
                 return (
-                    <div
-                        key={id}
-                        className={getHUDClassName(turnNumber, currentTurnNumber)}
-                    >
-                        <div>
-                            {opponentHand.name}
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="flex-grow">
-                                <div>CARDS</div>
-                                {hiddenCards.map((card) => <PlayerCard card={card} />)}
-                                {deadCards.map((card) => <PlayerCard card={card} />)}
+                    <div className={getHUDWrapperClassName(i === 0)}>
+                        <div
+                            key={id}
+                            className={getHUDClassName(turnNumber, currentTurnNumber)}
+                        >
+                            <div>
+                                {opponentHand.name}
                             </div>
-                            <div className="flex-grow">
-                                <div>COINS</div>
-                                <div>{numCoins}</div>
+                            <div className="flex justify-between">
+                                <div className="flex-grow">
+                                    <div>CARDS</div>
+                                    {hiddenCards.map((card) => (
+                                        <PlayerCard
+                                            card={card}
+                                        />
+                                    ))}
+                                    {deadCards.map((card) => (
+                                        <PlayerCard
+                                            card={card}
+                                            isDead
+                                            isOpponentView
+                                        />
+                                    ))}
+                                </div>
+                                <div className="flex-grow">
+                                    <div>COINS</div>
+                                    <div>{numCoins}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
