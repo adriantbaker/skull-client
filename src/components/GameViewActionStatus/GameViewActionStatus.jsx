@@ -30,19 +30,21 @@ const getOneActionStatus = (action, playerId) => {
 };
 
 const getAllActionStatuses = (action, block, playerId) => {
+    const statuses = [];
+
     if (!action) {
-        return null;
+        return statuses;
     }
 
-    const actionStr = getOneActionStatus(action, playerId);
+    statuses.push(getOneActionStatus(action, playerId));
 
     if (!block) {
-        return actionStr;
+        return statuses;
     }
 
-    const blockStr = getOneActionStatus(block, playerId);
+    statuses.push(getOneActionStatus(block, playerId));
 
-    return `${actionStr} ${blockStr}`;
+    return statuses;
 };
 
 const GameViewActionStatus = (props) => {
@@ -52,13 +54,15 @@ const GameViewActionStatus = (props) => {
 
     const { id: playerId } = useSelector((state) => state.player);
 
-    const str = getAllActionStatuses(action, block, playerId);
+    const statusStrings = getAllActionStatuses(action, block, playerId);
 
     return (
         <div>
-            {won ? `WON by ${winnerId}!` : null}
-            {playerIsEliminated ? 'You have been eliminated.' : null}
-            {str}
+            <div>{won ? `WON by ${winnerId}!` : null}</div>
+            <div>{playerIsEliminated ? 'You have been eliminated.' : null}</div>
+            {statusStrings.map((status) => (
+                <div>{status}</div>
+            ))}
         </div>
     );
 };

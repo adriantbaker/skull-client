@@ -42,7 +42,7 @@ const GameViewActionWait = (props) => {
     if (!action) {
         return (
             <div>
-                {`Waiting for ${currentPlayerName} to make the first move...`}
+                {`Waiting for ${currentPlayerName} to make a move...`}
             </div>
         );
     }

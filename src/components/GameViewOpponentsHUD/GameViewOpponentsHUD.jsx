@@ -99,9 +99,11 @@ const GameViewOpponentsHUD = (props) => {
                                     </span>
                                     <span>
                                         <Skull
-                                            className={`inline ml-1 mr-6 ${getSkullClassName(secondSkullDead, secondSkullType)}`}
+                                            className={`inline ml-1 sm:mr-6 ${getSkullClassName(secondSkullDead, secondSkullType)}`}
                                         />
                                     </span>
+                                </div>
+                                <div className="sm:inline">
                                     <span>{numCoins}</span>
                                     <span>
                                         <TwoCoins className="inline ml-1" />
@@ -140,8 +142,7 @@ const GameViewOpponentsHUD = (props) => {
                                 {opponentHand.name}
                             </div>
                             <div className="flex justify-between">
-                                <div className="flex-grow">
-                                    <div>CARDS</div>
+                                <div className="flex-grow space-y-1 w-1/2">
                                     {hiddenCards.map((card) => (
                                         <PlayerCard
                                             card={card}
@@ -155,9 +156,11 @@ const GameViewOpponentsHUD = (props) => {
                                         />
                                     ))}
                                 </div>
-                                <div className="flex-grow">
-                                    <div>COINS</div>
-                                    <div>{numCoins}</div>
+                                <div className="flex-grow w-1/2">
+                                    <span>{numCoins}</span>
+                                    <span>
+                                        <TwoCoins className="inline ml-1" />
+                                    </span>
                                 </div>
                             </div>
                         </div>

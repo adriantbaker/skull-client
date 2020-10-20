@@ -15,6 +15,11 @@ const getClassName = (buttonType, isDisabled, isInline, inputClassName) => {
                 baseClass += 'focus:from-orange-500 focus:to-orange-400 ';
             }
             break;
+        case 'secondary':
+            baseClass += 'border border-white ';
+            baseClass += 'text-white ';
+            baseClass += 'hover:bg-white hover:bg-opacity-25 ';
+            break;
         default:
             break;
     }
@@ -30,11 +35,13 @@ const getClassName = (buttonType, isDisabled, isInline, inputClassName) => {
 
 const Button = (props) => {
     const {
-        label, onClick, disabled, inline, children, className,
+        label, onClick, disabled, inline, children, className, secondary,
     } = props;
 
+    const buttonType = secondary ? 'secondary' : 'primary';
+
     const fullClassName = getClassName(
-        'primary',
+        buttonType,
         disabled === true,
         inline,
         className,
@@ -59,6 +66,7 @@ Button.propTypes = {
     inline: PropTypes.bool,
     children: PropTypes.node,
     className: PropTypes.string,
+    secondary: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -67,6 +75,7 @@ Button.defaultProps = {
     inline: false,
     children: undefined,
     className: undefined,
+    secondary: false,
 };
 
 export default Button;

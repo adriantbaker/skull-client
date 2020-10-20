@@ -44,7 +44,7 @@ const GameViewBoard = () => {
                 winnerId={winnerId}
             />
             <GameViewPlayerHUD
-                currentTurn={currentTurn}
+                // currentTurn={currentTurn}
                 playerHand={playerHand}
                 mustDiscard={mustDiscard}
             />
