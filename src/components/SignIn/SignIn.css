@@ -2,13 +2,6 @@
     position: relative;
 }
 
-.center-hv-child-top {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -20%);
-}
-
 .center-hv-child {
     position: absolute;
     top: 50%;

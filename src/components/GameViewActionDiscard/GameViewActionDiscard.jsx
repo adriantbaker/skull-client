@@ -8,9 +8,9 @@ import PlayerCardChoice from '../PlayerCardChoice/PlayerCardChoice';
 
 const cardIsChosen = (cardId, chosenCardIds) => chosenCardIds.includes(cardId);
 
-const GameViewActionExchange = (props) => {
+const GameViewActionDiscard = (props) => {
     const { playerHand } = props;
-    const { cards, exchangeCards } = playerHand;
+    const { cards } = playerHand;
 
     const [chosenCardIds, setChosenCardIds] = useState([]);
     const addCard = (cardId) => {
@@ -20,19 +20,18 @@ const GameViewActionExchange = (props) => {
         setChosenCardIds(chosenCardIds.filter((chosenCardId) => chosenCardId !== cardId));
     };
 
-    const { exchange } = useActions();
+    const { discard } = useActions();
 
     const handleClick = () => {
-        exchange(chosenCardIds);
+        discard(chosenCardIds);
     };
 
-    const numCardsInHand = cards.length;
     const numChosenCards = chosenCardIds.length;
-    const canChooseMore = numChosenCards < numCardsInHand;
+    const canChooseMore = numChosenCards < 1;
 
     return (
         <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg md:w-1/3 md:self-center">
-            <RuledHeader label="EXCHANGE" />
+            <RuledHeader label="DISCARD" />
             <Button
                 label="Confirm"
                 disabled={canChooseMore}
@@ -47,22 +46,8 @@ const GameViewActionExchange = (props) => {
                         canChooseMore={canChooseMore}
                         addCard={addCard}
                         removeCard={removeCard}
-                        chosenLabel="Don't Keep"
-                        notChosenLabel="Keep"
-                    />
-                ))}
-            </div>
-            <div>
-                NEW CARDS
-                {exchangeCards.map((card) => (
-                    <PlayerCardChoice
-                        card={card}
-                        isChosen={cardIsChosen(card.id, chosenCardIds)}
-                        canChooseMore={canChooseMore}
-                        addCard={addCard}
-                        removeCard={removeCard}
-                        chosenLabel="Don't Keep"
-                        notChosenLabel="Keep"
+                        chosenLabel="Don't Discard"
+                        notChosenLabel="Discard"
                     />
                 ))}
             </div>
@@ -70,8 +55,8 @@ const GameViewActionExchange = (props) => {
     );
 };
 
-GameViewActionExchange.propTypes = {
+GameViewActionDiscard.propTypes = {
     playerHand: playerHandPropTypes.isRequired,
 };
 
-export default GameViewActionExchange;
+export default GameViewActionDiscard;

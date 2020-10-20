@@ -18,9 +18,6 @@ const GameViewBoard = () => {
     } = useGame();
     const { playerHand, opponentHands } = usePlayer();
 
-    const mostRecentAction = getMostRecentAction(currentAction, currentBlock);
-    const mustDiscard = playerMustDiscard(playerId, mostRecentAction);
-
     useEffect(() => {
         // On component mount, signal that we need the initial game setup
         socket.emit('getGameSetup', { gameId, playerId });
@@ -44,9 +41,7 @@ const GameViewBoard = () => {
                 winnerId={winnerId}
             />
             <GameViewPlayerHUD
-                // currentTurn={currentTurn}
                 playerHand={playerHand}
-                mustDiscard={mustDiscard}
             />
         </div>
     );
