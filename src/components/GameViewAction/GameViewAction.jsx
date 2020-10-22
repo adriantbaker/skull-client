@@ -101,6 +101,7 @@ const GameViewAction = (props) => {
         currentTurn,
         currentAction,
         currentBlock,
+        // pastBlocks,
         won,
         winnerId,
     } = props;

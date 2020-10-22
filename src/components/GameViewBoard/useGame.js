@@ -11,6 +11,7 @@ const initialGame = {
     currentTurn: initialTurn,
     currentAction: undefined,
     currentBlock: undefined,
+    pastBlocks: [],
     won: false,
     winnerId: '',
 };
@@ -25,6 +26,7 @@ const useGame = () => {
                 currentTurn,
                 currentAction,
                 currentBlock,
+                pastBlocks,
                 won,
                 winnerId,
             } = update;
@@ -33,6 +35,7 @@ const useGame = () => {
                 currentTurn,
                 currentAction,
                 currentBlock,
+                pastBlocks,
                 won,
                 winnerId,
             });
@@ -43,6 +46,7 @@ const useGame = () => {
         currentTurn: game.currentTurn,
         currentAction: game.currentAction,
         currentBlock: game.currentBlock,
+        pastBlocks: game.pastBlocks,
         won: game.won,
         winnerId: game.winnerId,
     };

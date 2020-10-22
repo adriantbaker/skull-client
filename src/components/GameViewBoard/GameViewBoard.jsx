@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import socket from '../../utils/api/socket';
-import getMostRecentAction from '../../utils/logic/getMostRecentAction';
-import playerMustDiscard from '../../utils/logic/playerMustDiscard';
 import GameViewAction from '../GameViewAction/GameViewAction';
 import GameViewOpponentsHUD from '../GameViewOpponentsHUD/GameViewOpponentsHUD';
 import GameViewPlayerHUD from '../GameViewPlayerHUD/GameViewPlayerHUD';
@@ -14,7 +12,7 @@ const GameViewBoard = () => {
     const { id: playerId } = useSelector((state) => state.player);
 
     const {
-        currentTurn, currentAction, currentBlock, won, winnerId,
+        currentTurn, currentAction, currentBlock, won, winnerId, // pastBlocks
     } = useGame();
     const { playerHand, opponentHands } = usePlayer();
 
@@ -37,6 +35,7 @@ const GameViewBoard = () => {
                 playerHand={playerHand}
                 currentAction={currentAction}
                 currentBlock={currentBlock}
+                // pastBlocks={pastBlocks}
                 won={won}
                 winnerId={winnerId}
             />
