@@ -10,6 +10,7 @@ import formatCardType from '../../utils/formatting/formatCardType';
 import formatCardTypeCompact from '../../utils/formatting/formatCardTypeCompact';
 import formatActionIcon from '../../utils/formatting/formatActionIcon';
 import { screenIsMobile } from '../../store/size/sizeActions';
+import { actionTypes } from '../../utils/propTypes/gameActionPropTypes';
 
 const GameViewActionChooseButton = (props) => {
     const {
@@ -32,6 +33,7 @@ const GameViewActionChooseButton = (props) => {
     const isMobile = screenIsMobile(screenSize);
 
     const canAfford = numCoins >= cost;
+    const mustCoup = numCoins >= 10;
 
     const handleClick = () => {
         let targetId;
@@ -66,7 +68,7 @@ const GameViewActionChooseButton = (props) => {
             <Button
                 className="w-full"
                 onClick={handleClick}
-                disabled={!canAfford}
+                disabled={!canAfford || (mustCoup && type !== actionTypes.COUP)}
             >
                 <span className="text-sm">{formattedType}</span>
                 {typeIcon}
