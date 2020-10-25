@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { GiTwoCoins as TwoCoins } from 'react-icons/gi';
 import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
@@ -32,7 +32,7 @@ const GameViewPlayerHUD = (props) => {
                         />
                     ))}
                 </div>
-                <div className="flex-grow w-1/2">
+                <div className="flex-grow w-1/2 self-center">
                     <span>{numCoins}</span>
                     <span><TwoCoins className="inline ml-1" /></span>
                 </div>

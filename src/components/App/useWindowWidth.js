@@ -21,15 +21,16 @@ const debounce = (delay, fn) => {
 
 const useWindowWidth = (debounceTime = 0) => {
     const isClient = typeof window === 'object';
-    const getWidth = () => (isClient ? window.innerWidth : undefined);
 
     const dispatch = useDispatch();
-    const setScreenSize = (windowWidth) => dispatch(resize(windowWidth));
 
     useEffect(() => {
         if (!isClient) {
             return () => {};
         }
+
+        const getWidth = () => (isClient ? window.innerWidth : undefined);
+        const setScreenSize = (windowWidth) => dispatch(resize(windowWidth));
 
         const handleResize = () => {
             setScreenSize(getWidth());
@@ -47,7 +48,7 @@ const useWindowWidth = (debounceTime = 0) => {
         return () => {
             window.removeEventListener('resize', handleResizeFn);
         };
-    }, []);
+    }, [dispatch, debounceTime, isClient]);
 };
 
 export default useWindowWidth;

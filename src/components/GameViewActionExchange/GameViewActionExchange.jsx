@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../../basicComponents/Button/Button';
+import Card from '../../basicComponents/Card/Card';
 import RuledHeader from '../../basicComponents/RuledHeader/RuledHeader';
 
 import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
@@ -31,7 +32,7 @@ const GameViewActionExchange = (props) => {
     const canChooseMore = numChosenCards < numCardsInHand;
 
     return (
-        <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg md:w-1/3 md:self-center">
+        <Card>
             <RuledHeader label="EXCHANGE" />
             <Button
                 label="Confirm"
@@ -66,7 +67,7 @@ const GameViewActionExchange = (props) => {
                     />
                 ))}
             </div>
-        </div>
+        </Card>
     );
 };
 

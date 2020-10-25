@@ -12,7 +12,7 @@ const useRoom = () => {
         socket.on('updateRoom', (value) => {
             dispatch(updateGame(value));
         });
-    }, []);
+    }, [dispatch]);
 
     return { game };
 };

@@ -1,12 +1,11 @@
-import React from 'react';
 import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 
 const GameViewActionOutcome = ({ action, block }) => {
     let str = '';
 
     const {
-        actingPlayerName,
-        actionType,
+        // actingPlayerName,
+        // actionType,
         challenged: actionChallenged,
         challengeSucceeded: actionChallengeSucceeded,
     } = action;
@@ -17,8 +16,8 @@ const GameViewActionOutcome = ({ action, block }) => {
 
     if (block) {
         const {
-            actingPlayerName: blockingPlayerName,
-            actionType: blockType,
+            // actingPlayerName: blockingPlayerName,
+            // actionType: blockType,
             challenged: blockChallenged,
             challengeSucceeded: blockChallengeSucceeded,
         } = block;

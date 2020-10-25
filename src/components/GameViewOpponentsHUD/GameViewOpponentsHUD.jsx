@@ -156,7 +156,7 @@ const GameViewOpponentsHUD = (props) => {
                                         />
                                     ))}
                                 </div>
-                                <div className="flex-grow w-1/2">
+                                <div className="flex-grow w-1/2 self-center">
                                     <span>{numCoins}</span>
                                     <span>
                                         <TwoCoins className="inline ml-1" />

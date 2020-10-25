@@ -15,7 +15,7 @@ const GameView = () => {
                 started: true,
             }));
         });
-    }, []);
+    }, [dispatch]);
 
     if (!started) {
         return <GameViewWaitingRoom />;

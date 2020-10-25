@@ -8,6 +8,7 @@ import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
 import determineChoiceLists from '../../utils/logic/determineChoiceLists';
 import RuledHeader from '../../basicComponents/RuledHeader/RuledHeader';
 import formatChoiceType from '../../utils/formatting/formatChoiceType';
+import Card from '../../basicComponents/Card/Card';
 
 const opponentIsInGame = (opponent) => opponent.numCards > 0;
 
@@ -38,7 +39,7 @@ const GameViewActionChoose = (props) => {
     }
 
     return (
-        <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg md:w-1/3 md:self-center">
+        <Card>
             {choiceLists.map((choiceList) => {
                 const { type, choices } = choiceList;
                 return (
@@ -65,7 +66,7 @@ const GameViewActionChoose = (props) => {
                     </div>
                 );
             })}
-        </div>
+        </Card>
     );
 };
 

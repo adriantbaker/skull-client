@@ -20,7 +20,7 @@ const GameViewBoard = () => {
         // On component mount, signal that we need the initial game setup
         socket.emit('getGameSetup', { gameId, playerId });
         // The responses will be intercepted by useGame and usePlayer
-    }, []);
+    }, [gameId, playerId]);
 
     return (
         <div className="flex flex-col justify-between h-screen bg-gradient-to-br from-orange-400 to-orange-200">

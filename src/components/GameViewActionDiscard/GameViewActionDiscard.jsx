@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../../basicComponents/Button/Button';
+import Card from '../../basicComponents/Card/Card';
 import RuledHeader from '../../basicComponents/RuledHeader/RuledHeader';
 
 import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
@@ -30,7 +31,7 @@ const GameViewActionDiscard = (props) => {
     const canChooseMore = numChosenCards < 1;
 
     return (
-        <div className="bg-yellow-200 rounded-sm m-2 p-2 shadow-lg md:w-1/3 md:self-center">
+        <Card>
             <RuledHeader label="DISCARD" />
             <Button
                 label="Confirm"
@@ -51,7 +52,7 @@ const GameViewActionDiscard = (props) => {
                     />
                 ))}
             </div>
-        </div>
+        </Card>
     );
 };
 
