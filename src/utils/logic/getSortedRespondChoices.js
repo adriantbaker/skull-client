@@ -1,9 +1,26 @@
 import allowChoice from '../consts/allowChoice';
 import blockChoices from '../consts/blockChoices';
 import challengeChoice from '../consts/challengeChoice';
+import { actionTypes } from '../propTypes/gameActionPropTypes';
 
-const getSortedRespondChoices = (previousAction, playerCards) => {
-    const { canChallenge, canBlock, actionType } = previousAction;
+const playerCanBlock = (actionType, targetPlayerId, playerId) => {
+    switch (actionType) {
+        case actionTypes.FOREIGN_AID:
+            // Anyone can block foreign aid
+            return true;
+        case actionTypes.ASSASSINATE:
+        case actionTypes.STEAL:
+            // Only the target can block these actions
+            return playerId === targetPlayerId;
+        default:
+            return false;
+    }
+};
+
+const getSortedRespondChoices = (previousAction, playerCards, playerId) => {
+    const {
+        canChallenge, canBlock, actionType, targetPlayerId,
+    } = previousAction;
 
     const playerCardTypes = playerCards.map((card) => card.type);
 
@@ -18,7 +35,7 @@ const getSortedRespondChoices = (previousAction, playerCards) => {
         honestChoices.push(challengeChoice);
     }
 
-    if (canBlock) {
+    if (canBlock && playerCanBlock(actionType, targetPlayerId, playerId)) {
         blockChoices.forEach((blockChoice) => {
             const { after, claimedCard } = blockChoice;
             if (after === actionType) {

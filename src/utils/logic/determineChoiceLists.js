@@ -2,7 +2,7 @@ import { noRoleStarterChoices } from '../consts/starterChoices';
 import getSortedRespondChoices from './getSortedRespondChoices';
 import getSortedStartingChoices from './getSortedStartingChoices';
 
-const determineChoiceLists = (action, playerCards) => {
+const determineChoiceLists = (action, playerCards, playerId) => {
     if (!action) {
         const { honestChoices, bluffChoices } = getSortedStartingChoices(playerCards);
         return [
@@ -16,7 +16,7 @@ const determineChoiceLists = (action, playerCards) => {
             },
         ];
     }
-    const { honestChoices, bluffChoices } = getSortedRespondChoices(action, playerCards);
+    const { honestChoices, bluffChoices } = getSortedRespondChoices(action, playerCards, playerId);
     if (bluffChoices.length === 0) {
         return [
             {

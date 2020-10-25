@@ -14,6 +14,7 @@ const initialGame = {
     pastBlocks: [],
     won: false,
     winnerId: '',
+    winnerName: '',
 };
 
 const useGame = () => {
@@ -29,6 +30,7 @@ const useGame = () => {
                 pastBlocks,
                 won,
                 winnerId,
+                winnerName,
             } = update;
 
             setGame({
@@ -38,6 +40,7 @@ const useGame = () => {
                 pastBlocks,
                 won,
                 winnerId,
+                winnerName,
             });
         });
     }, []);
@@ -49,6 +52,7 @@ const useGame = () => {
         pastBlocks: game.pastBlocks,
         won: game.won,
         winnerId: game.winnerId,
+        winnerName: game.winnerName,
     };
 };
 

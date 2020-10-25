@@ -12,7 +12,7 @@ const GameViewBoard = () => {
     const { id: playerId } = useSelector((state) => state.player);
 
     const {
-        currentTurn, currentAction, currentBlock, won, winnerId, // pastBlocks
+        currentTurn, currentAction, currentBlock, won, winnerName, // pastBlocks
     } = useGame();
     const { playerHand, opponentHands } = usePlayer();
 
@@ -37,7 +37,8 @@ const GameViewBoard = () => {
                 currentBlock={currentBlock}
                 // pastBlocks={pastBlocks}
                 won={won}
-                winnerId={winnerId}
+                // winnerId={winnerId}
+                winnerName={winnerName}
             />
             <GameViewPlayerHUD
                 playerHand={playerHand}

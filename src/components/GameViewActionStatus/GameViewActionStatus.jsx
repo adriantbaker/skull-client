@@ -49,7 +49,7 @@ const getAllActionStatuses = (action, block, playerId) => {
 
 const GameViewActionStatus = (props) => {
     const {
-        action, block, won, winnerId, playerIsEliminated,
+        action, block, won, winnerName, playerIsEliminated,
     } = props;
 
     const { id: playerId } = useSelector((state) => state.player);
@@ -58,7 +58,7 @@ const GameViewActionStatus = (props) => {
 
     return (
         <div>
-            <div>{won ? `WON by ${winnerId}!` : null}</div>
+            <div>{won ? `WON by ${winnerName}!` : null}</div>
             <div>{playerIsEliminated ? 'You have been eliminated.' : null}</div>
             {statusStrings.map((status) => (
                 <div>{status}</div>
@@ -71,7 +71,8 @@ GameViewActionStatus.propTypes = {
     action: gameActionPropTypes,
     block: gameActionPropTypes,
     won: PropTypes.bool.isRequired,
-    winnerId: PropTypes.bool.isRequired,
+    // winnerId: PropTypes.bool.isRequired,
+    winnerName: PropTypes.bool.isRequired,
     playerIsEliminated: PropTypes.bool.isRequired,
 };
 

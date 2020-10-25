@@ -103,7 +103,8 @@ const GameViewAction = (props) => {
         currentBlock,
         // pastBlocks,
         won,
-        winnerId,
+        // winnerId,
+        winnerName,
     } = props;
 
     const { id: playerId, numCoins, cards } = playerHand;
@@ -119,6 +120,9 @@ const GameViewAction = (props) => {
         const view = getView(mostRecentAction, playerId, isPlayerTurn, playerIsEliminated);
         switch (view) {
             case views.WAIT:
+                if (won) {
+                    return null;
+                }
                 return (
                     <GameViewActionWait
                         action={currentAction}
@@ -165,7 +169,8 @@ const GameViewAction = (props) => {
                 action={currentAction}
                 block={currentBlock}
                 won={won}
-                winnerId={winnerId}
+                // winnerId={winnerId}
+                winnerName={winnerName}
                 playerIsEliminated={playerIsEliminated}
             />
             {getViewComponent()}
@@ -180,7 +185,8 @@ GameViewAction.propTypes = {
     currentBlock: gameActionPropTypes,
     opponentHands: opponentHandsPropTypes.isRequired,
     won: PropTypes.bool.isRequired,
-    winnerId: PropTypes.string.isRequired,
+    // winnerId: PropTypes.string.isRequired,
+    winnerName: PropTypes.string.isRequired,
 };
 
 GameViewAction.defaultProps = {

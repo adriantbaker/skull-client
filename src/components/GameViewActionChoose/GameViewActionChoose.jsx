@@ -16,11 +16,11 @@ const GameViewActionChoose = (props) => {
     const {
         mostRecentAction, numCoins, playerHand, opponentHands,
     } = props;
-    const { cards } = playerHand;
+    const { id: playerId, cards } = playerHand;
 
     const { id: actionId, isBlock } = mostRecentAction || {};
 
-    const choiceLists = determineChoiceLists(mostRecentAction, cards);
+    const choiceLists = determineChoiceLists(mostRecentAction, cards, playerId);
 
     const [mustChooseTarget, setMustChooseTarget] = useState(false);
     const [pendingChoice, setPendingChoice] = useState();
