@@ -1,6 +1,6 @@
 import formatCardType from './formatCardType';
 
-const { actionTypes, blockActionTypes } = require('../propTypes/gameActionPropTypes');
+const { actionTypes, blockActionTypes, respondTypes } = require('../propTypes/gameActionPropTypes');
 
 const formatActionTypeChosen = (actionType, claimedCardType, targetName) => {
     switch (actionType) {
@@ -22,9 +22,9 @@ const formatActionTypeChosen = (actionType, claimedCardType, targetName) => {
         case blockActionTypes.BLOCK_FOREIGN_AID:
         case blockActionTypes.BLOCK_STEAL:
             return `to Block with the power of the ${formatCardType(claimedCardType)}`;
-        case 'allow':
+        case respondTypes.ALLOW:
             return 'to Allow';
-        case 'challenge':
+        case respondTypes.CHALLENGE:
             return 'to Challenge';
         default:
             return '?';

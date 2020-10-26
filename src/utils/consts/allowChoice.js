@@ -1,5 +1,7 @@
+import { respondTypes } from '../propTypes/gameActionPropTypes';
+
 const allowChoice = {
-    type: 'allow',
+    type: respondTypes.ALLOW,
     isRespond: true,
 };
 

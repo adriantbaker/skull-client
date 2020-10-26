@@ -1,4 +1,4 @@
-const { actionTypes, blockActionTypes } = require('../propTypes/gameActionPropTypes');
+const { actionTypes, blockActionTypes, respondTypes } = require('../propTypes/gameActionPropTypes');
 
 const formatActionType = (actionType) => {
     switch (actionType) {
@@ -20,9 +20,9 @@ const formatActionType = (actionType) => {
         case blockActionTypes.BLOCK_FOREIGN_AID:
         case blockActionTypes.BLOCK_STEAL:
             return 'Block';
-        case 'allow':
+        case respondTypes.ALLOW:
             return 'Allow';
-        case 'challenge':
+        case respondTypes.CHALLENGE:
             return 'Challenge';
         default:
             return '?';

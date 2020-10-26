@@ -10,7 +10,7 @@ import formatCardType from '../../utils/formatting/formatCardType';
 import formatCardTypeCompact from '../../utils/formatting/formatCardTypeCompact';
 import formatActionIcon from '../../utils/formatting/formatActionIcon';
 import { screenIsMobile } from '../../store/size/sizeActions';
-import { actionTypes } from '../../utils/propTypes/gameActionPropTypes';
+import { actionTypes, respondTypes } from '../../utils/propTypes/gameActionPropTypes';
 
 const GameViewActionChooseButton = (props) => {
     const {
@@ -63,9 +63,9 @@ const GameViewActionChooseButton = (props) => {
             targetId = opponentsInGame[0].id;
         }
 
-        if (type === 'allow') {
+        if (type === respondTypes.ALLOW) {
             acceptAction(actionId, actionIsBlock);
-        } else if (type === 'challenge') {
+        } else if (type === respondTypes.CHALLENGE) {
             challengeAction(actionId, actionIsBlock);
         } else if (choiceIsBlock) {
             tryBlock(actionId, type, claimedCard);

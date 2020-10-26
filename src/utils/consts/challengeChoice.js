@@ -1,5 +1,7 @@
+import { respondTypes } from '../propTypes/gameActionPropTypes';
+
 const challengeChoice = {
-    type: 'challenge',
+    type: respondTypes.CHALLENGE,
     isRespond: true,
 };
 

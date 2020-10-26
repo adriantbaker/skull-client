@@ -38,6 +38,11 @@ export const actionTypePropTypes = PropTypes.oneOf([
     ...blockActionTypesArray,
 ]);
 
+export const respondTypes = {
+    ALLOW: 'allow',
+    CHALLENGE: 'challenge',
+};
+
 const gameActionShape = {
     id: PropTypes.string.isRequired,
     isBlock: PropTypes.bool.isRequired,
