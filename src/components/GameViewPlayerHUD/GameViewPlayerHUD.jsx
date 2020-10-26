@@ -42,7 +42,6 @@ const GameViewPlayerHUD = (props) => {
 };
 
 GameViewPlayerHUD.propTypes = {
-    // currentTurn: gameTurnPropTypes.isRequired,
     playerHand: playerHandPropTypes.isRequired,
 };
 

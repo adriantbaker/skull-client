@@ -1,5 +1,5 @@
 import {
-    CREATE_GAME, JOIN_GAME, LEAVE_GAME, UPDATE_GAME,
+    CREATE_GAME, JOIN_GAME, LEAVE_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG,
 } from './gameTypes';
 
 const initialState = {
@@ -9,6 +9,8 @@ const initialState = {
     id: '',
     name: '',
     players: [],
+    actionTimeLimit: 45,
+    respondTimeLimit: 30,
 };
 
 export default function gameReducer(state = initialState, action) {
@@ -16,7 +18,7 @@ export default function gameReducer(state = initialState, action) {
         case CREATE_GAME: {
             const { id, name, players } = action.payload;
             return {
-                // ...state,
+                ...state,
                 inGame: true,
                 ownGame: true,
                 id,
@@ -27,7 +29,7 @@ export default function gameReducer(state = initialState, action) {
         case JOIN_GAME: {
             const { id, name, players } = action.payload;
             return {
-                // ...state,
+                ...state,
                 inGame: true,
                 ownGame: false,
                 id,
@@ -37,7 +39,7 @@ export default function gameReducer(state = initialState, action) {
         }
         case LEAVE_GAME:
             return {
-                // ...state,
+                ...state,
                 inGame: false,
                 ownGame: false,
                 id: '',
@@ -52,6 +54,17 @@ export default function gameReducer(state = initialState, action) {
                 name: name || state.name,
                 players: players || state.players,
                 started: started || state.started,
+            };
+        }
+        case UPDATE_GAME_CONFIG: {
+            const {
+                actionTimeLimit,
+                respondTimeLimit,
+            } = action.payload;
+            return {
+                ...state,
+                actionTimeLimit: actionTimeLimit || state.actionTimeLimit,
+                respondTimeLimit: respondTimeLimit || state.respondTimeLimit,
             };
         }
         default:

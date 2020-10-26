@@ -35,9 +35,7 @@ const GameViewBoard = () => {
                 playerHand={playerHand}
                 currentAction={currentAction}
                 currentBlock={currentBlock}
-                // pastBlocks={pastBlocks}
                 won={won}
-                // winnerId={winnerId}
                 winnerName={winnerName}
             />
             <GameViewPlayerHUD

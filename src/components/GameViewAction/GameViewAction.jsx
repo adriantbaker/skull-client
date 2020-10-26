@@ -11,88 +11,7 @@ import getMostRecentAction from '../../utils/logic/getMostRecentAction';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
 import GameViewActionDiscard from '../GameViewActionDiscard/GameViewActionDiscard';
 import GameViewActionExchange from '../GameViewActionExchange/GameViewActionExchange';
-
-const views = {
-    CHOOSE: 'choose',
-    WAIT: 'wait',
-    EXCHANGE: 'exchange',
-    DISCARD: 'discard',
-    OUTCOME: 'outcome',
-};
-
-const getView = (mostRecentAction, playerId, isPlayerTurn, playerIsEliminated) => {
-    if (!mostRecentAction) {
-        // The player has not made an initial move yet
-        if (isPlayerTurn) {
-            return views.CHOOSE;
-        }
-        // wait for some opponent to make initial move
-        return views.WAIT;
-    }
-
-    const {
-        actingPlayerId,
-        targetPlayerId,
-        challengingPlayerId,
-        canChallenge,
-        challengeSucceeded,
-        canBlock,
-        acceptedBy,
-        pendingChallengeLoserDiscard,
-        pendingActorExchange,
-        pendingTargetDiscard,
-    } = mostRecentAction;
-
-    const isPlayerAction = actingPlayerId === playerId;
-
-    if (pendingChallengeLoserDiscard) {
-        const loserId = challengeSucceeded ? actingPlayerId : challengingPlayerId;
-        const playerLost = playerId === loserId;
-
-        if (playerLost) {
-            // Player must discard due to losing a challenge
-            return views.DISCARD;
-        }
-        // Someone else must discard due to losing a challenge
-        return views.WAIT;
-    }
-
-    if (canChallenge || canBlock) {
-        if (isPlayerAction) {
-            // we are waiting for all opponents toaccept / challenge / block our move
-            return views.WAIT;
-        }
-        if (acceptedBy[playerId] || playerIsEliminated) {
-            // we already accepted the action, waiting for others
-            return views.WAIT;
-        }
-        return views.CHOOSE;
-    }
-
-    if (pendingTargetDiscard) {
-        const playerWasTargeted = playerId === targetPlayerId;
-
-        if (playerWasTargeted) {
-            // Player must discard due to being effectively targeted
-            return views.DISCARD;
-        }
-        // Someone else must discard due to being effectively targeted
-        return views.WAIT;
-    }
-
-    if (pendingActorExchange) {
-        const playerMustExchange = playerId === actingPlayerId;
-
-        if (playerMustExchange) {
-            // Player needs to choose cards to exchange
-            return views.EXCHANGE;
-        }
-        // Someone else needs to choose cards to exchange
-        return views.WAIT;
-    }
-
-    return views.DONE;
-};
+import getActionView, { actionViews } from '../../utils/logic/getActionView';
 
 const GameViewAction = (props) => {
     const {
@@ -101,9 +20,7 @@ const GameViewAction = (props) => {
         currentTurn,
         currentAction,
         currentBlock,
-        // pastBlocks,
         won,
-        // winnerId,
         winnerName,
     } = props;
 
@@ -117,9 +34,9 @@ const GameViewAction = (props) => {
     const mostRecentAction = getMostRecentAction(currentAction, currentBlock);
 
     const getViewComponent = () => {
-        const view = getView(mostRecentAction, playerId, isPlayerTurn, playerIsEliminated);
+        const view = getActionView(mostRecentAction, playerId, isPlayerTurn, playerIsEliminated);
         switch (view) {
-            case views.WAIT:
+            case actionViews.WAIT:
                 if (won) {
                     return null;
                 }
@@ -130,14 +47,14 @@ const GameViewAction = (props) => {
                         currentPlayerName={currentPlayerName}
                     />
                 );
-            case views.OUTCOME:
+            case actionViews.OUTCOME:
                 return (
                     <GameViewActionOutcome
                         action={currentAction}
                         block={currentBlock}
                     />
                 );
-            case views.CHOOSE:
+            case actionViews.CHOOSE:
                 return (
                     <GameViewActionChoose
                         playerHand={playerHand}
@@ -146,13 +63,13 @@ const GameViewAction = (props) => {
                         numCoins={numCoins}
                     />
                 );
-            case views.DISCARD:
+            case actionViews.DISCARD:
                 return (
                     <GameViewActionDiscard
                         playerHand={playerHand}
                     />
                 );
-            case views.EXCHANGE:
+            case actionViews.EXCHANGE:
                 return (
                     <GameViewActionExchange
                         playerHand={playerHand}
@@ -169,7 +86,6 @@ const GameViewAction = (props) => {
                 action={currentAction}
                 block={currentBlock}
                 won={won}
-                // winnerId={winnerId}
                 winnerName={winnerName}
                 playerIsEliminated={playerIsEliminated}
             />
@@ -185,7 +101,6 @@ GameViewAction.propTypes = {
     currentBlock: gameActionPropTypes,
     opponentHands: opponentHandsPropTypes.isRequired,
     won: PropTypes.bool.isRequired,
-    // winnerId: PropTypes.string.isRequired,
     winnerName: PropTypes.string.isRequired,
 };
 

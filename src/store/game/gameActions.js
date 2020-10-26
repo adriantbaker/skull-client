@@ -1,5 +1,5 @@
 import {
-    CREATE_GAME, JOIN_GAME, LEAVE_GAME, UPDATE_GAME,
+    CREATE_GAME, JOIN_GAME, LEAVE_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG,
 } from './gameTypes';
 import socket from '../../utils/api/socket';
 import { setPlayerId } from '../player/playerActions';
@@ -65,5 +65,12 @@ export function updateGame(game) {
     return {
         type: UPDATE_GAME,
         payload: game,
+    };
+}
+
+export function updateGameConfig(gameConfig) {
+    return {
+        type: UPDATE_GAME_CONFIG,
+        payload: gameConfig,
     };
 }

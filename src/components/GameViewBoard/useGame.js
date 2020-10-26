@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import socket from '../../utils/api/socket';
 
 const initialTurn = {
+    id: -1,
     number: -1,
     playerId: '',
     playerName: '',
