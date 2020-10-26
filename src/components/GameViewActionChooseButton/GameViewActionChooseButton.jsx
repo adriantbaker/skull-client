@@ -23,7 +23,12 @@ const GameViewActionChooseButton = (props) => {
         opponentsInGame,
     } = props;
     const {
-        type, isBlock: choiceIsBlock, claimedCard, cost = 0, chooseTarget = false,
+        type,
+        isBlock: choiceIsBlock,
+        isRespond: choiceIsRespond,
+        claimedCard,
+        cost = 0,
+        chooseTarget = false,
     } = choice;
 
     const {
@@ -34,6 +39,15 @@ const GameViewActionChooseButton = (props) => {
 
     const canAfford = numCoins >= cost;
     const mustCoup = numCoins >= 10;
+    const isDisabled = () => {
+        if (!canAfford) {
+            return true;
+        }
+        if (mustCoup && type !== actionTypes.COUP && !choiceIsBlock && !choiceIsRespond) {
+            return true;
+        }
+        return false;
+    };
 
     const handleClick = () => {
         let targetId;
@@ -68,7 +82,7 @@ const GameViewActionChooseButton = (props) => {
             <Button
                 className="w-full"
                 onClick={handleClick}
-                disabled={!canAfford || (mustCoup && type !== actionTypes.COUP)}
+                disabled={isDisabled()}
             >
                 <span className="text-sm">{formattedType}</span>
                 {typeIcon}
@@ -84,7 +98,7 @@ const GameViewActionChooseButton = (props) => {
             <Button
                 className="w-full"
                 onClick={handleClick}
-                disabled={!canAfford}
+                disabled={isDisabled()}
             >
                 <div>
                     <span className="text-xs sm:text-sm">{formattedType}</span>
