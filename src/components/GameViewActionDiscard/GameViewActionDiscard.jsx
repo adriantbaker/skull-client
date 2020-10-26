@@ -25,6 +25,7 @@ const GameViewActionDiscard = (props) => {
 
     const handleClick = () => {
         discard(chosenCardIds);
+        setChosenCardIds([]);
     };
 
     const numChosenCards = chosenCardIds.length;
