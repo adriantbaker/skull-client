@@ -1,6 +1,7 @@
 import {
     CREATE_GAME, JOIN_GAME, LEAVE_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG,
 } from './gameTypes';
+import history from '../../utils/history/history';
 import socket from '../../utils/api/socket';
 import { setPlayerId } from '../player/playerActions';
 
@@ -25,6 +26,7 @@ export function createGameRoom(roomName, ownerName) {
                 },
             });
             dispatch(setPlayerId(player.id));
+            history.push(`/game/${id}`);
         });
     };
 }
@@ -51,6 +53,7 @@ export function joinGameRoom(roomId, username) {
                 },
             });
             dispatch(setPlayerId(player.id));
+            history.push(`/game/${id}`);
         });
     };
 }

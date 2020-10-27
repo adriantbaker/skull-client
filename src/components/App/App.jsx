@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+    Route, Switch, Redirect, withRouter,
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './App.css';
 import GameLobby from '../GameLobby/GameLobby';
@@ -6,50 +9,31 @@ import SignIn from '../SignIn/SignIn';
 import GameView from '../GameView/GameView';
 import useWindowWidth from './useWindowWidth';
 
-// import Header from '../Header/Header';
-
 const App = () => {
     const { signedIn } = useSelector((state) => state.user);
-    const { inGame } = useSelector((state) => state.game);
 
     useWindowWidth(50); // Hook that updates screenSize in Redux
 
-    // const getHeader = () => {
-    //     if (!signedIn) {
-    //         return null;
-    //     }
-    //     return <Header />;
-    // };
-
-    // const getAppViewClassName = () => {
-    //     if (!signedIn) {
-    //         return null;
-    //     }
-    //     // Need a top margin to offset the fixed header
-    //     return 'header-offset';
-    // };
-
-    const getAppView = () => {
-        if (!signedIn) {
-            return <SignIn />;
-        }
-
-        if (!inGame) {
-            return <GameLobby />;
-        }
-
-        return <GameView />;
-    };
-
     return (
         <div className="App">
-            {/* {getHeader()} */}
-            {/* className={getAppViewClassName()} */}
-            <div>
-                {getAppView()}
-            </div>
+            <Switch>
+                <Route path="/lobby">
+                    <GameLobby />
+                </Route>
+                <Route path="/game/:gameID">
+                    <GameView />
+                </Route>
+                <Route path="/signin">
+                    <SignIn />
+                </Route>
+                <Route path="*">
+                    <Redirect
+                        to={signedIn ? '/lobby' : '/signin'}
+                    />
+                </Route>
+            </Switch>
         </div>
     );
 };
 
-export default App;
+export default withRouter(App);
