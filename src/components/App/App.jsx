@@ -2,33 +2,31 @@ import React from 'react';
 import {
     Route, Switch, Redirect, withRouter,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import './App.css';
 import GameLobby from '../GameLobby/GameLobby';
 import SignIn from '../SignIn/SignIn';
 import GameView from '../GameView/GameView';
 import useWindowWidth from './useWindowWidth';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const App = () => {
-    const { signedIn } = useSelector((state) => state.user);
-
     useWindowWidth(50); // Hook that updates screenSize in Redux
 
     return (
         <div className="App">
             <Switch>
-                <Route path="/lobby">
+                <PrivateRoute path="/lobby">
                     <GameLobby />
-                </Route>
-                <Route path="/game/:gameID">
+                </PrivateRoute>
+                <PrivateRoute path="/game/:gameId">
                     <GameView />
-                </Route>
+                </PrivateRoute>
                 <Route path="/signin">
                     <SignIn />
                 </Route>
                 <Route path="*">
                     <Redirect
-                        to={signedIn ? '/lobby' : '/signin'}
+                        to="/lobby"
                     />
                 </Route>
             </Switch>

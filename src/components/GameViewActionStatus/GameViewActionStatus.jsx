@@ -52,7 +52,7 @@ const GameViewActionStatus = (props) => {
         action, block, won, winnerName, playerIsEliminated,
     } = props;
 
-    const { id: playerId } = useSelector((state) => state.player);
+    const { id: playerId } = useSelector((state) => state.user);
 
     const statusStrings = getAllActionStatuses(action, block, playerId);
 

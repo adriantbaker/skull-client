@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createGameRoom } from '../../store/game/gameActions';
 
 const CreateGame = () => {
     const [gameName, setGameName] = useState('');
-    const username = useSelector((state) => state.user.username);
     const dispatch = useDispatch();
 
     return (
@@ -20,7 +19,7 @@ const CreateGame = () => {
             />
             <button
                 type="button"
-                onClick={() => dispatch(createGameRoom(gameName, username))}
+                onClick={() => dispatch(createGameRoom(gameName))}
             >
                 Create Game
             </button>

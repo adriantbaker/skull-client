@@ -1,5 +1,5 @@
 import {
-    CREATE_GAME, JOIN_GAME, LEAVE_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG,
+    CREATE_GAME, JOIN_GAME, LEAVE_GAME, REJOIN_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG,
 } from './gameTypes';
 import history from '../../utils/history/history';
 import socket from '../../utils/api/socket';
@@ -11,9 +11,10 @@ export function startGame(roomId) {
     };
 }
 
-export function createGameRoom(roomName, ownerName) {
-    return (dispatch) => {
-        socket.emit('createGameRoom', { roomName, ownerName });
+export function createGameRoom(roomName) {
+    return (dispatch, getState) => {
+        const { username, id: userId } = getState().user;
+        socket.emit('createGameRoom', { roomName, ownerName: username, ownerId: userId });
         socket.on('createGameRoomResponse', (response) => {
             const { room, player } = response;
             const { id, name, players } = room;
@@ -30,17 +31,11 @@ export function createGameRoom(roomName, ownerName) {
         });
     };
 }
-/**
- *
- * @param {object} game Game
- * @param {string} game.id Game ID
- * @param {string} game.name Game Name
- * @param {Array<string>} game.players Game Players list
- * @param {string} username Username
- */
-export function joinGameRoom(roomId, username) {
-    return (dispatch) => {
-        socket.emit('joinGameRoom', { roomId, playerName: username });
+
+export function joinGameRoom(roomId) {
+    return (dispatch, getState) => {
+        const { username, id: userId } = getState().user;
+        socket.emit('joinGameRoom', { roomId, playerName: username, playerId: userId });
         socket.on('joinGameRoomResponse', (response) => {
             const { room, player } = response;
             const { id, name, players } = room;
@@ -55,6 +50,19 @@ export function joinGameRoom(roomId, username) {
             dispatch(setPlayerId(player.id));
             history.push(`/game/${id}`);
         });
+    };
+}
+
+export function rejoinGame(gameId, gameName, ownGame, gameStarted) {
+    return {
+        type: REJOIN_GAME,
+        payload: {
+            id: gameId,
+            name: gameName,
+            players: [],
+            ownGame,
+            started: gameStarted,
+        },
     };
 }
 

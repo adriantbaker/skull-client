@@ -9,7 +9,7 @@ import usePlayer from './usePlayer';
 
 const GameViewBoard = () => {
     const { id: gameId } = useSelector((state) => state.game);
-    const { id: playerId } = useSelector((state) => state.player);
+    const { id: userId } = useSelector((state) => state.user);
 
     const {
         currentTurn, currentAction, currentBlock, won, winnerName, // pastBlocks
@@ -18,9 +18,9 @@ const GameViewBoard = () => {
 
     useEffect(() => {
         // On component mount, signal that we need the initial game setup
-        socket.emit('getGameSetup', { gameId, playerId });
+        socket.emit('getGameSetup', { gameId, playerId: userId });
         // The responses will be intercepted by useGame and usePlayer
-    }, [gameId, playerId]);
+    }, [gameId, userId]);
 
     return (
         <div className="flex flex-col justify-between h-screen bg-gradient-to-br from-orange-400 to-orange-200">

@@ -9,6 +9,7 @@
     "history": "4.10.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
     "react-redux": "^7.2.1",
@@ -18,7 +19,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^2.3.0",
-    "tailwindcss": "^1.8.10"
+    "tailwindcss": "^1.8.10",
+    "universal-cookie": "^4.0.4"
   },
   "scripts": {
     "start": "npm run watch:css && react-scripts start",

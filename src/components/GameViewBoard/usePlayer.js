@@ -25,7 +25,6 @@ const usePlayer = () => {
         // id: gameId,
         players,
     } = useSelector((state) => state.game);
-    // const { id: playerId } = useSelector((state) => state.player);
 
     const [playerHand, setPlayerHand] = useState(initialPlayerHand);
 

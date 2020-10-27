@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import history from '../../utils/history/history';
 import Button from '../../basicComponents/Button/Button';
 import Input from '../../basicComponents/Input/Input';
-import { setUser } from '../../store/user/userActions';
+import { createUser } from '../../store/user/userActions';
 import './SignIn.css';
 
 const SignIn = () => {
@@ -10,7 +11,12 @@ const SignIn = () => {
     const dispatch = useDispatch();
 
     const handleChange = (e) => setUsername(e.target.value);
-    const handleSubmit = () => dispatch(setUser(username));
+    const handleSubmit = () => {
+        dispatch(createUser(username))
+            .then(() => {
+                history.push('/lobby');
+            });
+    };
 
     return (
         <div className="bg-gradient-to-br from-orange-400 to-orange-200 h-screen">

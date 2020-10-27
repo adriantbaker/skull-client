@@ -3,7 +3,7 @@ import socket from '../../utils/api/socket';
 
 const useActions = () => {
     const { id: gameId } = useSelector((state) => state.game);
-    const { id: playerId } = useSelector((state) => state.player);
+    const { id: playerId } = useSelector((state) => state.user);
 
     const tryAction = (actionType, claimedCard = undefined, targetId = undefined) => {
         socket.emit('tryAction', {

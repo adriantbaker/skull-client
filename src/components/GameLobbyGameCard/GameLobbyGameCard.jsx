@@ -1,10 +1,9 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { joinGameRoom } from '../../store/game/gameActions';
 
 const GameLobbyGameCard = (props) => {
     const { game } = props;
-    const username = useSelector((state) => state.user.username);
     const dispatch = useDispatch();
 
     return (
@@ -17,7 +16,7 @@ const GameLobbyGameCard = (props) => {
             </div>
             <button
                 type="button"
-                onClick={() => dispatch(joinGameRoom(game.id, username))}
+                onClick={() => dispatch(joinGameRoom(game.id))}
             >
                 Join Game
             </button>

@@ -1,5 +1,5 @@
 import {
-    CREATE_GAME, JOIN_GAME, LEAVE_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG,
+    CREATE_GAME, JOIN_GAME, REJOIN_GAME, LEAVE_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG,
 } from './gameTypes';
 
 const initialState = {
@@ -35,6 +35,20 @@ export default function gameReducer(state = initialState, action) {
                 id,
                 name,
                 players,
+            };
+        }
+        case REJOIN_GAME: {
+            const {
+                id, name, players, ownGame, started,
+            } = action.payload;
+            return {
+                ...state,
+                inGame: true,
+                ownGame,
+                id,
+                name,
+                players,
+                started,
             };
         }
         case LEAVE_GAME:

@@ -2,17 +2,21 @@ import { SET_USER } from './userTypes';
 
 const initialState = {
     signedIn: false,
+    id: '',
     username: '',
 };
 
 export default function userReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_USER:
+        case SET_USER: {
+            const { id, username } = action.payload;
             return {
                 // ...state,
                 signedIn: true,
-                username: action.payload,
+                id,
+                username,
             };
+        }
         default:
             return state;
     }
