@@ -30,8 +30,6 @@ export default function gameReducer(state = initialState, action) {
         }
         case JOIN_GAME: {
             const { id, name, players } = action.payload;
-            console.log('players - reducer');
-            console.log(players);
             return {
                 ...state,
                 inGame: true,

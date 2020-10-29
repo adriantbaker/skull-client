@@ -37,12 +37,8 @@ export function joinGameRoom(roomId) {
         const { username, id: userId } = getState().user;
         socket.emit('joinGameRoom', { roomId, playerName: username, playerId: userId });
         socket.on('joinGameRoomResponse', (response) => {
-            console.log('joinGameResponse:');
-            console.log(response);
-            const { room, player } = response;
+            const { room } = response;
             const { id, name, players } = room;
-            console.log('players');
-            console.log(players);
             dispatch({
                 type: JOIN_GAME,
                 payload: {
@@ -56,13 +52,13 @@ export function joinGameRoom(roomId) {
     };
 }
 
-export function rejoinGame(gameId, gameName, ownGame, gameStarted) {
+export function rejoinGame(gameId, gameName, ownGame, gameStarted, players) {
     return {
         type: REJOIN_GAME,
         payload: {
             id: gameId,
             name: gameName,
-            players: [],
+            players,
             ownGame,
             started: gameStarted,
         },

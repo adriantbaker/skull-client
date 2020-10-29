@@ -18,8 +18,6 @@ const GameView = () => {
     const [exists, setExists] = useState(false);
 
     useEffect(() => {
-        console.log('Must check exists?');
-        console.log(mustCheckExists);
         if (mustCheckExists) {
             socket.emit('getGameExists', { gameId, playerId: userId });
         }
@@ -31,11 +29,16 @@ const GameView = () => {
                 started: gameStarted,
                 ownGame,
                 name,
+                players,
             } = response;
             setCheckedExists(true);
             setExists(gameExists);
-            if (gameExists && userInGame) {
-                dispatch(rejoinGame(gameId, name, ownGame, gameStarted));
+            if (gameExists) {
+                if (userInGame) {
+                    dispatch(rejoinGame(gameId, name, ownGame, gameStarted, players));
+                } else if (!started) {
+                    dispatch(joinGameRoom(gameId));
+                }
             }
         });
 
@@ -55,7 +58,6 @@ const GameView = () => {
     }
 
     if (!inGame) {
-        dispatch(joinGameRoom(gameId));
         return <div>You are not part of this game.</div>;
     }
 
