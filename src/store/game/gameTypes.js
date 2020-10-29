@@ -3,5 +3,8 @@ export const JOIN_GAME = 'JOIN_GAME';
 export const REJOIN_GAME = 'REJOIN_GAME';
 export const LEAVE_GAME = 'LEAVE_GAME';
 
+export const REQUEST_JOIN_LINK_INFO = 'REQUEST_JOIN_LINK_INFO';
+export const GET_JOIN_LINK_INFO = 'GET_JOIN_LINK_INFO';
+
 export const UPDATE_GAME = 'UPDATE_GAME';
 export const UPDATE_GAME_CONFIG = 'UPDATE_GAME_CONFIG';

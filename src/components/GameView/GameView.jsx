@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { rejoinGame, updateGame } from '../../store/game/gameActions';
+import { joinGameRoom, rejoinGame, updateGame } from '../../store/game/gameActions';
 import socket from '../../utils/api/socket';
 import GameViewBoard from '../GameViewBoard/GameViewBoard';
 import GameViewWaitingRoom from '../GameViewWaitingRoom/GameViewWaitingRoom';
@@ -18,6 +18,8 @@ const GameView = () => {
     const [exists, setExists] = useState(false);
 
     useEffect(() => {
+        console.log('Must check exists?');
+        console.log(mustCheckExists);
         if (mustCheckExists) {
             socket.emit('getGameExists', { gameId, playerId: userId });
         }
@@ -53,6 +55,7 @@ const GameView = () => {
     }
 
     if (!inGame) {
+        dispatch(joinGameRoom(gameId));
         return <div>You are not part of this game.</div>;
     }
 

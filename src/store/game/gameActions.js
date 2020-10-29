@@ -1,5 +1,5 @@
 import {
-    CREATE_GAME, JOIN_GAME, LEAVE_GAME, REJOIN_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG,
+    CREATE_GAME, JOIN_GAME, REQUEST_JOIN_LINK_INFO, LEAVE_GAME, REJOIN_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG, GET_JOIN_LINK_INFO,
 } from './gameTypes';
 import history from '../../utils/history/history';
 import socket from '../../utils/api/socket';
@@ -37,8 +37,12 @@ export function joinGameRoom(roomId) {
         const { username, id: userId } = getState().user;
         socket.emit('joinGameRoom', { roomId, playerName: username, playerId: userId });
         socket.on('joinGameRoomResponse', (response) => {
+            console.log('joinGameResponse:');
+            console.log(response);
             const { room, player } = response;
             const { id, name, players } = room;
+            console.log('players');
+            console.log(players);
             dispatch({
                 type: JOIN_GAME,
                 payload: {
@@ -47,7 +51,6 @@ export function joinGameRoom(roomId) {
                     players,
                 },
             });
-            dispatch(setPlayerId(player.id));
             history.push(`/game/${id}`);
         });
     };
@@ -63,6 +66,32 @@ export function rejoinGame(gameId, gameName, ownGame, gameStarted) {
             ownGame,
             started: gameStarted,
         },
+    };
+}
+
+export function joinGameFromLink(id) {
+    return (dispatch) => {
+        socket.emit('getGameExists', { gameId: id, playerId: '' });
+        dispatch({
+            type: REQUEST_JOIN_LINK_INFO,
+            payload: { id },
+        });
+
+        socket.on('getGameExistsResponse', (response) => {
+            const {
+                exists,
+                started,
+                name,
+            } = response;
+            dispatch({
+                type: GET_JOIN_LINK_INFO,
+                payload: {
+                    exists,
+                    started,
+                    name,
+                },
+            });
+        });
     };
 }
 

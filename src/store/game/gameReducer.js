@@ -1,5 +1,5 @@
 import {
-    CREATE_GAME, JOIN_GAME, REJOIN_GAME, LEAVE_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG,
+    CREATE_GAME, JOIN_GAME, REJOIN_GAME, LEAVE_GAME, UPDATE_GAME, UPDATE_GAME_CONFIG, REQUEST_JOIN_LINK_INFO, GET_JOIN_LINK_INFO,
 } from './gameTypes';
 
 const initialState = {
@@ -11,6 +11,8 @@ const initialState = {
     players: [],
     actionTimeLimit: 45,
     respondTimeLimit: 30,
+    joiningFromLink: false,
+    joinGameNotFound: false,
 };
 
 export default function gameReducer(state = initialState, action) {
@@ -28,6 +30,8 @@ export default function gameReducer(state = initialState, action) {
         }
         case JOIN_GAME: {
             const { id, name, players } = action.payload;
+            console.log('players - reducer');
+            console.log(players);
             return {
                 ...state,
                 inGame: true,
@@ -49,6 +53,23 @@ export default function gameReducer(state = initialState, action) {
                 name,
                 players,
                 started,
+            };
+        }
+        case REQUEST_JOIN_LINK_INFO: {
+            const { id } = action.payload;
+            return {
+                ...state,
+                id,
+                joiningFromLink: true,
+            };
+        }
+        case GET_JOIN_LINK_INFO: {
+            const { exists, started, name } = action.payload;
+            return {
+                ...state,
+                joinGameNotFound: !exists,
+                started,
+                name,
             };
         }
         case LEAVE_GAME:
