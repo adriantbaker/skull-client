@@ -3,7 +3,6 @@ import {
 } from './gameTypes';
 import history from '../../utils/history/history';
 import socket from '../../utils/api/socket';
-import { setPlayerId } from '../player/playerActions';
 
 export function startGame(roomId) {
     return (dispatch) => {
@@ -16,7 +15,7 @@ export function createGameRoom(roomName) {
         const { username, id: userId } = getState().user;
         socket.emit('createGameRoom', { roomName, ownerName: username, ownerId: userId });
         socket.on('createGameRoomResponse', (response) => {
-            const { room, player } = response;
+            const { room } = response;
             const { id, name, players } = room;
             dispatch({
                 type: CREATE_GAME,
@@ -26,7 +25,6 @@ export function createGameRoom(roomName) {
                     players,
                 },
             });
-            dispatch(setPlayerId(player.id));
             history.push(`/game/${id}`);
         });
     };
