@@ -7,25 +7,31 @@ const getLabelClassName = () => {
     return baseClass;
 };
 
-const getInputClassName = () => {
+const getBaseClass = (transparent) => {
     let baseClass = '';
-    baseClass += 'block ';
-    baseClass += 'outline-none border-b-2 border-orange-600 rounded-t-md ';
-    baseClass += 'mb-8 px-2 py-1 ';
-    baseClass += 'bg-gray-100 ';
+    baseClass += 'outline-none border-1 border-orange-600 rounded-full ';
+    baseClass += 'px-4 py-1 ';
+    if (transparent) {
+        baseClass += 'bg-white bg-opacity-75 ';
+    } else {
+        baseClass += 'bg-gray-100 ';
+    }
+
     return baseClass;
 };
 
 const Input = (props) => {
     const {
-        label, value, onChange, name, placeholder,
+        label, value, onChange, name, placeholder, transparent, className,
     } = props;
 
-    const inputClassName = getInputClassName();
+    const baseClass = getBaseClass(transparent);
+
+    const fullClass = baseClass + className;
 
     const input = (
         <input
-            className={inputClassName}
+            className={fullClass}
             value={value}
             onChange={onChange}
             placeholder={placeholder}
@@ -61,6 +67,8 @@ Input.propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
+    transparent: PropTypes.bool,
+    className: PropTypes.string,
 };
 
 Input.defaultProps = {
@@ -69,6 +77,8 @@ Input.defaultProps = {
     value: undefined,
     onChange: undefined,
     placeholder: undefined,
+    transparent: false,
+    className: '',
 };
 
 export default Input;

@@ -19,7 +19,7 @@ const SignIn = () => {
     const handleSubmit = () => {
         dispatch(createUser(username))
             .then(() => {
-                if (joiningFromLink) {
+                if (joiningFromLink && gameName) {
                     dispatch(joinGameRoom(gameId));
                 } else {
                     history.push('/lobby');
@@ -42,30 +42,33 @@ const SignIn = () => {
         return <div>{joinMessage}</div>;
     };
 
+    //  className="bg-gradient-to-br from-orange-400 to-orange-200 h-screen">
     return (
-        <div className="bg-gradient-to-br from-orange-400 to-orange-200 h-screen">
-            <h1
-                className="text-white text-4xl font-bold py-12"
-            >
+        <div>
+            <h1 className="text-white text-4xl font-bold py-12">
                 Skullduggery
             </h1>
-            <div className="bg-white rounded-lg w-1/2 h-64 shadow-lg center-horiz">
-                <div className="center-hv-parent h-full">
-                    <div className="center-hv-child">
-                        {getJoinMessage()}
-                        <Input
-                            value={username}
-                            placeholder="Username"
-                            onChange={handleChange}
-                        />
-                        <Button
-                            label="JOIN"
-                            onClick={handleSubmit}
-                            disabled={username === ''}
-                        />
-                    </div>
+            {/* <div className="bg-white rounded-lg w-1/2 h-64 shadow-lg center-horiz"> */}
+            {/* <div className="center-hv-parent h-full"> */}
+            <div className="space-y-4">
+                {getJoinMessage()}
+                <div>
+                    <Input
+                        className="center-horiz"
+                        // transparent
+                        value={username}
+                        placeholder="Username"
+                        onChange={handleChange}
+                    />
                 </div>
+                <Button
+                    label="JOIN"
+                    onClick={handleSubmit}
+                    disabled={username === ''}
+                />
             </div>
+            {/* </div> */}
+            {/* </div> */}
         </div>
     );
 };

@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import GameLobbyGameCard from '../GameLobbyGameCard/GameLobbyGameCard';
+import gamePropTypes from '../../utils/propTypes/gamePropTypes';
 
 const GameLobbyGameCards = (props) => {
     const { games } = props;
@@ -14,6 +16,10 @@ const GameLobbyGameCards = (props) => {
             ))}
         </div>
     );
+};
+
+GameLobbyGameCards.propTypes = {
+    games: PropTypes.arrayOf(gamePropTypes).isRequired,
 };
 
 export default GameLobbyGameCards;

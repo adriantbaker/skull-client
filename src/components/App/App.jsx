@@ -13,7 +13,7 @@ const App = () => {
     useWindowWidth(50); // Hook that updates screenSize in Redux
 
     return (
-        <div className="App">
+        <div className="App bg-gradient-to-br from-orange-400 to-orange-200 h-screen">
             <Switch>
                 <PrivateRoute path="/lobby">
                     <GameLobby />

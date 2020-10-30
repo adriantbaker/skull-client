@@ -1,27 +1,31 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import Button from '../../basicComponents/Button/Button';
 import { joinGameRoom } from '../../store/game/gameActions';
+import gamePropTypes from '../../utils/propTypes/gamePropTypes';
 
-const GameLobbyGameCard = (props) => {
-    const { game } = props;
+const GameLobbyGameCard = ({ game }) => {
+    const { players, maxPlayers } = game;
+    const numPlayers = players.length;
+
     const dispatch = useDispatch();
 
     return (
         <div className="max-w-md m-6 p-6 bg-teal-100 rounded-lg shadow-md">
             <div className="text-lg">{game.name}</div>
-            <div>
-                {game.players.length}
-                {' '}
-                / 5 people
-            </div>
-            <button
-                type="button"
+            <div>{`${numPlayers} / ${maxPlayers} players`}</div>
+            <Button
+                size="small"
+                secondary
+                label="Join Game"
                 onClick={() => dispatch(joinGameRoom(game.id))}
-            >
-                Join Game
-            </button>
+            />
         </div>
     );
+};
+
+GameLobbyGameCard.propTypes = {
+    game: gamePropTypes.isRequired,
 };
 
 export default GameLobbyGameCard;
