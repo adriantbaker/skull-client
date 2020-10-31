@@ -18,14 +18,17 @@ const GameViewAction = (props) => {
         playerHand,
         opponentHands,
         currentTurn,
-        currentAction,
-        currentBlock,
         won,
         winnerName,
     } = props;
 
     const { id: playerId, numCoins, cards } = playerHand;
-    const { playerId: currentPlayerId, playerName: currentPlayerName } = currentTurn;
+    const {
+        playerId: currentPlayerId,
+        playerName: currentPlayerName,
+        action: currentAction,
+        block: currentBlock,
+    } = currentTurn;
 
     const isPlayerTurn = playerId === currentPlayerId;
     const playerIsEliminated = cards.length === 0;
@@ -97,16 +100,9 @@ const GameViewAction = (props) => {
 GameViewAction.propTypes = {
     playerHand: playerHandPropTypes.isRequired,
     currentTurn: gameTurnPropTypes.isRequired,
-    currentAction: gameActionPropTypes,
-    currentBlock: gameActionPropTypes,
     opponentHands: opponentHandsPropTypes.isRequired,
     won: PropTypes.bool.isRequired,
     winnerName: PropTypes.string.isRequired,
-};
-
-GameViewAction.defaultProps = {
-    currentAction: undefined,
-    currentBlock: undefined,
 };
 
 export default GameViewAction;

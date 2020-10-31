@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import socket from '../../utils/api/socket';
 import GameViewAction from '../GameViewAction/GameViewAction';
+import GameViewHistory from '../GameViewHistory/GameViewHistory';
 import GameViewOpponentsHUD from '../GameViewOpponentsHUD/GameViewOpponentsHUD';
 import GameViewPlayerHUD from '../GameViewPlayerHUD/GameViewPlayerHUD';
 import useGame from './useGame';
@@ -12,9 +13,11 @@ const GameViewBoard = () => {
     const { id: userId } = useSelector((state) => state.user);
 
     const {
-        currentTurn, currentAction, currentBlock, won, winnerName, // pastBlocks
+        currentTurn, won, winnerName, previousTurns,
     } = useGame();
     const { playerHand, opponentHands } = usePlayer();
+
+    const { number: currentTurnNumber } = currentTurn;
 
     useEffect(() => {
         // On component mount, signal that we need the initial game setup
@@ -25,16 +28,17 @@ const GameViewBoard = () => {
     return (
         <div className="flex flex-col justify-between h-screen bg-gradient-to-br from-orange-400 to-orange-200">
             <GameViewOpponentsHUD
-                currentTurn={currentTurn}
+                currentTurnNumber={currentTurnNumber}
                 playerHand={playerHand}
                 opponentHands={opponentHands}
+            />
+            <GameViewHistory
+                previousTurns={previousTurns}
             />
             <GameViewAction
                 opponentHands={opponentHands}
                 currentTurn={currentTurn}
                 playerHand={playerHand}
-                currentAction={currentAction}
-                currentBlock={currentBlock}
                 won={won}
                 winnerName={winnerName}
             />

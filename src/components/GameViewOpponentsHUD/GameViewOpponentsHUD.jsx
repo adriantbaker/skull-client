@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { GiTwoCoins as TwoCoins } from 'react-icons/gi';
 import { FaSkullCrossbones as Skull } from 'react-icons/fa';
@@ -51,10 +52,9 @@ const getSkullClassName = (isDead, cardType) => {
 };
 
 const GameViewOpponentsHUD = (props) => {
-    const { playerHand, currentTurn, opponentHands } = props;
+    const { playerHand, currentTurnNumber, opponentHands } = props;
 
     const { turnNumber: playerTurnNumber } = playerHand;
-    const { number: currentTurnNumber } = currentTurn;
 
     const { screenSize } = useSelector((state) => state.size);
     const isMobile = screenIsMobile(screenSize);
@@ -172,7 +172,7 @@ const GameViewOpponentsHUD = (props) => {
 };
 
 GameViewOpponentsHUD.propTypes = {
-    currentTurn: gameTurnPropTypes.isRequired,
+    currentTurnNumber: PropTypes.number.isRequired,
     playerHand: playerHandPropTypes.isRequired,
     opponentHands: opponentHandsPropTypes.isRequired,
 };
