@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import socket from '../../utils/api/socket';
 import GameViewAction from '../GameViewAction/GameViewAction';
-import GameViewHistory from '../GameViewHistory/GameViewHistory';
 import GameViewOpponentsHUD from '../GameViewOpponentsHUD/GameViewOpponentsHUD';
 import GameViewPlayerHUD from '../GameViewPlayerHUD/GameViewPlayerHUD';
+import GameViewTurnSummary from '../GameViewTurnSummary/GameViewTurnSummary';
 import useGame from './useGame';
 import usePlayer from './usePlayer';
 
@@ -32,8 +32,9 @@ const GameViewBoard = () => {
                 playerHand={playerHand}
                 opponentHands={opponentHands}
             />
-            <GameViewHistory
-                previousTurns={previousTurns}
+            <GameViewTurnSummary
+                playerId={userId}
+                turn={previousTurns[0]}
             />
             <GameViewAction
                 opponentHands={opponentHands}

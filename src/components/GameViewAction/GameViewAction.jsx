@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GameViewActionChoose from '../GameViewActionChoose/GameViewActionChoose';
-import GameViewActionStatus from '../GameViewActionStatus/GameViewActionStatus';
 import GameViewActionOutcome from '../GameViewActionOutcome/GameViewActionOutcome';
 import GameViewActionWait from '../GameViewActionWait/GameViewActionWait';
 import playerHandPropTypes from '../../utils/propTypes/playerHandPropTypes';
-import gameActionPropTypes from '../../utils/propTypes/gameActionPropTypes';
 import gameTurnPropTypes from '../../utils/propTypes/gameTurnPropTypes';
 import getMostRecentAction from '../../utils/logic/getMostRecentAction';
 import opponentHandsPropTypes from '../../utils/propTypes/opponentHandsPropTypes';
 import GameViewActionDiscard from '../GameViewActionDiscard/GameViewActionDiscard';
 import GameViewActionExchange from '../GameViewActionExchange/GameViewActionExchange';
 import getActionView, { actionViews } from '../../utils/logic/getActionView';
+import GameViewTurnSummary from '../GameViewTurnSummary/GameViewTurnSummary';
 
 const GameViewAction = (props) => {
     const {
@@ -85,12 +84,11 @@ const GameViewAction = (props) => {
 
     return (
         <div className="flex flex-col justify-center flex-grow items-center">
-            <GameViewActionStatus
-                action={currentAction}
-                block={currentBlock}
-                won={won}
-                winnerName={winnerName}
-                playerIsEliminated={playerIsEliminated}
+            <div>{playerIsEliminated ? 'You have been eliminated.' : null}</div>
+            <div>{won ? `WON by ${winnerName}!` : null}</div>
+            <GameViewTurnSummary
+                playerId={playerId}
+                turn={currentTurn}
             />
             {getViewComponent()}
         </div>

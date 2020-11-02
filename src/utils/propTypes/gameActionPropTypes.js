@@ -60,6 +60,9 @@ const gameActionShape = {
     challengeSucceeded: PropTypes.bool.isRequired,
     challengingPlayerId: PropTypes.string, // can be undefined
     challengingPlayerName: PropTypes.string, // can be undefined
+    pendingChallengeLoserDiscard: PropTypes.bool.isRequired,
+    pendingTargetDiscard: PropTypes.bool.isRequired,
+    pendingActorExchange: PropTypes.bool.isRequired,
 };
 
 const gameActionPropTypes = PropTypes.shape(gameActionShape);
