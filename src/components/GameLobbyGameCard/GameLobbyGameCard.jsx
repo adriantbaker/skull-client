@@ -11,7 +11,7 @@ const GameLobbyGameCard = ({ game }) => {
     const dispatch = useDispatch();
 
     return (
-        <div className="max-w-md m-6 p-6 bg-teal-100 rounded-lg shadow-md">
+        <div className="max-w-md m-6 p-6 bg-gradient-to-b from-teal-100 to-teal-200 rounded-lg shadow-md">
             <div className="text-lg">{game.name}</div>
             <div>{`${numPlayers} / ${maxPlayers} players`}</div>
             <Button

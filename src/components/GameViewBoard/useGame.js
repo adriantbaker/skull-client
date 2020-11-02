@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateGameConfig } from '../../store/game/gameActions';
 import socket from '../../utils/api/socket';
 
 const initialTurn = {
@@ -30,6 +32,8 @@ const useGame = () => {
         previousTurnsRef.current = newPreviousTurns;
     };
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         // Listen for all game updates
         socket.on('gameUpdate', (update) => {
@@ -51,6 +55,22 @@ const useGame = () => {
             if (previousTurn !== undefined) {
                 addPreviousTurn(previousTurn);
             }
+        });
+
+        socket.on('gameConfig', (config) => {
+            const {
+                actionTimeLimit,
+                respondTimeLimit,
+                previousTurns: gamePreviousTurns,
+            } = config;
+
+            dispatch(updateGameConfig({
+                actionTimeLimit,
+                respondTimeLimit,
+            }));
+
+            setPreviousTurns(gamePreviousTurns);
+            previousTurnsRef.current = gamePreviousTurns;
         });
     }, []);
 

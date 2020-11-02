@@ -20,7 +20,11 @@ const actionOrBlockIsPending = (actionOrBlock) => {
         canBlock,
     } = actionOrBlock;
 
-    return pendingChallengeLoserDiscard || pendingTargetDiscard || pendingActorExchange || canChallenge || canBlock;
+    return (pendingChallengeLoserDiscard
+        || pendingTargetDiscard
+        || pendingActorExchange
+        || canChallenge
+        || canBlock);
 };
 
 const actionOrBlockFailed = (actionOrBlock) => {
@@ -90,7 +94,10 @@ const formatTurnSummary = (action, allBlocks, playerId) => {
             const actionFailed = actionOrBlockFailed(action);
             const allBlocksFailed = allBlocks.every((block) => actionOrBlockFailed(block));
             const blockPending = allBlocks.some((block) => actionOrBlockIsPending(block));
-            const actionSucceeded = !actionPending && !blockPending && !actionFailed && allBlocksFailed;
+            const actionSucceeded = (!actionPending
+                && !blockPending
+                && !actionFailed
+                && allBlocksFailed);
             if (actionSucceeded) {
                 finalDiscard = getFinalDiscard(actionType, targetDisplay);
             }
