@@ -11,6 +11,7 @@ import GameViewActionDiscard from '../GameViewActionDiscard/GameViewActionDiscar
 import GameViewActionExchange from '../GameViewActionExchange/GameViewActionExchange';
 import getActionView, { actionViews } from '../../utils/logic/getActionView';
 import GameViewTurnSummary from '../GameViewTurnSummary/GameViewTurnSummary';
+import GameViewWon from '../GameViewWon/GameViewWon';
 
 const GameViewAction = (props) => {
     const {
@@ -19,6 +20,7 @@ const GameViewAction = (props) => {
         currentTurn,
         won,
         winnerName,
+        winnerId,
     } = props;
 
     const { id: playerId, numCoins, cards } = playerHand;
@@ -85,7 +87,12 @@ const GameViewAction = (props) => {
     return (
         <div className="flex flex-col justify-center flex-grow items-center">
             <div>{playerIsEliminated ? 'You have been eliminated.' : null}</div>
-            <div>{won ? `WON by ${winnerName}!` : null}</div>
+            {won ? (
+                <GameViewWon
+                    playerWon={playerId === winnerId}
+                    winnerName={winnerName}
+                />
+            ) : null}
             <GameViewTurnSummary
                 playerId={playerId}
                 turn={currentTurn}
@@ -101,6 +108,7 @@ GameViewAction.propTypes = {
     opponentHands: opponentHandsPropTypes.isRequired,
     won: PropTypes.bool.isRequired,
     winnerName: PropTypes.string.isRequired,
+    winnerId: PropTypes.string.isRequired,
 };
 
 export default GameViewAction;

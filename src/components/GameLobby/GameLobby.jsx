@@ -21,6 +21,7 @@ const GameLobby = () => {
             <h3>Game Lobby</h3>
             <Modal
                 title="Create Game"
+                trigger
                 triggerLabel="CREATE GAME"
             >
                 <CreateGame />

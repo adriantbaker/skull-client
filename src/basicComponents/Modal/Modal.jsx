@@ -5,9 +5,13 @@ import { MdClose as Close } from 'react-icons/md';
 import Button from '../Button/Button';
 
 const Modal = (props) => {
-    const { title, children, triggerLabel } = props;
+    const {
+        title, children, trigger, triggerLabel,
+    } = props;
 
-    const [open, setOpen] = useState(false);
+    const initialOpen = !trigger;
+
+    const [open, setOpen] = useState(initialOpen);
 
     const getModal = () => {
         if (!open) {
@@ -16,14 +20,16 @@ const Modal = (props) => {
         return (
             <div className="modal-background">
                 <div className="modal rounded-md bg-gradient-to-b from-teal-100 to-teal-200 shadow-lg">
-                    <div>
-                        <Close
-                            size={20}
-                            style={{ marginTop: 2, marginBottom: 2 }}
-                            className="float-right"
-                            onClick={() => setOpen(false)}
-                        />
-                    </div>
+                    {trigger ? (
+                        <div>
+                            <Close
+                                size={20}
+                                style={{ marginTop: 2, marginBottom: 2 }}
+                                className="float-right"
+                                onClick={() => setOpen(false)}
+                            />
+                        </div>
+                    ) : null}
                     {title ? <h1>{title}</h1> : null}
                     <div className="mt-4">
                         {children}
@@ -35,10 +41,12 @@ const Modal = (props) => {
 
     return (
         <>
-            <Button
-                label={triggerLabel}
-                onClick={() => setOpen(true)}
-            />
+            {trigger ? (
+                <Button
+                    label={triggerLabel}
+                    onClick={() => setOpen(true)}
+                />
+            ) : null}
             {getModal()}
         </>
     );
@@ -47,12 +55,14 @@ const Modal = (props) => {
 Modal.propTypes = {
     title: PropTypes.string,
     children: PropTypes.node,
-    triggerLabel: PropTypes.string.isRequired,
+    trigger: PropTypes.bool.isRequired,
+    triggerLabel: PropTypes.string,
 };
 
 Modal.defaultProps = {
     title: null,
     children: null,
+    triggerLabel: undefined,
 };
 
 export default Modal;
