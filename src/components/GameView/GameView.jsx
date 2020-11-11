@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { joinGameRoom, rejoinGame, updateGame } from '../../store/game/gameActions';
+import {
+    joinGameRoom, leaveGame, rejoinGame, updateGame,
+} from '../../store/game/gameActions';
+import history from '../../utils/history/history';
 import socket from '../../utils/api/socket';
 import GameViewBoard from '../GameViewBoard/GameViewBoard';
 import GameViewWaitingRoom from '../GameViewWaitingRoom/GameViewWaitingRoom';
+import GameViewWon from '../GameViewWon/GameViewWon';
 
 const GameView = () => {
     const { started, inGame } = useSelector((state) => state.game);
@@ -16,6 +20,26 @@ const GameView = () => {
     const [checkedExists, setCheckedExists] = useState(false);
     const mustCheckExists = !checkedExists && !inGame;
     const [exists, setExists] = useState(false);
+
+    const [lastGameWinner, setLastGameWinner] = useState({ id: '', name: '' });
+    const [winnerModalOpen, setWinnerModalOpen] = useState(false);
+
+    const getGameWonModal = () => {
+        if (winnerModalOpen) {
+            const { id: winnerId, name: winnerName } = lastGameWinner;
+            return (
+                <GameViewWon
+                    roomId={gameId}
+                    playerId={userId}
+                    winnerId={winnerId}
+                    winnerName={winnerName}
+                    closeModal={() => setWinnerModalOpen(false)}
+                />
+            );
+        }
+
+        return null;
+    };
 
     useEffect(() => {
         if (mustCheckExists) {
@@ -47,6 +71,20 @@ const GameView = () => {
                 started: true,
             }));
         });
+
+        socket.on('endGame', (update) => {
+            const { winnerId, winnerName } = update;
+            dispatch(updateGame({
+                started: false,
+            }));
+            setLastGameWinner({ id: winnerId, name: winnerName });
+            setWinnerModalOpen(true);
+        });
+
+        socket.on('gameRoomDeleted', () => {
+            history.push('/lobby');
+            dispatch(leaveGame());
+        });
     }, [dispatch]);
 
     if (mustCheckExists) {
@@ -63,7 +101,12 @@ const GameView = () => {
 
     if (inGame) {
         if (!started) {
-            return <GameViewWaitingRoom />;
+            return (
+                <div>
+                    {getGameWonModal()}
+                    <GameViewWaitingRoom />
+                </div>
+            );
         }
 
         return <GameViewBoard />;

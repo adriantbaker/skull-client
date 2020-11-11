@@ -87,12 +87,6 @@ const GameViewAction = (props) => {
     return (
         <div className="flex flex-col justify-center flex-grow items-center">
             <div>{playerIsEliminated ? 'You have been eliminated.' : null}</div>
-            {won ? (
-                <GameViewWon
-                    playerWon={playerId === winnerId}
-                    winnerName={winnerName}
-                />
-            ) : null}
             <GameViewTurnSummary
                 playerId={playerId}
                 turn={currentTurn}

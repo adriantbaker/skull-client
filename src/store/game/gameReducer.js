@@ -79,25 +79,28 @@ export default function gameReducer(state = initialState, action) {
             };
         case UPDATE_GAME: {
             const {
-                id, name, players, started,
+                id = state.id,
+                name = state.name,
+                players = state.players,
+                started = state.started,
             } = action.payload;
             return {
                 ...state,
-                id: id || state.id,
-                name: name || state.name,
-                players: players || state.players,
-                started: started || state.started,
+                id,
+                name,
+                players,
+                started,
             };
         }
         case UPDATE_GAME_CONFIG: {
             const {
-                actionTimeLimit,
-                respondTimeLimit,
+                actionTimeLimit = state.actionTimeLimit,
+                respondTimeLimit = state.respondTimeLimit,
             } = action.payload;
             return {
                 ...state,
-                actionTimeLimit: actionTimeLimit || state.actionTimeLimit,
-                respondTimeLimit: respondTimeLimit || state.respondTimeLimit,
+                actionTimeLimit,
+                respondTimeLimit,
             };
         }
         default:

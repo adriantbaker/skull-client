@@ -37,6 +37,7 @@ const useGame = () => {
     useEffect(() => {
         // Listen for all game updates
         socket.on('gameUpdate', (update) => {
+            console.log(update);
             const {
                 currentTurn,
                 won,
