@@ -1,11 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import socket from '../../utils/api/socket';
 import Button from '../../basicComponents/Button/Button';
 import { startGame } from '../../store/game/gameActions';
 import useRoom from './useRoom';
 
-const GameViewWaitingRoom = () => {
+const GameViewWaitingRoom = (props) => {
+    const { leaveButton } = props;
+
     const dispatch = useDispatch();
 
     const { game } = useRoom();
@@ -75,9 +78,14 @@ const GameViewWaitingRoom = () => {
             ))}
             <div>
                 {getStartGameButton()}
+                {leaveButton}
             </div>
         </div>
     );
+};
+
+GameViewWaitingRoom.propTypes = {
+    leaveButton: PropTypes.node.isRequired,
 };
 
 export default GameViewWaitingRoom;

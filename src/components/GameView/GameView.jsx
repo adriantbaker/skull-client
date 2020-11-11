@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
@@ -10,9 +9,10 @@ import socket from '../../utils/api/socket';
 import GameViewBoard from '../GameViewBoard/GameViewBoard';
 import GameViewWaitingRoom from '../GameViewWaitingRoom/GameViewWaitingRoom';
 import GameViewWon from '../GameViewWon/GameViewWon';
+import Button from '../../basicComponents/Button/Button';
 
 const GameView = () => {
-    const { started, inGame } = useSelector((state) => state.game);
+    const { started, inGame, ownGame } = useSelector((state) => state.game);
     const { id: userId } = useSelector((state) => state.user);
     const { gameId } = useParams();
     const dispatch = useDispatch();
@@ -24,6 +24,38 @@ const GameView = () => {
     const [lastGameWinner, setLastGameWinner] = useState({ id: '', name: '' });
     const [winnerModalOpen, setWinnerModalOpen] = useState(false);
 
+    const disbandRoom = () => {
+        socket.emit('deleteGameRoom', { roomId: gameId });
+    };
+
+    const leaveRoom = () => {
+        socket.emit('leaveGameRoom', { roomId: gameId, playerId: userId });
+    };
+
+    const handleLeaveRoom = () => {
+        history.push('/lobby');
+        dispatch(leaveGame());
+    };
+
+    const getLeaveButton = () => {
+        let handleClick;
+        let label;
+        if (ownGame) {
+            handleClick = disbandRoom;
+            label = 'Disband Room';
+        } else {
+            handleClick = leaveRoom;
+            label = 'Leave Room';
+        }
+        return (
+            <Button
+                secondary
+                onClick={handleClick}
+                label={label}
+            />
+        );
+    };
+
     const getGameWonModal = () => {
         if (winnerModalOpen) {
             const { id: winnerId, name: winnerName } = lastGameWinner;
@@ -33,6 +65,7 @@ const GameView = () => {
                     playerId={userId}
                     winnerId={winnerId}
                     winnerName={winnerName}
+                    leaveButton={getLeaveButton()}
                     closeModal={() => setWinnerModalOpen(false)}
                 />
             );
@@ -81,10 +114,8 @@ const GameView = () => {
             setWinnerModalOpen(true);
         });
 
-        socket.on('gameRoomDeleted', () => {
-            history.push('/lobby');
-            dispatch(leaveGame());
-        });
+        socket.on('gameRoomDeleted', handleLeaveRoom);
+        socket.on('leaveGameRoomResponse', handleLeaveRoom);
     }, [dispatch]);
 
     if (mustCheckExists) {
@@ -104,7 +135,9 @@ const GameView = () => {
             return (
                 <div>
                     {getGameWonModal()}
-                    <GameViewWaitingRoom />
+                    <GameViewWaitingRoom
+                        leaveButton={getLeaveButton()}
+                    />
                 </div>
             );
         }
