@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Header from '../../basicComponents/Header/Header';
 import Modal from '../../basicComponents/Modal/Modal';
 import socket from '../../utils/api/socket';
 import CreateGame from '../CreateGame/CreateGame';
@@ -18,7 +19,12 @@ const GameLobby = () => {
 
     return (
         <div>
-            <h3>Game Lobby</h3>
+            <Header
+                h="2"
+                className="text-white py-6"
+            >
+                Game Lobby
+            </Header>
             <Modal
                 title="Create Game"
                 trigger

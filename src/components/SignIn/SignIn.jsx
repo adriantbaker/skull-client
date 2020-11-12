@@ -6,6 +6,7 @@ import Input from '../../basicComponents/Input/Input';
 import { createUser } from '../../store/user/userActions';
 import './SignIn.css';
 import { joinGameRoom } from '../../store/game/gameActions';
+import Header from '../../basicComponents/Header/Header';
 
 const SignIn = () => {
     const {
@@ -45,11 +46,12 @@ const SignIn = () => {
     //  className="bg-gradient-to-br from-orange-400 to-orange-200 h-screen">
     return (
         <div>
-            <h1 className="text-white text-4xl font-bold py-12">
+            <Header
+                h="1"
+                className="text-white py-12"
+            >
                 Skullduggery
-            </h1>
-            {/* <div className="bg-white rounded-lg w-1/2 h-64 shadow-lg center-horiz"> */}
-            {/* <div className="center-hv-parent h-full"> */}
+            </Header>
             <div className="space-y-4">
                 {getJoinMessage()}
                 <div>

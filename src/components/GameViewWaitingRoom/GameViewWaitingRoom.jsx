@@ -5,6 +5,8 @@ import socket from '../../utils/api/socket';
 import Button from '../../basicComponents/Button/Button';
 import { startGame } from '../../store/game/gameActions';
 import useRoom from './useRoom';
+import Header from '../../basicComponents/Header/Header';
+import Card from '../../basicComponents/Card/Card';
 
 const GameViewWaitingRoom = (props) => {
     const { leaveButton } = props;
@@ -64,21 +66,34 @@ const GameViewWaitingRoom = (props) => {
 
     return (
         <div>
-            <h1>{name}</h1>
-            <h2>Waiting Room</h2>
-            <div>{`${numPlayers} player${numPlayers === 1 ? '' : 's'}:`}</div>
-            {players.map((player) => (
-                <div>
-                    {player.name}
-                    {' '}
-                    -
-                    {' '}
-                    {getPlayerIcon(player)}
-                </div>
-            ))}
-            <div>
-                {getStartGameButton()}
-                {leaveButton}
+            <Header
+                h="2"
+                className="text-white py-6"
+            >
+                Waiting Room
+            </Header>
+            <div className="flex justify-center">
+                <Card
+                    className="m-6 p-6 w-full md:w-2/3 space-y-4"
+                >
+                    <Header>{name}</Header>
+                    <div>
+                        <div>{`${numPlayers} player${numPlayers === 1 ? '' : 's'}:`}</div>
+                        {players.map((player) => (
+                            <div>
+                                {player.name}
+                                {' '}
+                                -
+                                {' '}
+                                {getPlayerIcon(player)}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="space-x-4">
+                        {getStartGameButton()}
+                        {leaveButton}
+                    </div>
+                </Card>
             </div>
         </div>
     );

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './Modal.css';
 import { MdClose as Close } from 'react-icons/md';
 import Button from '../Button/Button';
+import Header from '../Header/Header';
 
 const Modal = (props) => {
     const {
@@ -30,7 +31,7 @@ const Modal = (props) => {
                             />
                         </div>
                     ) : null}
-                    {title ? <h1>{title}</h1> : null}
+                    {title ? <Header>{title}</Header> : null}
                     <div className="mt-4">
                         {children}
                     </div>

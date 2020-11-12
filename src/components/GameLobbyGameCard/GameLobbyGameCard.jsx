@@ -17,7 +17,7 @@ const GameLobbyGameCard = ({ game }) => {
             <Button
                 size="small"
                 secondary
-                label="Join Game"
+                label="Join Room"
                 onClick={() => dispatch(joinGameRoom(game.id))}
             />
         </div>
